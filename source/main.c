@@ -39,6 +39,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		return 1;
 	}
 	
+	printf("Passed!\n");
+	
 	while(1) {
 		if(LDFS_Update()) {
 			glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
@@ -49,6 +51,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			LDFS_SwapBuffers();
 		}
 		else {
+			unloadROM();
 			LDFS_DestroyWindow();
 			return 0;
 		}

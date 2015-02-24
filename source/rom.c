@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <windows.h>
+#include <math.h>
 
 #include "rom.h"
 
@@ -33,13 +34,17 @@ const char *romTypeString[256] = {
 	[ROM_HUDSON_HUC1] = "ROM_HUDSON_HUC1",
 };
 
+unsigned char *cart;
+
 unsigned char loadROM(char *filename) {
 	FILE *f;
 	size_t length;
 	
-	unsigned char ROM[0x180];
+	unsigned char header[0x180];
 	char name[17];
 	enum romType type;
+	int romSize;
+	int ramSize;
 	
 	int i;
 	
@@ -49,31 +54,66 @@ unsigned char loadROM(char *filename) {
 	fseek(f, 0, SEEK_END);
 	length = ftell(f);
 	if(length < 0x180) {
+		printf("ROM is too small!\n");
 		fclose(f);
 		return 0;
 	}
 	
 	rewind(f);
-	fread(ROM, 0x180, 1, f);
-	
-	fclose(f);
+	fread(header, 0x180, 1, f);
 	
 	memset(name, '\0', 17);
 	for(i = 0; i < 16; i++) {
-		if(ROM[i + ROM_OFFSET_NAME] == 0x80 || ROM[i + ROM_OFFSET_NAME] == 0xc0) name[i] = '\0';
-		else name[i] = ROM[i + ROM_OFFSET_NAME];
+		if(header[i + ROM_OFFSET_NAME] == 0x80 || header[i + ROM_OFFSET_NAME] == 0xc0) name[i] = '\0';
+		else name[i] = header[i + ROM_OFFSET_NAME];
 	}
 	
 	printf("Internal ROM name: %s\n", name);
 	
-	type = ROM[ROM_OFFSET_TYPE];
+	type = header[ROM_OFFSET_TYPE];
 	
 	if(!romTypeString[type]) {
 		printf("Unknown ROM type: %#02x\n", type);
+		fclose(f);
 		return 0;
 	}
 	
 	printf("ROM type: %s\n", romTypeString[type]);
 	
+	romSize = header[ROM_OFFSET_ROM_SIZE];
+	
+	if((romSize & 0xF0) == 0x50) romSize = (int)pow(2, ((0x52) & 0xF) + 1) + 64;
+	else romSize = (int)pow(2, romSize + 1);
+	
+	printf("ROM size: %dKB\n", romSize * 16);
+	
+	if(length != romSize * 16 * 1024) {
+		printf("ROM filesize does not equal ROM size!\n");
+		fclose(f);
+		return 0;
+	}
+	
+	ramSize = header[ROM_OFFSET_RAM_SIZE];
+	
+	ramSize = (int)pow(4, ramSize) / 2;
+	printf("RAM size: %dKB\n", ramSize);
+	
+	ramSize = ceil(ramSize / 8.0f);
+	
+	cart = malloc(length);
+	if(!cart) {
+		printf("Could not allocate memory!\n");
+		fclose(f);
+		return 0;
+	}
+	
+	fread(cart, length, 1, f);
+	
+	fclose(f);
+	
 	return 1;
+}
+
+void unloadROM(void) {
+	free(cart);
 }

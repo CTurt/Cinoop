@@ -1,4 +1,4 @@
 make
-bin trip.gb 1>debug.txt
+bin tetris.gb 1>debug.txt
 pause
 debug.txt

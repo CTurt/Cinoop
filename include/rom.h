@@ -2,6 +2,8 @@
 
 #define ROM_OFFSET_NAME 0x134
 #define ROM_OFFSET_TYPE 0x147
+#define ROM_OFFSET_ROM_SIZE 0x148
+#define ROM_OFFSET_RAM_SIZE 0x149
 
 enum romType {
 	ROM_PLAIN = 0x00,
@@ -34,4 +36,7 @@ enum romType {
 
 extern const char *romTypeString[256];
 
+extern unsigned char *cart;
+
 unsigned char loadROM(char *filename);
+void unloadROM(void);
