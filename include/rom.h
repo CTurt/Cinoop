@@ -1,7 +1,10 @@
 #pragma once
 
-enum ROM {
-	ROM = 0x00,
+#define ROM_OFFSET_NAME 0x134
+#define ROM_OFFSET_TYPE 0x147
+
+enum romType {
+	ROM_PLAIN = 0x00,
 	ROM_MBC1 = 0x01,
 	ROM_MBC1_RAM = 0x02,
 	ROM_MBC1_RAM_BATT = 0x03,
@@ -28,5 +31,7 @@ enum ROM {
 	ROM_HUDSON_HUC3 = 0xFE,
 	ROM_HUDSON_HUC1 = 0xFF,
 };
+
+extern const char *romTypeString[256];
 
 unsigned char loadROM(char *filename);
