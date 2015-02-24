@@ -3,8 +3,10 @@
 #include <gl/gl.h>
 #include <LDFS.h>
 
-#include "main.h"
 #include "rom.h"
+#include "cpu.h"
+
+#include "main.h"
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int iCmdShow) {
 	char *filename = NULL;
@@ -41,12 +43,14 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	
 	printf("Passed!\n");
 	
+	reset();
+	
 	while(1) {
 		if(LDFS_Update()) {
 			glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 			glClear(GL_COLOR_BUFFER_BIT);
 			
-			
+			cpuStep();
 			
 			LDFS_SwapBuffers();
 		}
