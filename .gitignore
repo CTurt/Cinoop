@@ -2,3 +2,4 @@ build/
 bin
 bin.exe
 *.gb
+debug.txt
