@@ -3,6 +3,8 @@
 #include <windows.h>
 #include <math.h>
 
+#include "memory.h"
+
 #include "rom.h"
 
 const char *romTypeString[256] = {
@@ -33,8 +35,6 @@ const char *romTypeString[256] = {
 	[ROM_HUDSON_HUC3] = "ROM_HUDSON_HUC3",
 	[ROM_HUDSON_HUC1] = "ROM_HUDSON_HUC1",
 };
-
-unsigned char *cart;
 
 unsigned char loadROM(char *filename) {
 	FILE *f;
