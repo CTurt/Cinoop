@@ -4,6 +4,7 @@
 #include <LDFS.h>
 
 #include "main.h"
+#include "rom.h"
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int iCmdShow) {
 	char *filename = NULL;
@@ -26,10 +27,17 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		printf("No ROM input\n");
 		
 		LDFS_DestroyWindow();
-		return 0;
+		return 1;
 	}
 	
-	printf("ROM: %s\n", filename);
+	printf("Loading file \"%s\"...\n", filename);
+	
+	if(!loadROM(filename)) {
+		printf("Failed!\n");
+		
+		LDFS_DestroyWindow();
+		return 1;
+	}
 	
 	while(1) {
 		if(LDFS_Update()) {
