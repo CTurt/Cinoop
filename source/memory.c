@@ -5,3 +5,9 @@ unsigned char io[0x100];
 unsigned char vram[0x2000];
 unsigned char oam[0x100];
 unsigned char ram[0x2000];
+
+unsigned char read(unsigned short address) {
+	if(!cart) return 0;
+	
+	return cart[address];
+}
