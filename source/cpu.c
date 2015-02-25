@@ -81,6 +81,7 @@ void cpuStep(void) {
 		
 		default:
 			printf("Undefined instruction 0x%02x!\n", instruction);
+			registers.pc--;
 			printRegisters();
 			exit(1);
 			break;
