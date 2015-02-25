@@ -5,7 +5,17 @@
 #include "cpu.h"
 
 void reset(void) {
+	registers.a = 0x01;
+	registers.b = 0x00;
+	registers.c = 0x13;
+	registers.d = 0x00;
+	registers.e = 0xd8;
+	registers.h = 0x01;
+	registers.l = 0x4d;
 	registers.pc = 0x100;
+	registers.flags = 0xb0;
+	registers.sp = 0xfffe;
+	registers.ime = 0x00;
 }
 
 // http://imrannazar.com/Gameboy-Z80-Opcode-Map
