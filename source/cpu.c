@@ -10,7 +10,7 @@ void reset(void) {
 
 // http://imrannazar.com/Gameboy-Z80-Opcode-Map
 void cpuStep(void) {
-	unsigned char instruction = read(registers.pc++);
+	unsigned char instruction = readByte(registers.pc++);
 	
 	switch(instruction) {
 		// NOP
@@ -29,6 +29,7 @@ void cpuStep(void) {
 		
 		// JP nn
 		case 0xc3:
+			registers.pc = readShort(registers.pc);
 			break;
 		
 		// LDH (n),A
