@@ -63,8 +63,8 @@ void cpuStep(void) {
 		case 0xaf:
 			registers.a = 0;
 			
-			//FLAGS_SET(gameboy_proc, FLAGS_ZERO);
-			//FLAGS_CLEAR(gameboy_proc, FLAGS_CARRY | FLAGS_NEGATIVE | FLAGS_HALFCARRY);
+			FLAGS_SET(FLAGS_ZERO);
+			FLAGS_CLEAR(FLAGS_CARRY | FLAGS_NEGATIVE | FLAGS_HALFCARRY);
 			
 			break;
 		
