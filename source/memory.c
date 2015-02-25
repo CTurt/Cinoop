@@ -6,7 +6,7 @@ unsigned char vram[0x2000];
 unsigned char oam[0x100];
 unsigned char ram[0x2000];
 
-unsigned char read(unsigned short address) {
+unsigned char readByte(unsigned short address) {
 	if(!cart) return 0;
 	
 	if(address <= 0x7fff || (address >= 0xa000 && address <= 0xbfff))
@@ -30,7 +30,11 @@ unsigned char read(unsigned short address) {
 	return 0;
 }
 
-void write(unsigned short address, unsigned char value) {
+unsigned short readShort(unsigned short address) {
+	return readByte(address) | (readByte(address + 1) << 8);
+}
+
+void writeByte(unsigned short address, unsigned char value) {
 	if(!cart) return;
 	
 	if(address >= 0xc000 && address <= 0xdfff)
@@ -41,4 +45,9 @@ void write(unsigned short address, unsigned char value) {
 	
 	//else if(address >= 0xff80 && address <= 0xfffe)
 		//highRam[0xff & address] = value;
+}
+
+void writeShort(unsigned short address, unsigned short value) {
+	writeByte(address, (unsigned char)(value & 0xff00));
+	writeByte(address + 1, (unsigned char)(value & 0x00ff));
 }
