@@ -1,20 +1,41 @@
 #include <stdio.h>
+#include <stdlib.h>
 
 #include "registers.h"
+#include "memory.h"
 
 #include "cpu.h"
 
+const unsigned char instructionTicks[256] = {
+	2, 6, 4, 4, 2, 2, 4, 4, 10, 4, 4, 4, 2, 2, 4, 4,
+	2, 6, 4, 4, 2, 2, 4, 4,  4, 4, 4, 4, 2, 2, 4, 4,
+	4, 6, 4, 4, 2, 2, 4, 2,  4, 4, 4, 4, 2, 2, 4, 2,
+	4, 6, 4, 4, 6, 6, 6, 2,  4, 4, 4, 4, 2, 2, 4, 2,
+	2, 2, 2, 2, 2, 2, 4, 2,  2, 2, 2, 2, 2, 2, 4, 2,
+	2, 2, 2, 2, 2, 2, 4, 2,  2, 2, 2, 2, 2, 2, 4, 2,
+	2, 2, 2, 2, 2, 2, 4, 2,  2, 2, 2, 2, 2, 2, 4, 2,
+	4, 4, 4, 4, 4, 4, 2, 4,  2, 2, 2, 2, 2, 2, 4, 2,
+	2, 2, 2, 2, 2, 2, 4, 2,  2, 2, 2, 2, 2, 2, 4, 2,
+	2, 2, 2, 2, 2, 2, 4, 2,  2, 2, 2, 2, 2, 2, 4, 2,
+	2, 2, 2, 2, 2, 2, 4, 2,  2, 2, 2, 2, 2, 2, 4, 2,
+	2, 2, 2, 2, 2, 2, 4, 2,  2, 2, 2, 2, 2, 2, 4, 2,
+	4, 6, 6, 6, 6, 8, 4, 8,  4, 2, 6, 0, 6, 6, 4, 8,
+	4, 6, 6, 0, 6, 8, 4, 8,  4, 8, 6, 0, 6, 0, 4, 8,
+	6, 6, 4, 0, 0, 8, 4, 8,  8, 2, 8, 0, 0, 0, 4, 8,
+	6, 6, 4, 2, 0, 8, 4, 8,  6, 4, 8, 2, 0, 0, 4, 8
+};
+
 void reset(void) {
 	registers.a = 0x01;
+	registers.f = 0xb0;
 	registers.b = 0x00;
 	registers.c = 0x13;
 	registers.d = 0x00;
 	registers.e = 0xd8;
 	registers.h = 0x01;
 	registers.l = 0x4d;
-	registers.pc = 0x100;
-	registers.flags = 0xb0;
 	registers.sp = 0xfffe;
+	registers.pc = 0x100;
 	registers.ime = 0x00;
 }
 
@@ -37,6 +58,15 @@ void cpuStep(void) {
 			registers.b = registers.e;
 			break;
 		
+		// XOR A
+		case 0xaf:
+			registers.a = 0;
+			
+			//FLAGS_SET(gameboy_proc, FLAGS_ZERO);
+			//FLAGS_CLEAR(gameboy_proc, FLAGS_CARRY | FLAGS_NEGATIVE | FLAGS_HALFCARRY);
+			
+			break;
+		
 		// JP nn
 		case 0xc3:
 			registers.pc = readShort(registers.pc);
@@ -52,4 +82,6 @@ void cpuStep(void) {
 			exit(1);
 			break;
 	}
+	
+	// ticks += instructionTicks[instruction];
 }
