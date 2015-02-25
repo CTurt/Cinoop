@@ -39,6 +39,7 @@ void reset(void) {
 	registers.ime = 0x00;
 }
 
+// http://www.pastraiser.com/cpu/gameboy/gameboy_opcodes.html
 // http://imrannazar.com/Gameboy-Z80-Opcode-Map
 void cpuStep(void) {
 	unsigned char instruction = readByte(registers.pc++);
