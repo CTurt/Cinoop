@@ -13,9 +13,19 @@ void cpuStep(void) {
 	unsigned char instruction = read(registers.pc++);
 	
 	switch(instruction) {
+		// INC A
+		case 0x3c:
+			registers.a++;
+			break;
+			
 		// LD B,E
 		case 0x43:
 			registers.b = registers.e;
+			break;
+		
+		// LDH (n),A
+		case 0xe0:
+			write(read(registers.pc++) | 0xFF00, registers.a);
 			break;
 		
 		default:
