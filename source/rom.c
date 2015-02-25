@@ -107,6 +107,7 @@ unsigned char loadROM(char *filename) {
 		return 0;
 	}
 	
+	rewind(f);
 	fread(cart, length, 1, f);
 	
 	fclose(f);
