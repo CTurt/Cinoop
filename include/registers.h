@@ -4,8 +4,8 @@ struct registers {
 	struct {
 		union {
 			struct {
-				unsigned char a;
 				unsigned char f;
+				unsigned char a;
 			};
 			unsigned short af;
 		};
@@ -14,8 +14,8 @@ struct registers {
 	struct {
 		union {
 			struct {
-				unsigned char b;
 				unsigned char c;
+				unsigned char b;
 			};
 			unsigned short bc;
 		};
@@ -24,8 +24,8 @@ struct registers {
 	struct {
 		union {
 			struct {
-				unsigned char d;
 				unsigned char e;
+				unsigned char d;
 			};
 			unsigned short de;
 		};
@@ -34,8 +34,8 @@ struct registers {
 	struct {
 		union {
 			struct {
-				unsigned char h;
 				unsigned char l;
+				unsigned char h;
 			};
 			unsigned short hl;
 		};
