@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#include "debug.h"
 #include "registers.h"
 #include "memory.h"
 
@@ -79,7 +80,8 @@ void cpuStep(void) {
 			break;
 		
 		default:
-			printf("Undefined instruction %#01x!\n", instruction);
+			printf("Undefined instruction 0x%02x!\n", instruction);
+			printRegisters();
 			exit(1);
 			break;
 	}
