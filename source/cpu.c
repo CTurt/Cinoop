@@ -50,6 +50,11 @@ void cpuStep(void) {
 		case 0x00:
 			break;
 		
+		// LD C,n
+		case 0x0e:
+			registers.c = readByte(registers.pc++);
+			break;
+		
 		// LD HL,nn
 		case 0x21:
 			registers.hl = readShort(registers.pc);
