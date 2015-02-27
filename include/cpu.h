@@ -14,6 +14,8 @@
 #define FLAGS_SET(x)	(registers.f |= (x))
 #define FLAGS_CLEAR(x)	(registers.f &= ~(x))
 
-extern const unsigned char instructionTicks[256];
+struct instruction {
+	unsigned char ticks;
+} extern const instructions[256];
 
 void cpuStep(void);
