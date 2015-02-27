@@ -15,7 +15,18 @@
 #define FLAGS_CLEAR(x)	(registers.f &= ~(x))
 
 struct instruction {
-	unsigned char ticks;
+	char *disassembly;
+	unsigned char operandLength;
+	void *execute;
+	//unsigned char ticks;
 } extern const instructions[256];
 
 void cpuStep(void);
+
+void nop(void);
+void ld_c_n(unsigned char operand);
+void ld_hl_nn(unsigned short operand);
+void inc_a(void);
+void ld_b_e(void);
+void xor_a(void);
+void jp_nn(unsigned short operand);
