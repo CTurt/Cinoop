@@ -16,7 +16,7 @@ const struct instruction instructions[256] = {
 	{ "INC BC", 0, NULL },							        // 0x03
 	{ "INC B", 0, NULL },								    // 0x04
 	{ "DEC B", 0, NULL },								    // 0x05
-	{ "LD B, 0x%02X", 1, NULL },						    // 0x06
+	{ "LD B, 0x%02X", 1, ld_b_n },						    // 0x06
 	{ "RLCA", 0, NULL },								    // 0x07
 	{ "LD (0x%04X), SP", 2, NULL },			                // 0x08
 	{ "ADD HL, BC", 0, NULL },						        // 0x09
@@ -323,6 +323,9 @@ void cpuStep(void) {
 
 // 0x00
 void nop(void) {  }
+
+// 0x06
+void ld_b_n(unsigned char operand) { registers.b = operand; }
 
 // 0x0e
 void ld_c_n(unsigned char operand) { registers.c = operand; }
