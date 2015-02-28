@@ -43,3 +43,4 @@ void ld_ff_n_ap(unsigned char operand);
 void ld_ff_ap_n(unsigned char operand);
 void di(void);
 void ei(void);
+void cp_n(unsigned char);

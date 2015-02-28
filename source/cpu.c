@@ -281,7 +281,7 @@ const struct instruction instructions[256] = {
 	{ "EI", 0, ei },									    // 0xfb
 	{ "UNKNOWN", 0, NULL },							        // 0xfc
 	{ "UNKNOWN", 0, NULL },							        // 0xfd
-	{ "CP 0x%02X", 1, NULL },							    // 0xfe
+	{ "CP 0x%02X", 1, cp_n },							    // 0xfe
 	{ "RST 0x38", 0, NULL },							    // 0xff
 };
 
@@ -455,3 +455,17 @@ void di(void) { interrupt.master = 0; }
 
 // 0xfb
 void ei(void) { interrupt.master = 1; }
+
+// 0xfe
+void cp_n(unsigned char operand) {
+	FLAGS_SET(FLAGS_NEGATIVE);
+	
+	if(registers.a == operand) FLAGS_SET(FLAGS_ZERO);
+	else FLAGS_CLEAR(FLAGS_ZERO);
+	
+	if(operand > registers.a) FLAGS_SET(FLAGS_CARRY);
+	else FLAGS_CLEAR(FLAGS_CARRY);
+	
+	if((operand & 0x0f) > (registers.a & 0x0f)) FLAGS_SET(FLAGS_HALFCARRY);
+	else FLAGS_CLEAR(FLAGS_HALFCARRY);
+}
