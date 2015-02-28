@@ -88,7 +88,7 @@ const struct instruction instructions[256] = {
 	{ "DEC SP", 0, NULL },							        // 0x3b
 	{ "INC A", 0, inc_a },								    // 0x3c
 	{ "DEC A", 0, NULL },								    // 0x3d
-	{ "LD A, 0x%02X", 1, NULL },						    // 0x3e
+	{ "LD A, 0x%02X", 1, ld_a_n },						    // 0x3e
 	{ "CCF", 0, NULL },									    // 0x3f
 	{ "LD B, B", 0, NULL },								    // 0x40
 	{ "LD B, C", 0, NULL },							        // 0x41
@@ -420,6 +420,9 @@ void inc_a(void) {
 	
 	FLAGS_CLEAR(FLAGS_NEGATIVE);
 }
+
+// 0x3e
+void ld_a_n(unsigned char operand) { registers.a = operand; }
 
 // 0x43
 void ld_b_e(void) { registers.b = registers.e; }
