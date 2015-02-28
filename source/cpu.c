@@ -363,7 +363,7 @@ void cpuStep(void) {
 	ticks += instructionTicks[instruction];
 	
 	if(interrupt.master && interrupt.enable && interrupt.flags) {
-		if(interrupt.enable & interrupt.flags & 0x01) {
+		if(interrupt.enable & interrupt.flags & INTERRUPTS_VBLANK) {
 			interrupt.flags &= 255 - 0x01;
 			vblank();
 		}
