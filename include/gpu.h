@@ -9,8 +9,10 @@
 #define GPU_CONTROL_WINDOWTILEMAP (1 << 6)
 #define GPU_CONTROL_DISPLAYENABLE (1 << 7)
 
-unsigned char gpuControl;
-unsigned char scrollX;
-unsigned char scrollY;
-unsigned char scanline;
-unsigned char bgPalette;
+struct gpu {
+	unsigned char control;
+	unsigned char scrollX;
+	unsigned char scrollY;
+	unsigned char scanline;
+	unsigned char bgPalette;
+} extern gpu;

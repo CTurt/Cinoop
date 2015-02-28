@@ -323,11 +323,11 @@ void reset(void) {
 	interrupt.enable = 0;
 	interrupt.flags = 0;
 	
-	gpuControl = 0;
-	scrollX = 0;
-	scrollY = 0;
-	scanline = 0;
-	bgPalette = 0;
+	gpu.control = 0;
+	gpu.scrollX = 0;
+	gpu.scrollY = 0;
+	gpu.scanline = 0;
+	gpu.bgPalette = 0;
 	
 	ticks = 0;
 }

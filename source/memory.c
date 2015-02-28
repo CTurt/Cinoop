@@ -1,3 +1,4 @@
+#include "gpu.h"
 #include "interrupts.h"
 
 #include "memory.h"
@@ -30,6 +31,11 @@ unsigned char readByte(unsigned short address) {
 	else if(address >= 0xff80 && address <= 0xfffe)
 		return zeroPage[address - 0xff80];
 	
+	else if(address == 0xff40) return gpu.control;
+	else if(address == 0xff42) return gpu.scrollY;
+	else if(address == 0xff43) return gpu.scrollX;
+	else if(address == 0xff44) return gpu.scanline; // read only
+	
 	else if(address == 0xff0f) return interrupt.flags;
 	else if(address == 0xffff) return interrupt.enable;
 	
@@ -51,6 +57,11 @@ void writeByte(unsigned short address, unsigned char value) {
 		
 	else if(address >= 0xff80 && address <= 0xfffe)
 		zeroPage[address - 0xff80] = value;
+	
+	else if(address == 0xff40) gpu.control = value;
+	else if(address == 0xff42) gpu.scrollY = value;
+	else if(address == 0xff43) gpu.scrollX = value;
+	else if(address == 0xff47) gpu.bgPalette = value; // write only
 	
 	else if(address == 0xff0f) interrupt.flags = value;
 	else if(address == 0xffff) interrupt.enable = value;
