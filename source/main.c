@@ -46,13 +46,13 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	reset();
 	
 	while(1) {
-		if(LDFS_Update()) {
-			glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
-			glClear(GL_COLOR_BUFFER_BIT);
-			
+		if(LDFS_NoFramerateUpdate()) {
 			cpuStep();
 			
-			LDFS_SwapBuffers();
+			/*glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+			glClear(GL_COLOR_BUFFER_BIT);
+			
+			LDFS_SwapBuffers();*/
 		}
 		else {
 			unloadROM();

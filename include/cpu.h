@@ -23,6 +23,7 @@ struct instruction {
 
 extern const unsigned char instructionTicks[256];
 
+void reset(void);
 void cpuStep(void);
 
 void nop(void);

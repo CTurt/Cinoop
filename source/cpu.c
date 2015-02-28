@@ -325,7 +325,6 @@ void cpuStep(void) {
 	
 	if(instructions[instruction].operandLength == 1) operand = (unsigned short)readByte(registers.pc);
 	if(instructions[instruction].operandLength == 2) operand = readShort(registers.pc);
-	
 	registers.pc += instructions[instruction].operandLength;
 	
 	if(!instructions[instruction].execute) {
@@ -334,7 +333,7 @@ void cpuStep(void) {
 		else printf(instructions[instruction].disassembly);
 		printf(")!\n");
 		
-		registers.pc--;
+		registers.pc -= instructions[instruction].operandLength + 1;
 		printRegisters();
 		exit(1);
 	}
