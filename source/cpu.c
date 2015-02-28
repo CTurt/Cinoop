@@ -5,6 +5,7 @@
 #include "registers.h"
 #include "memory.h"
 #include "interrupts.h"
+#include "gpu.h"
 
 #include "cpu.h"
 
@@ -321,6 +322,12 @@ void reset(void) {
 	interrupt.master = 1;
 	interrupt.enable = 0;
 	interrupt.flags = 0;
+	
+	gpuControl = 0;
+	scrollX = 0;
+	scrollY = 0;
+	scanline = 0;
+	bgPalette = 0;
 	
 	ticks = 0;
 }
