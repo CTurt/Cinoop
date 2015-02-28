@@ -251,7 +251,7 @@ const struct instruction instructions[256] = {
 	{ "UNKNOWN", 0, NULL },							        // 0xdd
 	{ "SBC A, 0x%02X", 1, NULL },						    // 0xde
 	{ "RST 0x18", 0, NULL },							    // 0xdf
-	{ "LD (0xFF00 + 0x%02X), A", 1, NULL },	                // 0xe0
+	{ "LD (0xFF00 + 0x%02X), A", 1, ld_ff_n_ap },	        // 0xe0
 	{ "POP HL", 0, NULL },							        // 0xe1
 	{ "LD (0xFF00 + C), A", 0, NULL },		                // 0xe2
 	{ "UNKNOWN", 0, NULL },							        // 0xe3
@@ -267,7 +267,7 @@ const struct instruction instructions[256] = {
 	{ "UNKNOWN", 0, NULL },							        // 0xed
 	{ "XOR 0x%02X", 1, NULL },							    // 0xee
 	{ "RST 0x28", 0, NULL },							    // 0xef
-	{ "LD A, (0xFF00 + 0x%02X)", 1, NULL },	                // 0xf0
+	{ "LD A, (0xFF00 + 0x%02X)", 1, ld_ff_ap_n },	        // 0xf0
 	{ "POP AF", 0, NULL },							        // 0xf1
 	{ "LD A, (0xFF00 + C)", 0, NULL },		                // 0xf2
 	{ "DI", 0, di },									    // 0xf3
@@ -443,6 +443,12 @@ void xor_a(void) { registers.a = 0; FLAGS_SET(FLAGS_ZERO); FLAGS_CLEAR(FLAGS_CAR
 
 // 0xc3
 void jp_nn(unsigned short operand) { registers.pc = operand; }
+
+// 0xe0
+void ld_ff_n_ap(unsigned char operand) { writeByte(0xff00 + operand, registers.a); }
+
+// 0xf0
+void ld_ff_ap_n(unsigned char operand) { registers.a = readByte(0xff00 + operand); }
 
 // 0xf3
 void di(void) { interrupt.master = 0; }
