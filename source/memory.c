@@ -49,8 +49,14 @@ unsigned short readShort(unsigned short address) {
 void writeByte(unsigned short address, unsigned char value) {
 	if(!cart) return;
 	
+	else if(address >= 0x8000 && address <= 0x9fff)
+		vram[address - 0x8000] = value;
+	
 	if(address >= 0xc000 && address <= 0xdfff)
 		ram[address - 0xc000] = value;
+	
+	else if(address >= 0xe000 && address <= 0xfdff)
+		ram[address - 0xe000] = value;
 	
 	else if(address >= 0xfe00 && address <= 0xfeff)
 		oam[address - 0xfe00] = value;
