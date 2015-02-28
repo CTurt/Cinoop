@@ -304,6 +304,8 @@ const unsigned char instructionTicks[256] = {
 	6, 6, 4, 2, 0, 8, 4, 8,  6, 4, 8, 2, 0, 0, 4, 8
 };
 
+unsigned long ticks;
+
 void reset(void) {
 	registers.a = 0x01;
 	registers.f = 0xb0;
@@ -320,7 +322,7 @@ void reset(void) {
 	interrupt.enable = 0;
 	interrupt.flags = 0;
 	
-	// ticks = 0;
+	ticks = 0;
 }
 
 void cpuStep(void) {
@@ -358,7 +360,7 @@ void cpuStep(void) {
 			break;
 	}
 	
-	// ticks += instructionTicks[instruction];
+	ticks += instructionTicks[instruction];
 	
 	//if(ticks >= 451) {
 	//	hblank();
@@ -403,10 +405,10 @@ void ld_c_n(unsigned char operand) { registers.c = operand; }
 
 // 0x20
 void jr_nz_n(char operand) {
-	if(FLAGS_ISZERO) /* ticks += 8*/;
+	if(FLAGS_ISZERO) ticks += 8;
 	else {
 		registers.pc += operand;
-		// ticks += 12
+		ticks += 12;
 	}
 }
 
