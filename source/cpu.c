@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 #include "debug.h"
 #include "registers.h"
@@ -308,6 +309,12 @@ const unsigned char instructionTicks[256] = {
 unsigned long ticks;
 
 void reset(void) {
+	memset(io, 0, sizeof(io));
+	memset(vram, 0, sizeof(vram));
+	memset(oam, 0, sizeof(oam));
+	memset(ram, 0, sizeof(ram));
+	memset(zeroPage, 0, sizeof(zeroPage));
+	
 	registers.a = 0x01;
 	registers.f = 0xb0;
 	registers.b = 0x00;
@@ -322,6 +329,8 @@ void reset(void) {
 	interrupt.master = 1;
 	interrupt.enable = 0;
 	interrupt.flags = 0;
+	
+	memset(tiles, 0, sizeof(tiles));
 	
 	gpu.control = 0;
 	gpu.scrollX = 0;
