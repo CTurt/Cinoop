@@ -31,7 +31,7 @@ const struct instruction instructions[256] = {
 	{ "LD (BC), A", 0, NULL },				                // 0x02
 	{ "INC BC", 0, NULL },							        // 0x03
 	{ "INC B", 0, NULL },								    // 0x04
-	{ "DEC B", 0, NULL },								    // 0x05
+	{ "DEC B", 0, dec_b },								    // 0x05
 	{ "LD B, 0x%02X", 1, ld_b_n },						    // 0x06
 	{ "RLCA", 0, NULL },								    // 0x07
 	{ "LD (0x%04X), SP", 2, NULL },			                // 0x08
@@ -339,6 +339,19 @@ void cpuStep(void) {
 
 // 0x00
 void nop(void) {  }
+
+// 0x05
+void dec_b(void) {
+	if(registers.b & 0x0f) FLAGS_CLEAR(FLAGS_HALFCARRY);
+	else FLAGS_SET(FLAGS_HALFCARRY);
+	
+	registers.b--;
+	
+	if(registers.b) FLAGS_CLEAR(FLAGS_ZERO);
+	else FLAGS_SET(FLAGS_ZERO);
+	
+	FLAGS_SET(FLAGS_NEGATIVE);
+}
 
 // 0x06
 void ld_b_n(unsigned char operand) { registers.b = operand; }

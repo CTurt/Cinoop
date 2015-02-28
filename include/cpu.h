@@ -24,6 +24,7 @@ struct instruction {
 void cpuStep(void);
 
 void nop(void);
+void dec_b(void);
 void ld_b_n(unsigned char operand);
 void ld_c_n(unsigned char operand);
 void ld_hl_nn(unsigned short operand);
