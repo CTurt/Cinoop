@@ -39,7 +39,7 @@ const struct instruction instructions[256] = {
 	{ "LD A, (BC)", 0, NULL },				                // 0x0a
 	{ "DEC BC", 0, NULL },							        // 0x0b
 	{ "INC C", 0, NULL },								    // 0x0c
-	{ "DEC C", 0, NULL },								    // 0x0d
+	{ "DEC C", 0, dec_c },								    // 0x0d
 	{ "LD C, 0x%02X", 1, ld_c_n },						    // 0x0e
 	{ "RRCA", 0, NULL },								    // 0x0f
 	{ "STOP", 1, NULL },								    // 0x10
@@ -373,6 +373,19 @@ void dec_b(void) {
 
 // 0x06
 void ld_b_n(unsigned char operand) { registers.b = operand; }
+
+// 0x0d
+void dec_c(void) {
+	if(registers.c & 0x0f) FLAGS_CLEAR(FLAGS_HALFCARRY);
+	else FLAGS_SET(FLAGS_HALFCARRY);
+	
+	registers.c--;
+	
+	if(registers.c) FLAGS_CLEAR(FLAGS_ZERO);
+	else FLAGS_SET(FLAGS_ZERO);
+	
+	FLAGS_SET(FLAGS_NEGATIVE);
+}
 
 // 0x0e
 void ld_c_n(unsigned char operand) { registers.c = operand; }

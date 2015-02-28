@@ -29,6 +29,7 @@ void cpuStep(void);
 void nop(void);
 void dec_b(void);
 void ld_b_n(unsigned char operand);
+void dec_c(void);
 void ld_c_n(unsigned char operand);
 void jr_nz_n(char operand);
 void ld_hl_nn(unsigned short operand);
