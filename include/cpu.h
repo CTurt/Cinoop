@@ -1,9 +1,9 @@
 #pragma once
 
-#define FLAGS_ZERO 0x80
-#define FLAGS_NEGATIVE 0x40
-#define FLAGS_HALFCARRY 0x20
-#define FLAGS_CARRY 0x10
+#define FLAGS_ZERO 0x80 // 1 << 7
+#define FLAGS_NEGATIVE 0x40 // 1 << 6
+#define FLAGS_HALFCARRY 0x20 // 1 << 5
+#define FLAGS_CARRY 0x10 // 1 << 4
 
 #define FLAGS_ISZERO		(registers.f & FLAGS_ZERO)
 #define FLAGS_ISNEGATIVE	(registers.f & FLAGS_NEGATIVE)
