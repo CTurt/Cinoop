@@ -4,6 +4,7 @@
 #include "debug.h"
 #include "registers.h"
 #include "memory.h"
+#include "interrupts.h"
 
 #include "cpu.h"
 
@@ -269,7 +270,7 @@ const struct instruction instructions[256] = {
 	{ "LD A, (0xFF00 + 0x%02X)", 1, NULL },	                // 0xf0
 	{ "POP AF", 0, NULL },							        // 0xf1
 	{ "LD A, (0xFF00 + C)", 0, NULL },		                // 0xf2
-	{ "DI", 0, NULL },									    // 0xf3
+	{ "DI", 0, di },									    // 0xf3
 	{ "UNKNOWN", 0, NULL },							        // 0xf4
 	{ "PUSH AF", 0, NULL },							        // 0xf5
 	{ "OR 0x%02X", 1, NULL },							    // 0xf6
@@ -314,7 +315,11 @@ void reset(void) {
 	registers.l = 0x4d;
 	registers.sp = 0xfffe;
 	registers.pc = 0x100;
-	registers.ime = 0x00;
+	
+	interrupt.enable = 0;
+	interrupt.flags = 0;
+	
+	// ticks = 0;
 }
 
 void cpuStep(void) {
@@ -353,6 +358,11 @@ void cpuStep(void) {
 	}
 	
 	// ticks += instructionTicks[instruction];
+	
+	//if(ticks >= 451) {
+	//	hblank();
+	//	ticks -= 451;
+	//}
 }
 
 // 0x00
@@ -432,3 +442,8 @@ void xor_a(void) { registers.a = 0; FLAGS_SET(FLAGS_ZERO); FLAGS_CLEAR(FLAGS_CAR
 
 // 0xc3
 void jp_nn(unsigned short operand) { registers.pc = operand; }
+
+// 0xf3
+void di(void) {
+	interrupt.enable = 0;
+}

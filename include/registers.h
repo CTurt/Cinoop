@@ -43,6 +43,4 @@ struct registers {
 	
 	unsigned short sp;
 	unsigned short pc;
-	
-	unsigned char ime;
 } extern registers;

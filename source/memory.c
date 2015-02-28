@@ -1,3 +1,5 @@
+#include "interrupts.h"
+
 #include "memory.h"
 
 unsigned char *cart;
@@ -24,6 +26,8 @@ unsigned char readByte(unsigned short address) {
 	else if(address >= 0xfe00 && address <= 0xfeff)
 		return oam[address - 0xfe00];
 	
+	else if(address == 0xffff) return interrupt.enable;
+	
 	/*else if(address >= 0xff80 && address <= 0xfffe)
 		return highRam[0xff & address];*/
 	
@@ -42,6 +46,8 @@ void writeByte(unsigned short address, unsigned char value) {
 	
 	else if(address >= 0xfe00 && address <= 0xfeff)
 		oam[address - 0xfe00] = value;
+	
+	else if(address == 0xffff) interrupt.enable = value;
 	
 	//else if(address >= 0xff80 && address <= 0xfffe)
 		//highRam[0xff & address] = value;
