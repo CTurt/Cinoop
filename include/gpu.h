@@ -17,6 +17,16 @@ struct gpu {
 	unsigned char bgPalette;
 } extern gpu;
 
+struct sprite {
+	unsigned char y;
+	unsigned char x;
+	unsigned char tile;
+	unsigned char priority : 1;
+	unsigned char vFlip : 1;
+	unsigned char hFlip : 1;
+	unsigned char palette : 1;
+};
+
 extern unsigned char tiles[384][8][8];
 
 void updateTile(unsigned short address, unsigned char value);
