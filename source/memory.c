@@ -7,6 +7,7 @@ unsigned char io[0x100];
 unsigned char vram[0x2000];
 unsigned char oam[0x100];
 unsigned char ram[0x2000];
+unsigned char zeroPage[0x80];
 
 unsigned char readByte(unsigned short address) {
 	if(!cart) return 0;
@@ -26,10 +27,10 @@ unsigned char readByte(unsigned short address) {
 	else if(address >= 0xfe00 && address <= 0xfeff)
 		return oam[address - 0xfe00];
 	
-	else if(address == 0xffff) return interrupt.enable;
+	else if(address >= 0xff80 && address <= 0xfffe)
+		return zeroPage[0xff & address];
 	
-	/*else if(address >= 0xff80 && address <= 0xfffe)
-		return highRam[0xff & address];*/
+	else if(address == 0xffff) return interrupt.enable;
 	
 	return 0;
 }
@@ -46,11 +47,11 @@ void writeByte(unsigned short address, unsigned char value) {
 	
 	else if(address >= 0xfe00 && address <= 0xfeff)
 		oam[address - 0xfe00] = value;
+		
+	else if(address >= 0xff80 && address <= 0xfffe)
+		zeroPage[0xff & address] = value;
 	
 	else if(address == 0xffff) interrupt.enable = value;
-	
-	//else if(address >= 0xff80 && address <= 0xfffe)
-		//highRam[0xff & address] = value;
 }
 
 void writeShort(unsigned short address, unsigned short value) {
