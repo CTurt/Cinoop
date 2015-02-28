@@ -40,3 +40,4 @@ void ld_b_e(void);
 void xor_a(void);
 void jp_nn(unsigned short operand);
 void di(void);
+void ei(void);

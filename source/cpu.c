@@ -278,7 +278,7 @@ const struct instruction instructions[256] = {
 	{ "LD HL, SP+0x%02X", 1, NULL },				        // 0xf8
 	{ "LD SP, HL", 0, NULL },						        // 0xf9
 	{ "LD A, (0x%04X)", 2, NULL },			                // 0xfa
-	{ "EI", 0, NULL },									    // 0xfb
+	{ "EI", 0, ei },									    // 0xfb
 	{ "UNKNOWN", 0, NULL },							        // 0xfc
 	{ "UNKNOWN", 0, NULL },							        // 0xfd
 	{ "CP 0x%02X", 1, NULL },							    // 0xfe
@@ -445,6 +445,7 @@ void xor_a(void) { registers.a = 0; FLAGS_SET(FLAGS_ZERO); FLAGS_CLEAR(FLAGS_CAR
 void jp_nn(unsigned short operand) { registers.pc = operand; }
 
 // 0xf3
-void di(void) {
-	interrupt.master = 0;
-}
+void di(void) { interrupt.master = 0; }
+
+// 0xfb
+void ei(void) { interrupt.master = 1; }
