@@ -58,7 +58,7 @@ const struct instruction instructions[256] = {
 	{ "DEC E", 0, NULL },								    // 0x1d
 	{ "LD E, 0x%02X", 1, NULL },						    // 0x1e
 	{ "RRA", 0, NULL },									    // 0x1f
-	{ "JR NZ, 0x%02X", 1, NULL },						    // 0x20
+	{ "JR NZ, 0x%02X", 1, jr_nz_n },					    // 0x20
 	{ "LD HL, 0x%04X", 2, ld_hl_nn },				        // 0x21
 	{ "LD (HL+), A", 0, NULL },			                    // 0x22
 	{ "INC HL", 0, NULL },							        // 0x23
@@ -284,6 +284,25 @@ const struct instruction instructions[256] = {
 	{ "RST 0x38", 0, NULL },							    // 0xff
 };
 
+const unsigned char instructionTicks[256] = {
+	2, 6, 4, 4, 2, 2, 4, 4, 10, 4, 4, 4, 2, 2, 4, 4,
+	2, 6, 4, 4, 2, 2, 4, 4,  4, 4, 4, 4, 2, 2, 4, 4,
+	0, 6, 4, 4, 2, 2, 4, 2,  4, 4, 4, 4, 2, 2, 4, 2,
+	4, 6, 4, 4, 6, 6, 6, 2,  4, 4, 4, 4, 2, 2, 4, 2,
+	2, 2, 2, 2, 2, 2, 4, 2,  2, 2, 2, 2, 2, 2, 4, 2,
+	2, 2, 2, 2, 2, 2, 4, 2,  2, 2, 2, 2, 2, 2, 4, 2,
+	2, 2, 2, 2, 2, 2, 4, 2,  2, 2, 2, 2, 2, 2, 4, 2,
+	4, 4, 4, 4, 4, 4, 2, 4,  2, 2, 2, 2, 2, 2, 4, 2,
+	2, 2, 2, 2, 2, 2, 4, 2,  2, 2, 2, 2, 2, 2, 4, 2,
+	2, 2, 2, 2, 2, 2, 4, 2,  2, 2, 2, 2, 2, 2, 4, 2,
+	2, 2, 2, 2, 2, 2, 4, 2,  2, 2, 2, 2, 2, 2, 4, 2,
+	2, 2, 2, 2, 2, 2, 4, 2,  2, 2, 2, 2, 2, 2, 4, 2,
+	4, 6, 6, 6, 6, 8, 4, 8,  4, 2, 6, 0, 6, 6, 4, 8,
+	4, 6, 6, 0, 6, 8, 4, 8,  4, 8, 6, 0, 6, 0, 4, 8,
+	6, 6, 4, 0, 0, 8, 4, 8,  8, 2, 8, 0, 0, 0, 4, 8,
+	6, 6, 4, 2, 0, 8, 4, 8,  6, 4, 8, 2, 0, 0, 4, 8
+};
+
 void reset(void) {
 	registers.a = 0x01;
 	registers.f = 0xb0;
@@ -358,6 +377,15 @@ void ld_b_n(unsigned char operand) { registers.b = operand; }
 
 // 0x0e
 void ld_c_n(unsigned char operand) { registers.c = operand; }
+
+// 0x20
+void jr_nz_n(char operand) {
+	if(FLAGS_ISZERO) /* ticks += 8*/;
+	else {
+		registers.pc += operand;
+		// ticks += 12
+	}
+}
 
 // 0x21
 void ld_hl_nn(unsigned short operand) { registers.hl = operand; }

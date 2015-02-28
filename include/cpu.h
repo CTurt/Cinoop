@@ -21,12 +21,15 @@ struct instruction {
 	//unsigned char ticks;
 } extern const instructions[256];
 
+extern const unsigned char instructionTicks[256];
+
 void cpuStep(void);
 
 void nop(void);
 void dec_b(void);
 void ld_b_n(unsigned char operand);
 void ld_c_n(unsigned char operand);
+void jr_nz_n(char operand);
 void ld_hl_nn(unsigned short operand);
 void ldd_hlp_a(void);
 void inc_a(void);
