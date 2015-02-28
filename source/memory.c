@@ -49,8 +49,10 @@ unsigned short readShort(unsigned short address) {
 void writeByte(unsigned short address, unsigned char value) {
 	if(!cart) return;
 	
-	else if(address >= 0x8000 && address <= 0x9fff)
+	else if(address >= 0x8000 && address <= 0x9fff) {
 		vram[address - 0x8000] = value;
+		updateTile(address, value);
+	}
 	
 	if(address >= 0xc000 && address <= 0xdfff)
 		ram[address - 0xc000] = value;

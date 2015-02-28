@@ -16,3 +16,7 @@ struct gpu {
 	unsigned char scanline;
 	unsigned char bgPalette;
 } extern gpu;
+
+extern unsigned char tiles[384][8][8];
+
+void updateTile(unsigned short address, unsigned char value);
