@@ -316,6 +316,7 @@ void reset(void) {
 	registers.sp = 0xfffe;
 	registers.pc = 0x100;
 	
+	interrupt.master = 1;
 	interrupt.enable = 0;
 	interrupt.flags = 0;
 	
@@ -445,5 +446,5 @@ void jp_nn(unsigned short operand) { registers.pc = operand; }
 
 // 0xf3
 void di(void) {
-	interrupt.enable = 0;
+	interrupt.master = 0;
 }
