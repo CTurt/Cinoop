@@ -244,7 +244,7 @@ const struct instruction instructions[256] = {
 	{ "SUB 0x%02X", 1, NULL },							    // 0xd6
 	{ "RST 0x10", 0, NULL },							    // 0xd7
 	{ "RET C", 0, NULL },								    // 0xd8
-	{ "RETI", 0, NULL },								    // 0xd9
+	{ "RETI", 0, returnFromInterrupt },					    // 0xd9
 	{ "JP C, 0x%04X", 2, NULL },						    // 0xda
 	{ "UNKNOWN", 0, NULL },							        // 0xdb
 	{ "CALL C, 0x%04X", 2, NULL },					        // 0xdc
@@ -362,10 +362,17 @@ void cpuStep(void) {
 	
 	ticks += instructionTicks[instruction];
 	
-	//if(ticks >= 451) {
-	//	hblank();
-	//	ticks -= 451;
-	//}
+	if(interrupt.master && interrupt.enable && interrupt.flags) {
+		if(interrupt.enable & interrupt.flags & 0x01) {
+			interrupt.flags &= 255 - 0x01;
+			vblank();
+		}
+		
+		//if(ticks >= 451) {
+		//	hblank();
+		//	ticks -= 451;
+		//}
+	}
 }
 
 // 0x00

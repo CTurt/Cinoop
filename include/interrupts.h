@@ -11,3 +11,6 @@ struct interrupt {
 	unsigned char enable;
 	unsigned char flags;
 } extern interrupt;
+
+void vblank(void);
+void returnFromInterrupt(void);
