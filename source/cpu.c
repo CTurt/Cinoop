@@ -7,8 +7,24 @@
 
 #include "cpu.h"
 
-// http://www.pastraiser.com/cpu/gameboy/gameboy_opcodes.html
-// http://imrannazar.com/Gameboy-Z80-Opcode-Map
+/*
+References:
+
+Opcode disassemblies:
+http://www.pastraiser.com/cpu/gameboy/gameboy_opcodes.html
+http://imrannazar.com/Gameboy-Z80-Opcode-Map
+GBE source
+
+Which instructions modify flags:
+http://gameboy.mongenel.com/dmg/opcodes.html
+
+Instruction implementation:
+GBE source
+
+Testing:
+NO$GMB
+*/
+
 const struct instruction instructions[256] = {
 	{ "NOP", 0, nop },									    // 0x00
 	{ "LD BC, 0x%04X", 2, NULL },					        // 0x01
@@ -60,7 +76,7 @@ const struct instruction instructions[256] = {
 	{ "CPL", 0, NULL },									    // 0x2f
 	{ "JR NC, 0x%02X", 1, NULL },						    // 0x30
 	{ "LD SP, 0x%04X", 2, NULL },					        // 0x31
-	{ "LD (HL-), A", 0, NULL },			                    // 0x32
+	{ "LDD (HL), A", 0, ldd_hlp_a },		                // 0x32
 	{ "INC SP", 0, NULL },							        // 0x33
 	{ "INC (HL)", 0, NULL },					            // 0x34
 	{ "DEC (HL)", 0, NULL },					            // 0x35
@@ -333,8 +349,24 @@ void ld_c_n(unsigned char operand) { registers.c = operand; }
 // 0x21
 void ld_hl_nn(unsigned short operand) { registers.hl = operand; }
 
+// 0x32
+void ldd_hlp_a(void) {
+	writeByte(registers.hl, registers.a);
+	registers.hl--;
+}
+
 // 0x3c
-void inc_a(void) { registers.a++; }
+void inc_a(void) {
+	if((registers.a & 0x0f) == 0x0f) FLAGS_SET(FLAGS_HALFCARRY);
+	else FLAGS_CLEAR(FLAGS_HALFCARRY);
+	
+	registers.a++;
+	
+	if(registers.a) FLAGS_CLEAR(FLAGS_ZERO);
+	else FLAGS_SET(FLAGS_ZERO);
+	
+	FLAGS_CLEAR(FLAGS_NEGATIVE);
+}
 
 // 0x43
 void ld_b_e(void) { registers.b = registers.e; }
