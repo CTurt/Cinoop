@@ -28,7 +28,7 @@ unsigned char readByte(unsigned short address) {
 		return oam[address - 0xfe00];
 	
 	else if(address >= 0xff80 && address <= 0xfffe)
-		return zeroPage[0xff & address];
+		return zeroPage[address - 0xff80];
 	
 	else if(address == 0xffff) return interrupt.enable;
 	
@@ -49,7 +49,7 @@ void writeByte(unsigned short address, unsigned char value) {
 		oam[address - 0xfe00] = value;
 		
 	else if(address >= 0xff80 && address <= 0xfffe)
-		zeroPage[0xff & address] = value;
+		zeroPage[address - 0xff80] = value;
 	
 	else if(address == 0xffff) interrupt.enable = value;
 }
