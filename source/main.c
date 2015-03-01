@@ -5,6 +5,7 @@
 
 #include "rom.h"
 #include "cpu.h"
+#include "opengl.h"
 
 #include "main.h"
 
@@ -49,10 +50,12 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		if(LDFS_NoFramerateUpdate()) {
 			cpuStep();
 			
-			/*glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+			glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 			glClear(GL_COLOR_BUFFER_BIT);
 			
-			LDFS_SwapBuffers();*/
+			drawFramebuffer();
+			
+			LDFS_SwapBuffers();
 		}
 		else {
 			unloadROM();
