@@ -381,24 +381,18 @@ void cpuStep(void) {
 	unsigned char instruction;
 	unsigned short operand = 0;
 	
-	//if(registers.pc == 0x030c) {
-	//	printRegisters();
-	//	exit(0);
+	// General breakpoints
+	//if(registers.pc == 0x0300) {
+	//	realtimeDebugEnable = 1;
 	//}
 	
-	if(realtimeDebugEnable) {
-		realtimeDebug();
-	}
+	if(realtimeDebugEnable) realtimeDebug();
 	
 	instruction = readByte(registers.pc++);
 	
 	if(instructions[instruction].operandLength == 1) operand = (unsigned short)readByte(registers.pc);
 	if(instructions[instruction].operandLength == 2) operand = readShort(registers.pc);
 	registers.pc += instructions[instruction].operandLength;
-	
-	//if(instructions[instruction].operandLength) printf(instructions[instruction].disassembly, operand);
-	//else printf(instructions[instruction].disassembly);
-	//printf("\n");
 	
 	if(!instructions[instruction].execute) {
 		printf("Unimplemented instruction 0x%02x (",  instruction);

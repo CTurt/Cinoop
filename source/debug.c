@@ -8,7 +8,7 @@
 
 #include "debug.h"
 
-unsigned char realtimeDebugEnable = 1;
+unsigned char realtimeDebugEnable = 0;
 
 void realtimeDebug(void) {
 	char debugMessage[5000];

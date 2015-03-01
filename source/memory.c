@@ -1,5 +1,6 @@
 #include "gpu.h"
 #include "interrupts.h"
+#include "debug.h"
 
 #include "memory.h"
 
@@ -11,9 +12,14 @@ unsigned char ram[0x2000];
 unsigned char zeroPage[0x80];
 
 unsigned char readByte(unsigned short address) {
+	// Set read breakpoints here
+	//if(address == 0x0300) {
+	// realtimeDebuggerEnable = 1;
+	//}
+	
 	if(!cart) return 0;
 	
-	if(address <= 0x7fff)
+	else if(address <= 0x7fff)
 		return cart[address];
 	
 	else if(address >= 0xa000 && address <= 0xbfff)
@@ -50,6 +56,11 @@ unsigned short readShort(unsigned short address) {
 }
 
 void writeByte(unsigned short address, unsigned char value) {
+	// Set write breakpoints here
+	//if(address == 0x0300) {
+	//	realtimeDebuggerEnable = 1;
+	//}
+	
 	if(!cart) return;
 	
 	else if(address >= 0x8000 && address <= 0x9fff) {
