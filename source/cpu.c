@@ -84,7 +84,7 @@ const struct instruction instructions[256] = {
 	{ "INC SP", 0, NULL },							        // 0x33
 	{ "INC (HL)", 0, NULL },					            // 0x34
 	{ "DEC (HL)", 0, NULL },					            // 0x35
-	{ "LD (HL), 0x%02X", 1, NULL },			                // 0x36
+	{ "LD (HL), 0x%02X", 1, ld_hlp_n },			            // 0x36
 	{ "SCF", 0, NULL },									    // 0x37
 	{ "JR C,0x%02X", 1, NULL },						        // 0x38
 	{ "ADD HL, SP", 0, NULL },						        // 0x39
@@ -454,6 +454,11 @@ void ld_hl_nn(unsigned short operand) { registers.hl = operand; }
 void ldd_hlp_a(void) {
 	writeByte(registers.hl, registers.a);
 	registers.hl--;
+}
+
+// 0x36
+void ld_hlp_n(unsigned char operand) {
+	writeByte(registers.hl, operand);
 }
 
 // 0x3c
