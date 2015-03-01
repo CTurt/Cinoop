@@ -14,7 +14,7 @@ unsigned char zeroPage[0x80];
 unsigned char readByte(unsigned short address) {
 	// Set read breakpoints here
 	//if(address == 0x0300) {
-	// realtimeDebuggerEnable = 1;
+	// realtimeDebugEnable = 1;
 	//}
 	
 	if(!cart) return 0;
@@ -58,7 +58,7 @@ unsigned short readShort(unsigned short address) {
 void writeByte(unsigned short address, unsigned char value) {
 	// Set write breakpoints here
 	//if(address == 0x0300) {
-	//	realtimeDebuggerEnable = 1;
+	//	realtimeDebugEnable = 1;
 	//}
 	
 	if(!cart) return;
