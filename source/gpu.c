@@ -6,6 +6,10 @@ struct gpu gpu;
 
 unsigned char tiles[384][8][8];
 
+void hblank(void) {
+	gpu.scanline++;
+}
+
 void updateTile(unsigned short address, unsigned char value) {
 	address -= 0x8000;
 	

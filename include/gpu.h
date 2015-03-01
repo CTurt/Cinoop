@@ -29,4 +29,5 @@ struct sprite {
 
 extern unsigned char tiles[384][8][8];
 
+void hblank(void);
 void updateTile(unsigned short address, unsigned char value);

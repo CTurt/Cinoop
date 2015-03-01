@@ -351,6 +351,10 @@ void cpuStep(void) {
 	if(instructions[instruction].operandLength == 2) operand = readShort(registers.pc);
 	registers.pc += instructions[instruction].operandLength;
 	
+	//if(instructions[instruction].operandLength) printf(instructions[instruction].disassembly, operand);
+	//else printf(instructions[instruction].disassembly);
+	//printf("\n");
+	
 	if(!instructions[instruction].execute) {
 		printf("Unimplemented instruction 0x%02x (",  instruction);
 		if(instructions[instruction].operandLength) printf(instructions[instruction].disassembly, operand);
@@ -378,16 +382,23 @@ void cpuStep(void) {
 	
 	ticks += instructionTicks[instruction];
 	
+	//int i;
+	//for(i = 0; i < 40; i++) {
+		//if(((struct sprite *)(oam + i * 4))->y == 80) {
+		//	printf("s %d\n", i);
+		//}
+	//}
+	
+	if(ticks >= 451) {
+		hblank();
+		ticks -= 451;
+	}
+	
 	if(interrupt.master && interrupt.enable && interrupt.flags) {
 		if(interrupt.enable & interrupt.flags & INTERRUPTS_VBLANK) {
 			interrupt.flags &= 255 - 0x01;
 			vblank();
 		}
-		
-		//if(ticks >= 451) {
-		//	hblank();
-		//	ticks -= 451;
-		//}
 	}
 }
 
