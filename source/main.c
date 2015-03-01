@@ -6,6 +6,7 @@
 #include "rom.h"
 #include "cpu.h"
 #include "opengl.h"
+#include "debug.h"
 
 #include "main.h"
 
@@ -73,6 +74,8 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) 
 		case WM_KEYDOWN:
 			switch(wParam) {
 				case VK_ESCAPE:
+					printf("ESC pressed, quitting!\n");
+					printRegisters();
 					PostQuitMessage(0);
 					return 0;
 					break;
