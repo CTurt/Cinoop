@@ -31,9 +31,9 @@ void realtimeDebug(void) {
 	debugMessageP += sprintf(debugMessageP, "E: 0x%02x\n", registers.e);
 	debugMessageP += sprintf(debugMessageP, "H: 0x%02x\n", registers.h);
 	debugMessageP += sprintf(debugMessageP, "L: 0x%02x\n", registers.l);
-	debugMessageP += sprintf(debugMessageP, "SP: 0x%02x\n", registers.sp);
+	debugMessageP += sprintf(debugMessageP, "SP: 0x%04x\n", registers.sp);
 	debugMessageP += sprintf(debugMessageP, "PC: 0x%04x\n", registers.pc);
-	debugMessageP += sprintf(debugMessageP, "IME: 0x%04x\n", interrupt.master);
+	debugMessageP += sprintf(debugMessageP, "IME: 0x%02x\n", interrupt.master);
 	debugMessageP += sprintf(debugMessageP, "IE: 0x%02x\n", interrupt.enable);
 	debugMessageP += sprintf(debugMessageP, "IF: 0x%02x\n", interrupt.flags);
 	
