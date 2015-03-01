@@ -5,6 +5,15 @@
 
 #include "debug.h"
 
+void debugJump(void) {
+	static unsigned short lastPC = 0;
+	
+	if(registers.pc != lastPC) {
+		printf("Jumped to 0x%04x\n", registers.pc);
+		lastPC = registers.pc;
+	}
+}
+
 void printRegisters(void) {
 	printf("A: 0x%02x\n", registers.a);
 	printf("F: 0x%02x\n", registers.f);

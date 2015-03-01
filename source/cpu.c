@@ -443,6 +443,7 @@ void jr_nz_n(char operand) {
 	if(FLAGS_ISZERO) ticks += 8;
 	else {
 		registers.pc += operand;
+		debugJump();
 		ticks += 12;
 	}
 }
@@ -482,7 +483,10 @@ void ld_b_e(void) { registers.b = registers.e; }
 void xor_a(void) { registers.a = 0; FLAGS_SET(FLAGS_ZERO); FLAGS_CLEAR(FLAGS_CARRY | FLAGS_NEGATIVE | FLAGS_HALFCARRY); }
 
 // 0xc3
-void jp_nn(unsigned short operand) { registers.pc = operand; }
+void jp_nn(unsigned short operand) {
+	registers.pc = operand;
+	debugJump();
+}
 
 // 0xe0
 void ld_ff_n_ap(unsigned char operand) { writeByte(0xff00 + operand, registers.a); }
