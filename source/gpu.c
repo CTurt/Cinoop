@@ -26,7 +26,11 @@ void gpuStep(void) {
 			if(gpu.tick >= 204) {
 				hblank();
 				
-				if(gpu.scanline == 143) gpuMode = GPU_MODE_VBLANK;
+				if(gpu.scanline == 143) {
+					// copy screen
+					gpuMode = GPU_MODE_VBLANK;
+				}
+				
 				else gpuMode = GPU_MODE_OAM;
 				
 				gpu.tick -= 204;
@@ -75,6 +79,35 @@ void hblank(void) {
 }
 
 void renderScanline(void) {
+	int mapOffset = gpu.bgPalette ? 0x1c00 : 0x1800;
+	mapOffset += ((gpu.scanline + gpu.scrollY) & 255) >> 3;
+	
+	int lineOffset = (gpu.scrollX >> 3);
+	
+	int x = gpu.scrollX & 7;
+	int y = (gpu.scanline + gpu.scrollY) & 7;
+	
+	int pixelOffset = gpu.scanline * 160 * 4;
+	
+	(void)y;
+	(void)pixelOffset;
+	
+	unsigned char tile = vram[mapOffset + lineOffset];
+	
+	if((gpu.control & GPU_CONTROL_TILESET) == 1 && tile < 128) tile += 256;
+	
+	int i;
+	for(i = 0; i < 160; i++) {
+		// render to framebuffer
+		
+		x++;
+		if(x == 8) {
+			x = 0;
+			lineOffset = (lineOffset + 1) & 31;
+			tile = vram[mapOffset + lineOffset];
+			if((gpu.control & GPU_CONTROL_TILESET) == 1 && tile < 128) tile += 256;
+		}
+	}
 }
 
 void updateTile(unsigned short address, unsigned char value) {
