@@ -35,6 +35,7 @@ void dec_c(void);
 void ld_c_n(unsigned char operand);
 void jr_nz_n(char operand);
 void ld_hl_nn(unsigned short operand);
+void ld_sp_nn(unsigned short operand);
 void ldd_hlp_a(void);
 void ld_hlp_n(unsigned char operand);
 void inc_a(void);

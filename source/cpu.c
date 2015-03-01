@@ -79,7 +79,7 @@ const struct instruction instructions[256] = {
 	{ "LD L, 0x%02X", 1, NULL },						    // 0x2e
 	{ "CPL", 0, NULL },									    // 0x2f
 	{ "JR NC, 0x%02X", 1, NULL },						    // 0x30
-	{ "LD SP, 0x%04X", 2, NULL },					        // 0x31
+	{ "LD SP, 0x%04X", 2, ld_sp_nn },				        // 0x31
 	{ "LDD (HL), A", 0, ldd_hlp_a },		                // 0x32
 	{ "INC SP", 0, NULL },							        // 0x33
 	{ "INC (HL)", 0, NULL },					            // 0x34
@@ -449,6 +449,9 @@ void jr_nz_n(char operand) {
 
 // 0x21
 void ld_hl_nn(unsigned short operand) { registers.hl = operand; }
+
+// 0x31
+void ld_sp_nn(unsigned short operand) { registers.sp = operand; }
 
 // 0x32
 void ldd_hlp_a(void) { writeByte(registers.hl, registers.a); registers.hl--; }
