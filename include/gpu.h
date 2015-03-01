@@ -15,6 +15,7 @@ struct gpu {
 	unsigned char scrollY;
 	unsigned char scanline;
 	unsigned char bgPalette;
+	unsigned long tick;
 } extern gpu;
 
 struct sprite {
@@ -29,5 +30,7 @@ struct sprite {
 
 extern unsigned char tiles[384][8][8];
 
+void gpuStep(void);
 void hblank(void);
+void renderScanline(void);
 void updateTile(unsigned short address, unsigned char value);

@@ -337,6 +337,7 @@ void reset(void) {
 	gpu.scrollY = 0;
 	gpu.scanline = 0;
 	gpu.bgPalette = 0;
+	gpu.tick = 0;
 	
 	ticks = 0;
 }
@@ -389,10 +390,7 @@ void cpuStep(void) {
 		//}
 	//}
 	
-	if(ticks >= 451) {
-		hblank();
-		ticks -= 451;
-	}
+	gpuStep();
 	
 	if(interrupt.master && interrupt.enable && interrupt.flags) {
 		if(interrupt.enable & interrupt.flags & INTERRUPTS_VBLANK) {
