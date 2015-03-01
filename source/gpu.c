@@ -1,5 +1,6 @@
 #include "memory.h"
 #include "cpu.h"
+#include "opengl.h"
 
 #include "gpu.h"
 
