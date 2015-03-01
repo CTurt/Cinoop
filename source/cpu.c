@@ -7,6 +7,7 @@
 #include "memory.h"
 #include "interrupts.h"
 #include "gpu.h"
+#include "opengl.h"
 
 #include "cpu.h"
 
@@ -340,6 +341,8 @@ void reset(void) {
 	gpu.tick = 0;
 	
 	ticks = 0;
+	
+	memset(framebuffer, 255, sizeof(framebuffer));
 }
 
 void cpuStep(void) {
