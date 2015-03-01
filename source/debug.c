@@ -23,10 +23,10 @@ void realtimeDebug(void) {
 	if(instructions[instruction].operandLength) debugMessageP += sprintf(debugMessageP, instructions[instruction].disassembly, operand);
 	else debugMessageP += sprintf(debugMessageP, instructions[instruction].disassembly);
 	
-	debugMessageP += sprintf(debugMessageP, "\n\nAF: 0x%02x\n", registers.af);
-	debugMessageP += sprintf(debugMessageP, "BC: 0x%02x\n", registers.bc);
-	debugMessageP += sprintf(debugMessageP, "DE: 0x%02x\n", registers.de);
-	debugMessageP += sprintf(debugMessageP, "HL: 0x%02x\n", registers.hl);
+	debugMessageP += sprintf(debugMessageP, "\n\nAF: 0x%04x\n", registers.af);
+	debugMessageP += sprintf(debugMessageP, "BC: 0x%04x\n", registers.bc);
+	debugMessageP += sprintf(debugMessageP, "DE: 0x%04x\n", registers.de);
+	debugMessageP += sprintf(debugMessageP, "HL: 0x%04x\n", registers.hl);
 	debugMessageP += sprintf(debugMessageP, "SP: 0x%04x\n", registers.sp);
 	debugMessageP += sprintf(debugMessageP, "PC: 0x%04x\n", registers.pc);
 	
