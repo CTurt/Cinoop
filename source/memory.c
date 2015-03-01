@@ -4,17 +4,18 @@
 
 #include "memory.h"
 
-unsigned char *cart;
+unsigned char cart[0x8000];
+unsigned char sram[0x2000];
 unsigned char io[0x100];
 unsigned char vram[0x2000];
 unsigned char oam[0x100];
-unsigned char ram[0x2000];
-unsigned char zeroPage[0x80];
+unsigned char wram[0x2000];
+unsigned char hram[0x80];
 
 unsigned char readByte(unsigned short address) {
 	// Set read breakpoints here
 	//if(address == 0x0300) {
-	// realtimeDebugEnable = 1;
+	//	realtimeDebugEnable = 1;
 	//}
 	
 	if(!cart) return 0;
@@ -23,22 +24,22 @@ unsigned char readByte(unsigned short address) {
 		return cart[address];
 	
 	else if(address >= 0xa000 && address <= 0xbfff)
-		return cart[address - 0xa000];
+		return sram[address - 0xa000];
 	
 	else if(address >= 0x8000 && address <= 0x9fff)
 		return vram[address - 0x8000];
 	
 	else if(address >= 0xc000 && address <= 0xdfff)
-		return ram[address - 0xC000];
+		return wram[address - 0xc000];
 	
 	else if(address >= 0xe000 && address <= 0xfdff)
-		return ram[address - 0xe000];
+		return wram[address - 0xe000];
 	
 	else if(address >= 0xfe00 && address <= 0xfeff)
 		return oam[address - 0xfe00];
 	
 	else if(address >= 0xff80 && address <= 0xfffe)
-		return zeroPage[address - 0xff80];
+		return hram[address - 0xff80];
 	
 	else if(address == 0xff40) return gpu.control;
 	else if(address == 0xff42) return gpu.scrollY;
@@ -63,22 +64,25 @@ void writeByte(unsigned short address, unsigned char value) {
 	
 	if(!cart) return;
 	
+	if(address >= 0xa000 && address <= 0xbfff)
+		sram[address - 0xa000] = value;
+	
 	else if(address >= 0x8000 && address <= 0x9fff) {
 		vram[address - 0x8000] = value;
 		updateTile(address, value);
 	}
 	
 	if(address >= 0xc000 && address <= 0xdfff)
-		ram[address - 0xc000] = value;
+		wram[address - 0xc000] = value;
 	
 	else if(address >= 0xe000 && address <= 0xfdff)
-		ram[address - 0xe000] = value;
+		wram[address - 0xe000] = value;
 	
 	else if(address >= 0xfe00 && address <= 0xfeff)
 		oam[address - 0xfe00] = value;
 		
 	else if(address >= 0xff80 && address <= 0xfffe)
-		zeroPage[address - 0xff80] = value;
+		hram[address - 0xff80] = value;
 	
 	else if(address == 0xff40) gpu.control = value;
 	else if(address == 0xff42) gpu.scrollY = value;

@@ -310,11 +310,12 @@ const unsigned char instructionTicks[256] = {
 unsigned long ticks;
 
 void reset(void) {
+	memset(sram, 0, sizeof(sram));
 	memset(io, 0, sizeof(io));
 	memset(vram, 0, sizeof(vram));
 	memset(oam, 0, sizeof(oam));
-	memset(ram, 0, sizeof(ram));
-	memset(zeroPage, 0, sizeof(zeroPage));
+	memset(wram, 0, sizeof(wram));
+	memset(hram, 0, sizeof(hram));
 	
 	registers.a = 0x01;
 	registers.f = 0xb0;

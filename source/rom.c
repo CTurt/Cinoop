@@ -100,7 +100,7 @@ unsigned char loadROM(char *filename) {
 	
 	ramSize = ceil(ramSize / 8.0f);
 	
-	cart = malloc(length);
+	//cart = malloc(length);
 	if(!cart) {
 		printf("Could not allocate memory!\n");
 		fclose(f);
@@ -116,5 +116,5 @@ unsigned char loadROM(char *filename) {
 }
 
 void unloadROM(void) {
-	free(cart);
+	//free(cart);
 }
