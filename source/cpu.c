@@ -264,7 +264,7 @@ const struct instruction instructions[256] = {
 	{ "RST 0x20", 0, NULL },							    // 0xe7
 	{ "ADD SP,0x%02X", 1, NULL },					        // 0xe8
 	{ "JP HL", 0, NULL },								    // 0xe9
-	{ "LD (0x%04X), A", 2, NULL },			                // 0xea
+	{ "LD (0x%04X), A", 2, ld_nnp_a },			            // 0xea
 	{ "UNKNOWN", 0, NULL },							        // 0xeb
 	{ "UNKNOWN", 0, NULL },							        // 0xec
 	{ "UNKNOWN", 0, NULL },							        // 0xed
@@ -451,15 +451,10 @@ void jr_nz_n(char operand) {
 void ld_hl_nn(unsigned short operand) { registers.hl = operand; }
 
 // 0x32
-void ldd_hlp_a(void) {
-	writeByte(registers.hl, registers.a);
-	registers.hl--;
-}
+void ldd_hlp_a(void) { writeByte(registers.hl, registers.a); registers.hl--; }
 
 // 0x36
-void ld_hlp_n(unsigned char operand) {
-	writeByte(registers.hl, operand);
-}
+void ld_hlp_n(unsigned char operand) { writeByte(registers.hl, operand); }
 
 // 0x3c
 void inc_a(void) {
@@ -488,6 +483,9 @@ void jp_nn(unsigned short operand) { registers.pc = operand; }
 
 // 0xe0
 void ld_ff_n_ap(unsigned char operand) { writeByte(0xff00 + operand, registers.a); }
+
+// 0xea
+void ld_nnp_a(unsigned short operand) { writeByte(operand, registers.a); }
 
 // 0xf0
 void ld_ff_ap_n(unsigned char operand) { registers.a = readByte(0xff00 + operand); }
