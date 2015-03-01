@@ -7,6 +7,11 @@ struct gpu gpu;
 
 unsigned char tiles[384][8][8];
 
+/* References:
+http://www.codeslinger.co.uk/pages/projects/gameboy/lcd.html
+http://imrannazar.com/GameBoy-Emulation-in-JavaScript:-Graphics
+*/
+
 void gpuStep(void) {
 	enum gpuMode {
 		GPU_MODE_HBLANK = 0,
