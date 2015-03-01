@@ -13,8 +13,11 @@ unsigned char zeroPage[0x80];
 unsigned char readByte(unsigned short address) {
 	if(!cart) return 0;
 	
-	if(address <= 0x7fff || (address >= 0xa000 && address <= 0xbfff))
+	if(address <= 0x7fff)
 		return cart[address];
+	
+	else if(address >= 0xa000 && address <= 0xbfff)
+		return cart[address - 0xa000];
 	
 	else if(address >= 0x8000 && address <= 0x9fff)
 		return vram[address - 0x8000];
