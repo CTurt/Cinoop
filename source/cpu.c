@@ -231,7 +231,7 @@ const struct instruction instructions[256] = {
 	{ "ADD A, 0x%02X", 1, NULL },						    // 0xc6
 	{ "RST 0x00", 0, NULL },							    // 0xc7
 	{ "RET Z", 0, NULL },								    // 0xc8
-	{ "RET", 0, NULL },									    // 0xc9
+	{ "RET", 0, ret },									    // 0xc9
 	{ "JP Z,0x%04X", 2, NULL },						        // 0xca
 	{ "CB%02X", 1, NULL },								    // 0xcb
 	{ "CALL Z, 0x%04X", 2, NULL },					        // 0xcc
@@ -383,9 +383,9 @@ void cpuStep(void) {
 	unsigned short operand = 0;
 	
 	// General breakpoints
-	//if(registers.pc == 0x0300) {
-	//	realtimeDebugEnable = 1;
-	//}
+	if(registers.pc == 0x2817) {
+		realtimeDebugEnable = 1;
+	}
 	
 	if(realtimeDebugEnable) realtimeDebug();
 	
@@ -523,6 +523,9 @@ void jp_nn(unsigned short operand) {
 	registers.pc = operand;
 	debugJump();
 }
+
+// 0xc9
+void ret(void) { registers.pc = readShort(registers.sp); registers.sp += 2; }
 
 // 0xe0
 void ld_ff_n_ap(unsigned char operand) { writeByte(0xff00 + operand, registers.a); }
