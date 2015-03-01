@@ -3,5 +3,8 @@
 extern unsigned char realtimeDebugEnable;
 
 void realtimeDebug(void);
-void debugJump(void);
+
+#define debugJump()
+//void debugJump(void);
+
 void printRegisters(void);

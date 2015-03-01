@@ -39,14 +39,14 @@ void realtimeDebug(void) {
 	realtimeDebugEnable = MessageBox(NULL, debugMessage, "Cinoop Breakpoint", MB_YESNO) == IDYES ? 1 : 0;
 }
 
-void debugJump(void) {
+/*void debugJump(void) {
 	static unsigned short lastPC = 0;
 	
 	if(registers.pc != lastPC) {
 		printf("Jumped to 0x%04x\n", registers.pc);
 		lastPC = registers.pc;
 	}
-}
+}*/
 
 void printRegisters(void) {
 	printf("A: 0x%02x\n", registers.a);
