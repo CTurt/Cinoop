@@ -49,13 +49,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	while(1) {
 		if(LDFS_NoFramerateUpdate()) {
 			cpuStep();
-			
-			glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
-			glClear(GL_COLOR_BUFFER_BIT);
-			
-			drawFramebuffer();
-			
-			LDFS_SwapBuffers();
 		}
 		else {
 			unloadROM();

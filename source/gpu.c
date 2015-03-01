@@ -1,3 +1,6 @@
+#include <windows.h>
+#include <LDFS.h>
+
 #include "memory.h"
 #include "cpu.h"
 #include "opengl.h"
@@ -33,7 +36,10 @@ void gpuStep(void) {
 				hblank();
 				
 				if(gpu.scanline == 143) {
-					// copy screen
+					glClear(GL_COLOR_BUFFER_BIT);
+					drawFramebuffer();
+					LDFS_SwapBuffers();
+					
 					gpuMode = GPU_MODE_VBLANK;
 				}
 				
