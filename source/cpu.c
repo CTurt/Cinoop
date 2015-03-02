@@ -207,7 +207,7 @@ const struct instruction instructions[256] = {
 	{ "XOR (HL)", 0, NULL },					            // 0xae
 	{ "XOR A", 0, xor_a },								    // 0xaf
 	{ "OR B", 0, NULL },								    // 0xb0
-	{ "OR C", 0, NULL },								    // 0xb1
+	{ "OR C", 0, or_c },								    // 0xb1
 	{ "OR D", 0, NULL },								    // 0xb2
 	{ "OR E", 0, NULL },								    // 0xb3
 	{ "OR H", 0, NULL },								    // 0xb4
@@ -542,6 +542,16 @@ void ld_a_b(void) { registers.a = registers.b; }
 
 // 0xaf
 void xor_a(void) { registers.a = 0; FLAGS_SET(FLAGS_ZERO); FLAGS_CLEAR(FLAGS_CARRY | FLAGS_NEGATIVE | FLAGS_HALFCARRY); }
+
+// 0xb1
+void or_c(void) {
+	registers.a |= registers.c;
+	
+	if(registers.a) FLAGS_CLEAR(FLAGS_ZERO);
+	else FLAGS_SET(FLAGS_ZERO);
+	
+	FLAGS_CLEAR(FLAGS_CARRY | FLAGS_NEGATIVE | FLAGS_HALFCARRY);
+}
 
 // 0xc3
 void jp_nn(unsigned short operand) {
