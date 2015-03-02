@@ -69,7 +69,7 @@ const struct instruction instructions[256] = {
 	{ "INC H", 0, NULL },								    // 0x24
 	{ "DEC H", 0, NULL },								    // 0x25
 	{ "LD H, 0x%02X", 1, NULL },						    // 0x26
-	{ "DAA", 0, NULL },									    // 0x27
+	{ "DAA", 0, daa },									    // 0x27
 	{ "JR Z, 0x%02X", 1, jr_z_n },					        // 0x28
 	{ "ADD HL, HL", 0, NULL },						        // 0x29
 	{ "LDI A, (HL)", 0, ldi_a_hlp },	                    // 0x2a
@@ -508,6 +508,59 @@ void jr_nz_n(char operand) {
 
 // 0x21
 void ld_hl_nn(unsigned short operand) { registers.hl = operand; }
+
+// 0x27
+void daa(void) {
+	// I don't get this instruction
+	// I've adapted 2 implementations from other emulators
+	// Neither of them correctly implements the half carry flag
+	// There are also other subtle differences
+	// I don't know who to trust
+	// Also used this for reference: http://www.worldofspectrum.org/faq/reference/z80reference.htm#DAA
+	
+	unsigned char value = registers.a;
+	
+	// "GBE"
+	/*
+	if((value & 0x0f) > 0x09) {	// If its A-F
+		if(FLAGS_ISNEGATIVE) value -= 6;
+		else value += 6;		// make it not
+	}
+	
+	if((value & 0xf0) > 0x90) {	// If its A-F
+		if(FLAGS_ISNEGATIVE) value -= 0x60;
+		else value += 0x60;
+		FLAGS_SET(FLAGS_CARRY);
+	}
+	else FLAGS_CLEAR(FLAGS_CARRY);
+	
+	// TODO
+	FLAGS_CLEAR(FLAGS_HALFCARRY);
+	*/
+	
+	
+	// "GB-Enhanced"
+	//Add or subtract correction values based on Subtract Flag
+	if(FLAGS_ISNEGATIVE) {
+		if(FLAGS_ISHALFCARRY) value = (value - 0x06) & 0xff;
+		if(FLAGS_ISCARRY) value -= 0x60;
+	}
+	else {
+		if(FLAGS_ISHALFCARRY || ((value & 0xf) > 0x09)) value += 0x06;
+		if(FLAGS_ISCARRY || (value > 0x9f)) value += 0x60;
+	}
+	
+	//Carry
+	if(value & 0x100) FLAGS_SET(FLAGS_CARRY);
+	value &= 0xff;
+	
+	FLAGS_CLEAR(FLAGS_HALFCARRY);
+	
+	if(value) FLAGS_CLEAR(FLAGS_ZERO);
+	else FLAGS_SET(FLAGS_ZERO);
+	
+	registers.a = value;
+}
 
 // 0x28
 void jr_z_n(char operand) {
