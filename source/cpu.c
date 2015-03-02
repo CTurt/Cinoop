@@ -33,7 +33,7 @@ const struct instruction instructions[256] = {
 	{ "NOP", 0, nop },									    // 0x00
 	{ "LD BC, 0x%04X", 2, ld_bc_nn },				        // 0x01
 	{ "LD (BC), A", 0, NULL },				                // 0x02
-	{ "INC BC", 0, NULL },							        // 0x03
+	{ "INC BC", 0, inc_bc },						        // 0x03
 	{ "INC B", 0, inc_b },								    // 0x04
 	{ "DEC B", 0, dec_b },								    // 0x05
 	{ "LD B, 0x%02X", 1, ld_b_n },						    // 0x06
@@ -473,6 +473,9 @@ void nop(void) {  }
 // 0x01
 void ld_bc_nn(unsigned short operand) { registers.bc = operand; }
 
+// 0x03
+void inc_bc(void) { registers.bc++; }
+
 // 0x04
 void inc_b(void) { registers.b = inc(registers.b); }
 
@@ -512,14 +515,15 @@ void ld_hl_nn(unsigned short operand) { registers.hl = operand; }
 
 // 0x27
 void daa(void) {
-	// I don't get this instruction
-	// I've adapted 2 implementations from other emulators
-	// Neither of them correctly implements the half carry flag
-	// There are also other subtle differences
-	// I don't know who to trust
-	// Also used this for reference: http://www.worldofspectrum.org/faq/reference/z80reference.htm#DAA
+	// A tough instruction to understand at first
+	// I've adapted 3 implementations from other emulators
+	// cboy seems to have a fairly solid implementation, I will do more testing
+	// Game Boy CPU's DAA is slightly different to the regular Z80A: http://www.worldofspectrum.org/faq/reference/z80reference.htm#DAA
+	// Half carry is always set to 0 for instance
 	
 	unsigned char value = registers.a;
+	
+	
 	
 	// "GBE"
 	/*
@@ -534,13 +538,11 @@ void daa(void) {
 		FLAGS_SET(FLAGS_CARRY);
 	}
 	else FLAGS_CLEAR(FLAGS_CARRY);
-	
-	// TODO
-	FLAGS_CLEAR(FLAGS_HALFCARRY);
 	*/
 	
 	
 	// "GB-Enhanced"
+	/*
 	//Add or subtract correction values based on Subtract Flag
 	if(FLAGS_ISNEGATIVE) {
 		if(FLAGS_ISHALFCARRY) value = (value - 0x06) & 0xff;
@@ -554,6 +556,21 @@ void daa(void) {
 	//Carry
 	if(value & 0x100) FLAGS_SET(FLAGS_CARRY);
 	value &= 0xff;
+	*/
+	
+	
+	// "cboy"
+	if(FLAGS_ISNEGATIVE) {
+		if(FLAGS_ISHALFCARRY) value = (value - 6) & 0xff;
+		if(FLAGS_ISCARRY) value -= 0x60;
+	}
+	else {
+		if(FLAGS_ISHALFCARRY || (value & 0xf) > 0x09) value += 0x06;
+		if(FLAGS_ISCARRY || value > 0x9f) value += 0x60;
+	}
+	
+	if((value & 0x100) == 0x100) FLAGS_SET(FLAGS_CARRY);
+	
 	
 	FLAGS_CLEAR(FLAGS_HALFCARRY);
 	
