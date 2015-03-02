@@ -92,7 +92,7 @@ void hblank(void) {
 
 void renderScanline(void) {
 	// draw first 4 tiles as a test
-	/*{
+	{
 		int i;
 		for(i = 0; i < 4; i++) {
 			int x;
@@ -105,7 +105,7 @@ void renderScanline(void) {
 				}
 			}
 		}
-	}*/
+	}
 	
 	
 	int mapOffset = gpu.bgPalette ? 0x1c00 : 0x1800;
@@ -140,9 +140,11 @@ void renderScanline(void) {
 }
 
 void updateTile(unsigned short address, unsigned char value) {
-	address -= 0x8000;
+	address &= 0x1FFE;
 	
-	unsigned short tile = (address >> 4) & 511;
+	//unsigned short tile = (address >> 4) & 511;
+	unsigned short tile = (address >> 4) & 384;
+	
 	unsigned short y = (address >> 1) & 7;
 	
 	unsigned char x, bitIndex;
