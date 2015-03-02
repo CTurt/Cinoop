@@ -535,9 +535,9 @@ void ld_hlp_n(unsigned char operand) { writeByte(registers.hl, operand); }
 void jr_c_n(char operand) {
 	if(FLAGS_ISCARRY) {
 		registers.pc += operand;
-		timer += 12;
+		ticks += 12;
 	}
-	else timer += 8;
+	else ticks += 8;
 }
 
 // 0x3c
