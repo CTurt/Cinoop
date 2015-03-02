@@ -46,6 +46,7 @@ void xor_a(void);
 void jp_nn(unsigned short operand);
 void ret(void);
 void ld_ff_n_ap(unsigned char operand);
+void ld_ff_c_a(void);
 void ld_nnp_a(unsigned short operand);
 void ld_ff_ap_n(unsigned char operand);
 void di(void);

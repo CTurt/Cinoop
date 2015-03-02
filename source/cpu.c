@@ -256,7 +256,7 @@ const struct instruction instructions[256] = {
 	{ "RST 0x18", 0, NULL },							    // 0xdf
 	{ "LD (0xFF00 + 0x%02X), A", 1, ld_ff_n_ap },	        // 0xe0
 	{ "POP HL", 0, NULL },							        // 0xe1
-	{ "LD (0xFF00 + C), A", 0, NULL },		                // 0xe2
+	{ "LD (0xFF00 + C), A", 0, ld_ff_c_a },	                // 0xe2
 	{ "UNKNOWN", 0, NULL },							        // 0xe3
 	{ "UNKNOWN", 0, NULL },							        // 0xe4
 	{ "PUSH HL", 0, NULL },							        // 0xe5
@@ -532,6 +532,9 @@ void ret(void) { registers.pc = readShort(registers.sp); registers.sp += 2; }
 
 // 0xe0
 void ld_ff_n_ap(unsigned char operand) { writeByte(0xff00 + operand, registers.a); }
+
+// 0xe2
+void ld_ff_c_a(void) { writeByte(0xff00 + registers.c, registers.a); }
 
 // 0xea
 void ld_nnp_a(unsigned short operand) { writeByte(operand, registers.a); }
