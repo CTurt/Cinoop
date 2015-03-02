@@ -46,6 +46,7 @@ void inc_a(void);
 void ld_a_n(unsigned char operand);
 void ld_b_e(void);
 void ld_a_b(void);
+void and_a(void);
 void xor_a(void);
 void or_c(void);
 void jp_nn(unsigned short operand);

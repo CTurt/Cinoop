@@ -197,7 +197,7 @@ const struct instruction instructions[256] = {
 	{ "AND H", 0, NULL },								    // 0xa4
 	{ "AND L", 0, NULL },								    // 0xa5
 	{ "AND (HL)", 0, NULL },					            // 0xa6
-	{ "AND A", 0, NULL },								    // 0xa7
+	{ "AND A", 0, and_a },								    // 0xa7
 	{ "XOR B", 0, NULL },								    // 0xa8
 	{ "XOR C", 0, NULL },								    // 0xa9
 	{ "XOR D", 0, NULL },								    // 0xaa
@@ -539,6 +539,15 @@ void ld_b_e(void) { registers.b = registers.e; }
 
 // 0x78
 void ld_a_b(void) { registers.a = registers.b; }
+
+// 0xa7
+void and_a(void) {
+	FLAGS_CLEAR(FLAGS_CARRY | FLAGS_NEGATIVE);
+	FLAGS_SET(FLAGS_HALFCARRY);
+	
+	if(registers.a) FLAGS_CLEAR(FLAGS_ZERO);
+	else FLAGS_SET(FLAGS_ZERO);
+}
 
 // 0xaf
 void xor_a(void) { registers.a = 0; FLAGS_SET(FLAGS_ZERO); FLAGS_CLEAR(FLAGS_CARRY | FLAGS_NEGATIVE | FLAGS_HALFCARRY); }
