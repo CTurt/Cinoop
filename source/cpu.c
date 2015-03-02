@@ -515,53 +515,10 @@ void ld_hl_nn(unsigned short operand) { registers.hl = operand; }
 
 // 0x27
 void daa(void) {
-	// A tough instruction to understand at first
-	// I've adapted 3 implementations from other emulators
-	// cboy seems to have a fairly solid implementation, I will do more testing
-	// Game Boy CPU's DAA is slightly different to the regular Z80A: http://www.worldofspectrum.org/faq/reference/z80reference.htm#DAA
-	// Half carry is always set to 0 for instance
+	int value = registers.a;
 	
-	unsigned char value = registers.a;
-	
-	
-	
-	// "GBE"
-	/*
-	if((value & 0x0f) > 0x09) {	// If its A-F
-		if(FLAGS_ISNEGATIVE) value -= 6;
-		else value += 6;		// make it not
-	}
-	
-	if((value & 0xf0) > 0x90) {	// If its A-F
-		if(FLAGS_ISNEGATIVE) value -= 0x60;
-		else value += 0x60;
-		FLAGS_SET(FLAGS_CARRY);
-	}
-	else FLAGS_CLEAR(FLAGS_CARRY);
-	*/
-	
-	
-	// "GB-Enhanced"
-	/*
-	//Add or subtract correction values based on Subtract Flag
 	if(FLAGS_ISNEGATIVE) {
 		if(FLAGS_ISHALFCARRY) value = (value - 0x06) & 0xff;
-		if(FLAGS_ISCARRY) value -= 0x60;
-	}
-	else {
-		if(FLAGS_ISHALFCARRY || ((value & 0xf) > 0x09)) value += 0x06;
-		if(FLAGS_ISCARRY || (value > 0x9f)) value += 0x60;
-	}
-	
-	//Carry
-	if(value & 0x100) FLAGS_SET(FLAGS_CARRY);
-	value &= 0xff;
-	*/
-	
-	
-	// "cboy"
-	if(FLAGS_ISNEGATIVE) {
-		if(FLAGS_ISHALFCARRY) value = (value - 6) & 0xff;
 		if(FLAGS_ISCARRY) value -= 0x60;
 	}
 	else {
@@ -571,13 +528,12 @@ void daa(void) {
 	
 	if((value & 0x100) == 0x100) FLAGS_SET(FLAGS_CARRY);
 	
-	
 	FLAGS_CLEAR(FLAGS_HALFCARRY);
 	
 	if(value) FLAGS_CLEAR(FLAGS_ZERO);
 	else FLAGS_SET(FLAGS_ZERO);
 	
-	registers.a = value;
+	registers.a = (unsigned char)value;
 }
 
 // 0x28
