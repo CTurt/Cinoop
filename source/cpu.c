@@ -275,7 +275,7 @@ const struct instruction instructions[256] = {
 	{ "LD A, (0xFF00 + C)", 0, NULL },		                // 0xf2
 	{ "DI", 0, di },									    // 0xf3
 	{ "UNKNOWN", 0, NULL },							        // 0xf4
-	{ "PUSH AF", 0, NULL },							        // 0xf5
+	{ "PUSH AF", 0, push_af },						        // 0xf5
 	{ "OR 0x%02X", 1, NULL },							    // 0xf6
 	{ "RST 0x30", 0, NULL },							    // 0xf7
 	{ "LD HL, SP+0x%02X", 1, NULL },				        // 0xf8
@@ -579,6 +579,9 @@ void ld_ff_ap_n(unsigned char operand) { registers.a = readByte(0xff00 + operand
 
 // 0xf3
 void di(void) { interrupt.master = 0; }
+
+// 0xf5
+void push_af(void) { writeShortToStack(registers.af); }
 
 // 0xfb
 void ei(void) { interrupt.master = 1; }

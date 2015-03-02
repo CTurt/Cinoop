@@ -56,5 +56,6 @@ void ld_ff_c_a(void);
 void ld_nnp_a(unsigned short operand);
 void ld_ff_ap_n(unsigned char operand);
 void di(void);
+void push_af(void);
 void ei(void);
 void cp_n(unsigned char operand);
