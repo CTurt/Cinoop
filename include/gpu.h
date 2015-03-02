@@ -28,7 +28,7 @@ struct sprite {
 	unsigned char palette : 1;
 };
 
-extern unsigned char tiles[384][8][8];
+extern unsigned char tiles[512][8][8];
 
 void gpuStep(void);
 void hblank(void);

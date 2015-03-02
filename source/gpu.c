@@ -9,7 +9,8 @@
 
 struct gpu gpu;
 
-unsigned char tiles[384][8][8];
+// There must be space for 512 tiles, but only 384 can be used
+unsigned char tiles[512][8][8];
 
 /* References:
 http://www.codeslinger.co.uk/pages/projects/gameboy/lcd.html
@@ -140,11 +141,9 @@ void renderScanline(void) {
 }
 
 void updateTile(unsigned short address, unsigned char value) {
-	address &= 0x1FFE;
+	address &= 0x1ffe;
 	
-	//unsigned short tile = (address >> 4) & 511;
-	unsigned short tile = (address >> 4) & 384;
-	
+	unsigned short tile = (address >> 4) & 511;	
 	unsigned short y = (address >> 1) & 7;
 	
 	unsigned char x, bitIndex;
