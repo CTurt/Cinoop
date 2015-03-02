@@ -80,12 +80,24 @@ unsigned char loadROM(char *filename) {
 	
 	printf("ROM type: %s\n", romTypeString[type]);
 	
+	if(type != ROM_PLAIN) {
+		printf("Only 32KB games with no mappers are supported!\n");
+		fclose(f);
+		return 0;
+	}
+	
 	romSize = header[ROM_OFFSET_ROM_SIZE];
 	
 	if((romSize & 0xF0) == 0x50) romSize = (int)pow(2, ((0x52) & 0xF) + 1) + 64;
 	else romSize = (int)pow(2, romSize + 1);
 	
 	printf("ROM size: %dKB\n", romSize * 16);
+	
+	if(romSize * 16 != 32) {
+		printf("Only 32KB games with no mappers are supported!\n");
+		fclose(f);
+		return 0;
+	}
 	
 	if(length != romSize * 16 * 1024) {
 		printf("ROM filesize does not equal ROM size!\n");
@@ -100,12 +112,12 @@ unsigned char loadROM(char *filename) {
 	
 	ramSize = ceil(ramSize / 8.0f);
 	
-	//cart = malloc(length);
+	/*cart = malloc(length);
 	if(!cart) {
 		printf("Could not allocate memory!\n");
 		fclose(f);
 		return 0;
-	}
+	}*/
 	
 	rewind(f);
 	fread(cart, length, 1, f);

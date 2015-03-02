@@ -18,9 +18,7 @@ unsigned char readByte(unsigned short address) {
 	//	realtimeDebugEnable = 1;
 	//}
 	
-	if(!cart) return 0;
-	
-	else if(address <= 0x7fff)
+	if(address <= 0x7fff)
 		return cart[address];
 	
 	else if(address >= 0xa000 && address <= 0xbfff)
@@ -61,8 +59,6 @@ void writeByte(unsigned short address, unsigned char value) {
 	//if(address == 0x0300) {
 	//	realtimeDebugEnable = 1;
 	//}
-	
-	if(!cart) return;
 	
 	if(address >= 0xa000 && address <= 0xbfff)
 		sram[address - 0xa000] = value;
