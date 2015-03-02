@@ -86,7 +86,7 @@ const struct instruction instructions[256] = {
 	{ "DEC (HL)", 0, NULL },					            // 0x35
 	{ "LD (HL), 0x%02X", 1, ld_hlp_n },			            // 0x36
 	{ "SCF", 0, NULL },									    // 0x37
-	{ "JR C,0x%02X", 1, NULL },						        // 0x38
+	{ "JR C, 0x%02X", 1, jr_c_n },					        // 0x38
 	{ "ADD HL, SP", 0, NULL },						        // 0x39
 	{ "LD A, (HL-)", 0, NULL },			                    // 0x3a
 	{ "DEC SP", 0, NULL },							        // 0x3b
@@ -292,7 +292,7 @@ const unsigned char instructionTicks[256] = {
 	2, 6, 4, 4, 2, 2, 4, 4, 10, 4, 4, 4, 2, 2, 4, 4, // 0x0_
 	2, 6, 4, 4, 2, 2, 4, 4,  4, 4, 4, 4, 2, 2, 4, 4, // 0x1_
 	0, 6, 4, 4, 2, 2, 4, 2,  0, 4, 4, 4, 2, 2, 4, 2, // 0x2_
-	4, 6, 4, 4, 6, 6, 6, 2,  4, 4, 4, 4, 2, 2, 4, 2, // 0x3_
+	4, 6, 4, 4, 6, 6, 6, 2,  0, 4, 4, 4, 2, 2, 4, 2, // 0x3_
 	2, 2, 2, 2, 2, 2, 4, 2,  2, 2, 2, 2, 2, 2, 4, 2, // 0x4_
 	2, 2, 2, 2, 2, 2, 4, 2,  2, 2, 2, 2, 2, 2, 4, 2, // 0x5_
 	2, 2, 2, 2, 2, 2, 4, 2,  2, 2, 2, 2, 2, 2, 4, 2, // 0x6_
@@ -530,6 +530,15 @@ void ldd_hlp_a(void) { writeByte(registers.hl, registers.a); registers.hl--; }
 
 // 0x36
 void ld_hlp_n(unsigned char operand) { writeByte(registers.hl, operand); }
+
+// 0x38
+void jr_c_n(char operand) {
+	if(FLAGS_ISCARRY) {
+		registers.pc += operand;
+		timer += 12;
+	}
+	else timer += 8;
+}
 
 // 0x3c
 void inc_a(void) {

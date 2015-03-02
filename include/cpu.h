@@ -44,6 +44,7 @@ void ldi_a_hlp(void);
 void ld_sp_nn(unsigned short operand);
 void ldd_hlp_a(void);
 void ld_hlp_n(unsigned char operand);
+void jr_c_n(char operand);
 void inc_a(void);
 void ld_a_n(unsigned char operand);
 void ld_b_e(void);
