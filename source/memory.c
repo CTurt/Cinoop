@@ -1,3 +1,4 @@
+#include "registers.h"
 #include "gpu.h"
 #include "interrupts.h"
 #include "debug.h"
@@ -54,6 +55,12 @@ unsigned short readShort(unsigned short address) {
 	return readByte(address) | (readByte(address + 1) << 8);
 }
 
+unsigned short readShortFromStack(void) {
+	unsigned short value = readShort(registers.sp);
+	registers.sp += 2;
+	return value;
+}
+
 void writeByte(unsigned short address, unsigned char value) {
 	// Set write breakpoints here
 	//if(address == 0x0300) {
@@ -92,4 +99,9 @@ void writeByte(unsigned short address, unsigned char value) {
 void writeShort(unsigned short address, unsigned short value) {
 	writeByte(address, (unsigned char)(value & 0xff00));
 	writeByte(address + 1, (unsigned char)(value & 0x00ff));
+}
+
+void writeShortToStack(unsigned short value) {
+	registers.sp -= 2;
+	writeShort(registers.sp, value);
 }

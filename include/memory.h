@@ -10,6 +10,8 @@ extern unsigned char hram[0x80];
 
 unsigned char readByte(unsigned short address);
 unsigned short readShort(unsigned short address);
+unsigned short readShortFromStack(void);
 
 void writeByte(unsigned short address, unsigned char value);
 void writeShort(unsigned short address, unsigned short value);
+void writeShortToStack(unsigned short value);
