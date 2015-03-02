@@ -260,7 +260,7 @@ const struct instruction instructions[256] = {
 	{ "UNKNOWN", 0, NULL },							        // 0xe3
 	{ "UNKNOWN", 0, NULL },							        // 0xe4
 	{ "PUSH HL", 0, push_hl },						        // 0xe5
-	{ "AND 0x%02X", 1, NULL },							    // 0xe6
+	{ "AND 0x%02X", 1, and_n },							    // 0xe6
 	{ "RST 0x20", 0, NULL },							    // 0xe7
 	{ "ADD SP,0x%02X", 1, NULL },					        // 0xe8
 	{ "JP HL", 0, NULL },								    // 0xe9
@@ -676,6 +676,16 @@ void ld_ff_c_a(void) { writeByte(0xff00 + registers.c, registers.a); }
 
 // 0xe5
 void push_hl(void) { writeShortToStack(registers.hl); }
+
+// 0xe6
+void and_n(unsigned char operand) {
+	registers.a &= operand;
+	
+	FLAGS_CLEAR(FLAGS_CARRY | FLAGS_NEGATIVE);
+	FLAGS_SET(FLAGS_HALFCARRY);
+	if(registers.a) FLAGS_CLEAR(FLAGS_ZERO);
+	else FLAGS_SET(FLAGS_ZERO);
+}
 
 // 0xea
 void ld_nnp_a(unsigned short operand) { writeByte(operand, registers.a); }
