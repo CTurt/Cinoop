@@ -222,7 +222,7 @@ const struct instruction instructions[256] = {
 	{ "CP L", 0, NULL },								    // 0xbd
 	{ "CP (HL)", 0, NULL },					                // 0xbe
 	{ "CP A", 0, NULL },								    // 0xbf
-	{ "RET NZ", 0, NULL },							        // 0xc0
+	{ "RET NZ", 0, ret_nz },						        // 0xc0
 	{ "POP BC", 0, NULL },							        // 0xc1
 	{ "JP NZ, 0x%04X", 2, NULL },					        // 0xc2
 	{ "JP 0x%04X", 2, jp_nn },							    // 0xc3
@@ -301,7 +301,7 @@ const unsigned char instructionTicks[256] = {
 	2, 2, 2, 2, 2, 2, 4, 2,  2, 2, 2, 2, 2, 2, 4, 2, // 0x9_
 	2, 2, 2, 2, 2, 2, 4, 2,  2, 2, 2, 2, 2, 2, 4, 2, // 0xa_
 	2, 2, 2, 2, 2, 2, 4, 2,  2, 2, 2, 2, 2, 2, 4, 2, // 0xb_
-	4, 6, 6, 6, 6, 8, 4, 8,  4, 2, 6, 0, 6, 6, 4, 8, // 0xc_
+	0, 6, 6, 6, 6, 8, 4, 8,  4, 2, 6, 0, 6, 6, 4, 8, // 0xc_
 	4, 6, 6, 0, 6, 8, 4, 8,  4, 8, 6, 0, 6, 0, 4, 8, // 0xd_
 	6, 6, 4, 0, 0, 8, 4, 8,  8, 2, 8, 0, 0, 0, 4, 8, // 0xe_
 	6, 6, 4, 2, 0, 8, 4, 8,  6, 4, 8, 2, 0, 0, 4, 8  // 0xf_
@@ -570,6 +570,16 @@ void or_c(void) {
 	else FLAGS_SET(FLAGS_ZERO);
 	
 	FLAGS_CLEAR(FLAGS_CARRY | FLAGS_NEGATIVE | FLAGS_HALFCARRY);
+}
+
+// 0xc0
+void ret_nz(void) {
+	if(FLAGS_ISZERO) ticks += 8;
+	else {
+		registers.pc = readShortFromStack();
+		debugJump();
+		ticks += 20;
+	}
 }
 
 // 0xc3

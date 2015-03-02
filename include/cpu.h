@@ -50,6 +50,7 @@ void ld_a_b(void);
 void and_a(void);
 void xor_a(void);
 void or_c(void);
+void ret_nz(void);
 void jp_nn(unsigned short operand);
 void push_bc(void);
 void ret(void);
