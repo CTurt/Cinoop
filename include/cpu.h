@@ -31,6 +31,7 @@ void cpuStep(void);
 void nop(void);
 void dec_b(void);
 void ld_b_n(unsigned char operand);
+void inc_c(void);
 void dec_c(void);
 void ld_c_n(unsigned char operand);
 void jr_nz_n(char operand);
