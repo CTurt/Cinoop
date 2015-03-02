@@ -32,13 +32,13 @@ NO$GMB
 const struct instruction instructions[256] = {
 	{ "NOP", 0, nop },									    // 0x00
 	{ "LD BC, 0x%04X", 2, ld_bc_nn },				        // 0x01
-	{ "LD (BC), A", 0, NULL },				                // 0x02
+	{ "LD (BC), A", 0, ld_bcp_a },			                // 0x02
 	{ "INC BC", 0, inc_bc },						        // 0x03
 	{ "INC B", 0, inc_b },								    // 0x04
 	{ "DEC B", 0, dec_b },								    // 0x05
 	{ "LD B, 0x%02X", 1, ld_b_n },						    // 0x06
 	{ "RLCA", 0, NULL },								    // 0x07
-	{ "LD (0x%04X), SP", 2, NULL },			                // 0x08
+	{ "LD (0x%04X), SP", 2, ld_nnp_sp },	                // 0x08
 	{ "ADD HL, BC", 0, NULL },						        // 0x09
 	{ "LD A, (BC)", 0, NULL },				                // 0x0a
 	{ "DEC BC", 0, dec_bc },						        // 0x0b
@@ -473,6 +473,9 @@ void nop(void) {  }
 // 0x01
 void ld_bc_nn(unsigned short operand) { registers.bc = operand; }
 
+// 0x02
+void ld_bcp_a(void) { writeByte(registers.bc, registers.a); }
+
 // 0x03
 void inc_bc(void) { registers.bc++; }
 
@@ -484,6 +487,9 @@ void dec_b(void) { registers.b = dec(registers.b); }
 
 // 0x06
 void ld_b_n(unsigned char operand) { registers.b = operand; }
+
+// 0x08
+void ld_nnp_sp(unsigned short operand) { writeShort(operand, registers.sp); }
 
 // 0x0b
 void dec_bc(void) { registers.bc--; }
