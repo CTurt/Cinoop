@@ -52,6 +52,7 @@ void jp_nn(unsigned short operand);
 void push_bc(void);
 void ret(void);
 void call_nn(unsigned short operand);
+void push_de(void);
 void ld_ff_n_ap(unsigned char operand);
 void ld_ff_c_a(void);
 void ld_nnp_a(unsigned short operand);
