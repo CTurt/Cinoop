@@ -31,7 +31,7 @@ NO$GMB
 
 const struct instruction instructions[256] = {
 	{ "NOP", 0, nop },									    // 0x00
-	{ "LD BC, 0x%04X", 2, NULL },					        // 0x01
+	{ "LD BC, 0x%04X", 2, ld_bc_nn },				        // 0x01
 	{ "LD (BC), A", 0, NULL },				                // 0x02
 	{ "INC BC", 0, NULL },							        // 0x03
 	{ "INC B", 0, NULL },								    // 0x04
@@ -441,6 +441,9 @@ void cpuStep(void) {
 
 // 0x00
 void nop(void) {  }
+
+// 0x01
+void ld_bc_nn(unsigned short operand) { registers.bc = operand; }
 
 // 0x05
 void dec_b(void) {
