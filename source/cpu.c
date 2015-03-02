@@ -259,7 +259,7 @@ const struct instruction instructions[256] = {
 	{ "LD (0xFF00 + C), A", 0, ld_ff_c_a },	                // 0xe2
 	{ "UNKNOWN", 0, NULL },							        // 0xe3
 	{ "UNKNOWN", 0, NULL },							        // 0xe4
-	{ "PUSH HL", 0, NULL },							        // 0xe5
+	{ "PUSH HL", 0, push_hl },						        // 0xe5
 	{ "AND 0x%02X", 1, NULL },							    // 0xe6
 	{ "RST 0x20", 0, NULL },							    // 0xe7
 	{ "ADD SP,0x%02X", 1, NULL },					        // 0xe8
@@ -576,6 +576,9 @@ void ld_ff_n_ap(unsigned char operand) { writeByte(0xff00 + operand, registers.a
 
 // 0xe2
 void ld_ff_c_a(void) { writeByte(0xff00 + registers.c, registers.a); }
+
+// 0xe5
+void push_hl(void) { writeShortToStack(registers.hl); }
 
 // 0xea
 void ld_nnp_a(unsigned short operand) { writeByte(operand, registers.a); }
