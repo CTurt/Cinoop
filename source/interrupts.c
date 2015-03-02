@@ -8,8 +8,7 @@ struct interrupt interrupt;
 void vblank(void) {
 	interrupt.master = 0;
 	
-	registers.sp -= 2;
-	writeShort(registers.sp, registers.pc);
+	writeShortToStack(registers.pc);
 	
 	registers.pc = 0x40;
 	
@@ -19,6 +18,5 @@ void vblank(void) {
 void returnFromInterrupt(void) {
 	interrupt.master = 1;
 	
-	registers.pc = readShort(registers.sp);
-	registers.sp += 2;
+	registers.pc = readShortFromStack();
 }
