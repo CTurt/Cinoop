@@ -72,7 +72,7 @@ const struct instruction instructions[256] = {
 	{ "DAA", 0, NULL },									    // 0x27
 	{ "JR Z,0x%02X", 1, NULL },						        // 0x28
 	{ "ADD HL, HL", 0, NULL },						        // 0x29
-	{ "LD A, (HL+)", 0, NULL },			                    // 0x2a
+	{ "LDI A, (HL)", 0, ldi_a_hlp },	                    // 0x2a
 	{ "DEC HL", 0, NULL },							        // 0x2b
 	{ "INC L", 0, NULL },								    // 0x2c
 	{ "DEC L", 0, NULL },								    // 0x2d
@@ -486,6 +486,9 @@ void jr_nz_n(char operand) {
 
 // 0x21
 void ld_hl_nn(unsigned short operand) { registers.hl = operand; }
+
+// 0x2a
+void ldi_a_hlp(void) { registers.a = readByte(registers.hl++); registers.a++; }
 
 // 0x31
 void ld_sp_nn(unsigned short operand) { registers.sp = operand; }
