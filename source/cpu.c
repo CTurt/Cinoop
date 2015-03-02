@@ -488,7 +488,7 @@ void jr_nz_n(char operand) {
 void ld_hl_nn(unsigned short operand) { registers.hl = operand; }
 
 // 0x2a
-void ldi_a_hlp(void) { registers.a = readByte(registers.hl++); registers.a++; }
+void ldi_a_hlp(void) { registers.a = readByte(registers.hl++); }
 
 // 0x31
 void ld_sp_nn(unsigned short operand) { registers.sp = operand; }
