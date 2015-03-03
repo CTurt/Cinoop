@@ -83,6 +83,7 @@ void ld_a_d(void);
 void ld_a_e(void);
 void ld_a_h(void);
 void ld_a_l(void);
+void ld_a_hlp(void);
 void and_b(void);
 void and_c(void);
 void and_d(void);

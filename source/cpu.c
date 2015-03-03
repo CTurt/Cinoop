@@ -157,8 +157,8 @@ const struct instruction instructions[256] = {
 	{ "LD A, E", 0, ld_a_e },						        // 0x7b
 	{ "LD A, H", 0, ld_a_h },						        // 0x7c
 	{ "LD A, L", 0, ld_a_l },						        // 0x7d
-	{ "LD A, (HL)", 0, NULL },				                // 0x7e
-	{ "LD A, A", 0, NULL },								    // 0x7f
+	{ "LD A, (HL)", 0, ld_a_hlp },			                // 0x7e
+	{ "LD A, A", 0, nop },								    // 0x7f
 	{ "ADD A, B", 0, NULL },							    // 0x80
 	{ "ADD A, C", 0, NULL },							    // 0x81
 	{ "ADD A, D", 0, NULL },							    // 0x82
@@ -701,6 +701,9 @@ void ld_a_h(void) { registers.a = registers.h; }
 
 // 0x7d
 void ld_a_l(void) { registers.a = registers.l; }
+
+// 0x7e
+void ld_a_hlp(void) { registers.a = readByte(registers.hl); }
 
 // 0xa0
 void and_b(void) { and(registers.b); }
