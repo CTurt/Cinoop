@@ -159,14 +159,14 @@ const struct instruction instructions[256] = {
 	{ "LD A, L", 0, ld_a_l },						        // 0x7d
 	{ "LD A, (HL)", 0, ld_a_hlp },			                // 0x7e
 	{ "LD A, A", 0, nop },								    // 0x7f
-	{ "ADD A, B", 0, NULL },							    // 0x80
-	{ "ADD A, C", 0, NULL },							    // 0x81
-	{ "ADD A, D", 0, NULL },							    // 0x82
-	{ "ADD A, E", 0, NULL },							    // 0x83
-	{ "ADD A, H", 0, NULL },							    // 0x84
-	{ "ADD A, L", 0, NULL },							    // 0x85
-	{ "ADD A, (HL)", 0, NULL },			                    // 0x86
-	{ "ADD A", 0, NULL },							        // 0x87
+	{ "ADD A, B", 0, add_a_b },							    // 0x80
+	{ "ADD A, C", 0, add_a_c },							    // 0x81
+	{ "ADD A, D", 0, add_a_d },							    // 0x82
+	{ "ADD A, E", 0, add_a_e },							    // 0x83
+	{ "ADD A, H", 0, add_a_h },							    // 0x84
+	{ "ADD A, L", 0, add_a_l },							    // 0x85
+	{ "ADD A, (HL)", 0, add_a_hlp },		                // 0x86
+	{ "ADD A", 0, add_a_a },						        // 0x87
 	{ "ADC A, B", 0, NULL },							    // 0x88
 	{ "ADC A, C", 0, NULL },							    // 0x89
 	{ "ADC A, D", 0, NULL },							    // 0x8a
@@ -469,6 +469,23 @@ static unsigned char dec(unsigned char value) {
 	return value;
 }
 
+static void add(unsigned char *destination, unsigned char value) {
+	int result = *destination + value;
+	
+	if(result & 0xff00) FLAGS_SET(FLAGS_CARRY);
+	else FLAGS_CLEAR(FLAGS_CARRY);
+	
+	*destination = (unsigned char)(result & 0xff);
+	
+	if(*destination) FLAGS_CLEAR(FLAGS_ZERO);
+	else FLAGS_SET(FLAGS_ZERO);
+	
+	if(((*destination & 0x0f) + (value & 0x0f)) > 0x0f) FLAGS_SET(FLAGS_HALFCARRY);
+	else FLAGS_CLEAR(FLAGS_HALFCARRY);
+	
+	FLAGS_CLEAR(FLAGS_NEGATIVE);
+}
+
 static void and(unsigned char value) {
 	registers.a &= value;
 	
@@ -704,6 +721,30 @@ void ld_a_l(void) { registers.a = registers.l; }
 
 // 0x7e
 void ld_a_hlp(void) { registers.a = readByte(registers.hl); }
+
+// 0x80
+void add_a_b(void) { add(&registers.a, registers.b); }
+
+// 0x81
+void add_a_c(void) { add(&registers.a, registers.c); }
+
+// 0x82
+void add_a_d(void) { add(&registers.a, registers.d); }
+
+// 0x83
+void add_a_e(void) { add(&registers.a, registers.e); }
+
+// 0x84
+void add_a_h(void) { add(&registers.a, registers.h); }
+
+// 0x85
+void add_a_l(void) { add(&registers.a, registers.l); }
+
+// 0x86
+void add_a_hlp(void) { add(&registers.a, readByte(registers.hl)); }
+
+// 0x87
+void add_a_a(void) { add(&registers.a, registers.a); }
 
 // 0xa0
 void and_b(void) { and(registers.b); }
