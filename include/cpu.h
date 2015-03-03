@@ -66,6 +66,7 @@ void and_a(void);
 void xor_a(void);
 void or_c(void);
 void ret_nz(void);
+void pop_bc(void);
 void jp_nn(unsigned short operand);
 void push_bc(void);
 void ret_z(void);

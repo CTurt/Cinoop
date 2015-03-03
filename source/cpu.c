@@ -223,7 +223,7 @@ const struct instruction instructions[256] = {
 	{ "CP (HL)", 0, NULL },					                // 0xbe
 	{ "CP A", 0, NULL },								    // 0xbf
 	{ "RET NZ", 0, ret_nz },						        // 0xc0
-	{ "POP BC", 0, NULL },							        // 0xc1
+	{ "POP BC", 0, pop_bc },						        // 0xc1
 	{ "JP NZ, 0x%04X", 2, NULL },					        // 0xc2
 	{ "JP 0x%04X", 2, jp_nn },							    // 0xc3
 	{ "CALL NZ, 0x%04X", 2, NULL },					        // 0xc4
@@ -641,6 +641,9 @@ void ret_nz(void) {
 		ticks += 20;
 	}
 }
+
+// 0xc1
+void pop_bc(void) { registers.bc = readShortFromStack(); }
 
 // 0xc3
 void jp_nn(unsigned short operand) {
