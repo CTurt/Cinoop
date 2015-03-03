@@ -60,6 +60,7 @@ void ld_b_d(void);
 void ld_b_e(void);
 void ld_b_h(void);
 void ld_b_l(void);
+void ld_b_hlp(void);
 void ld_b_a(void);
 void ld_hlp_a(void);
 void ld_a_b(void);
