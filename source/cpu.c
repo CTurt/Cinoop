@@ -239,7 +239,7 @@ const struct instruction instructions[256] = {
 	{ "ADC A, 0x%02X", 1, NULL },						    // 0xce
 	{ "RST 0x08", 0, NULL },							    // 0xcf
 	{ "RET NC", 0, NULL },							        // 0xd0
-	{ "POP DE", 0, NULL },							        // 0xd1
+	{ "POP DE", 0, pop_de },						        // 0xd1
 	{ "JP NC, 0x%04X", 2, NULL },					        // 0xd2
 	{ "UNKNOWN", 0, NULL },							        // 0xd3
 	{ "CALL NC, 0x%04X", 2, NULL },				            // 0xd4
@@ -665,6 +665,9 @@ void ret(void) { registers.pc = readShortFromStack(); }
 
 // 0xcd
 void call_nn(unsigned short operand) { writeShortToStack(registers.pc); registers.pc = operand; }
+
+// 0xd1
+void pop_de(void) { registers.de = readShortFromStack(); }
 
 // 0xd5
 void push_de(void) { writeShortToStack(registers.de); }

@@ -71,6 +71,7 @@ void push_bc(void);
 void ret_z(void);
 void ret(void);
 void call_nn(unsigned short operand);
+void pop_de(void);
 void push_de(void);
 void ld_ff_n_ap(unsigned char operand);
 void pop_hl(void);
