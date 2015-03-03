@@ -56,7 +56,7 @@ const struct instruction instructions[256] = {
 	{ "LD D, 0x%02X", 1, ld_d_n },						    // 0x16
 	{ "RLA", 0, NULL },									    // 0x17
 	{ "JR 0x%02X", 1, NULL },							    // 0x18
-	{ "ADD HL, DE", 0, NULL },						        // 0x19
+	{ "ADD HL, DE", 0, add_hl_de },					        // 0x19
 	{ "LD A,(DE)", 0, NULL },				                // 0x1a
 	{ "DEC DE", 0, dec_de },						        // 0x1b
 	{ "INC E", 0, NULL },								    // 0x1c
@@ -470,7 +470,7 @@ static unsigned char dec(unsigned char value) {
 }
 
 static void add(unsigned char *destination, unsigned char value) {
-	int result = *destination + value;
+	unsigned int result = *destination + value;
 	
 	if(result & 0xff00) FLAGS_SET(FLAGS_CARRY);
 	else FLAGS_CLEAR(FLAGS_CARRY);
@@ -482,6 +482,22 @@ static void add(unsigned char *destination, unsigned char value) {
 	
 	if(((*destination & 0x0f) + (value & 0x0f)) > 0x0f) FLAGS_SET(FLAGS_HALFCARRY);
 	else FLAGS_CLEAR(FLAGS_HALFCARRY);
+	
+	FLAGS_CLEAR(FLAGS_NEGATIVE);
+}
+
+static void add2(unsigned short *destination, unsigned short value) {
+	unsigned long result = *destination + value;
+	
+	if(result & 0xffff0000) FLAGS_SET(FLAGS_CARRY);
+	else FLAGS_CLEAR(FLAGS_CARRY);
+	
+	*destination = (unsigned short)(result & 0xffff);
+	
+	if(((*destination & 0x0f) + (value & 0x0f)) > 0x0f) FLAGS_SET(FLAGS_HALFCARRY);
+	else FLAGS_CLEAR(FLAGS_HALFCARRY);
+	
+	// zero flag left alone
 	
 	FLAGS_CLEAR(FLAGS_NEGATIVE);
 }
@@ -552,6 +568,9 @@ void ld_c_n(unsigned char operand) { registers.c = operand; }
 
 // 0x16
 void ld_d_n(unsigned char operand) { registers.d = operand; }
+
+// 0x19
+void add_hl_de(void) { add2(&registers.hl, registers.de); }
 
 // 0x1b
 void dec_de(void) { registers.de--; }
