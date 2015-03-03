@@ -1,7 +1,9 @@
 #pragma once
 
-#include "cpu.h"
-
-extern const struct instruction extendedInstructions[256];
+struct extendedInstruction {
+	char *disassembly;
+	void *execute;
+	//unsigned char ticks;
+} extern const extendedInstructions[256];
 
 void cb_n(unsigned char instruction);
