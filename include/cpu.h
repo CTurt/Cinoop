@@ -120,6 +120,7 @@ void ld_ff_c_a(void);
 void push_hl(void);
 void and_n(unsigned char operand);
 void ld_nnp_a(unsigned short operand);
+void rst_28(void);
 void ld_ff_ap_n(unsigned char operand);
 void pop_af(void);
 void di(void);
