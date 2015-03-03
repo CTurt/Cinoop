@@ -264,7 +264,7 @@ const struct instruction instructions[256] = {
 	{ "AND 0x%02X", 1, and_n },							    // 0xe6
 	{ "RST 0x20", 0, NULL },							    // 0xe7
 	{ "ADD SP,0x%02X", 1, NULL },					        // 0xe8
-	{ "JP HL", 0, NULL },								    // 0xe9
+	{ "JP HL", 0, jp_hl },								    // 0xe9
 	{ "LD (0x%04X), A", 2, ld_nnp_a },			            // 0xea
 	{ "UNKNOWN", 0, NULL },							        // 0xeb
 	{ "UNKNOWN", 0, NULL },							        // 0xec
@@ -969,6 +969,12 @@ void and_n(unsigned char operand) {
 	FLAGS_SET(FLAGS_HALFCARRY);
 	if(registers.a) FLAGS_CLEAR(FLAGS_ZERO);
 	else FLAGS_SET(FLAGS_ZERO);
+}
+
+// 0xe9
+void jp_hl(void) {
+	registers.pc = registers.hl;
+	debugJump();
 }
 
 // 0xea
