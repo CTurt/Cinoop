@@ -13,6 +13,8 @@ const struct rgb palette[4] = {
 };
 
 void drawFramebuffer(void) {
+	// Should render to a texture instead of obsolete glDrawPixels
+	
 	//framebuffer[50 * 160 + 50].r = 255;
 	//framebuffer[50 * 160 + 50].g = 255;
 	//framebuffer[50 * 160 + 50].b = 255;
