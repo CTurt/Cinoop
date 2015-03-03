@@ -191,13 +191,13 @@ const struct instruction instructions[256] = {
 	{ "SBC A, L", 0, NULL },							    // 0x9d
 	{ "SBC A, (HL)", 0, NULL },				                // 0x9e
 	{ "SBC A, A", 0, NULL },							    // 0x9f
-	{ "AND B", 0, NULL },								    // 0xa0
-	{ "AND C", 0, NULL },								    // 0xa1
-	{ "AND D", 0, NULL },								    // 0xa2
-	{ "AND E", 0, NULL },								    // 0xa3
-	{ "AND H", 0, NULL },								    // 0xa4
-	{ "AND L", 0, NULL },								    // 0xa5
-	{ "AND (HL)", 0, NULL },					            // 0xa6
+	{ "AND B", 0, and_b },								    // 0xa0
+	{ "AND C", 0, and_c },								    // 0xa1
+	{ "AND D", 0, and_d },								    // 0xa2
+	{ "AND E", 0, and_e },								    // 0xa3
+	{ "AND H", 0, and_h },								    // 0xa4
+	{ "AND L", 0, and_l },								    // 0xa5
+	{ "AND (HL)", 0, and_hlp },					            // 0xa6
 	{ "AND A", 0, and_a },								    // 0xa7
 	{ "XOR B", 0, xor_b },								    // 0xa8
 	{ "XOR C", 0, xor_c },								    // 0xa9
@@ -469,6 +469,16 @@ static unsigned char dec(unsigned char value) {
 	return value;
 }
 
+static void and(unsigned char value) {
+	registers.a &= value;
+	
+	if(registers.a) FLAGS_CLEAR(FLAGS_ZERO);
+	else FLAGS_SET(FLAGS_ZERO);
+	
+	FLAGS_CLEAR(FLAGS_CARRY | FLAGS_NEGATIVE);
+	FLAGS_SET(FLAGS_HALFCARRY);
+}
+
 static void or(unsigned char value) {
 	registers.a |= value;
 	
@@ -692,14 +702,29 @@ void ld_a_h(void) { registers.a = registers.h; }
 // 0x7d
 void ld_a_l(void) { registers.a = registers.l; }
 
+// 0xa0
+void and_b(void) { and(registers.b); }
+
+// 0xa1
+void and_c(void) { and(registers.c); }
+
+// 0xa2
+void and_d(void) { and(registers.d); }
+
+// 0xa3
+void and_e(void) { and(registers.e); }
+
+// 0xa4
+void and_h(void) { and(registers.h); }
+
+// 0xa5
+void and_l(void) { and(registers.l); }
+
+// 0xa6
+void and_hlp(void) { and(readByte(registers.hl)); }
+
 // 0xa7
-void and_a(void) {
-	FLAGS_CLEAR(FLAGS_CARRY | FLAGS_NEGATIVE);
-	FLAGS_SET(FLAGS_HALFCARRY);
-	
-	if(registers.a) FLAGS_CLEAR(FLAGS_ZERO);
-	else FLAGS_SET(FLAGS_ZERO);
-}
+void and_a(void) { and(registers.a); }
 
 // 0xa8
 void xor_b(void) { xor(registers.b); }
