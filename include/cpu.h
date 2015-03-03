@@ -56,6 +56,7 @@ void inc_a(void);
 void dec_a(void);
 void ld_a_n(unsigned char operand);
 void ld_b_e(void);
+void ld_b_a(void);
 void ld_hlp_a(void);
 void ld_a_b(void);
 void ld_a_c(void);
