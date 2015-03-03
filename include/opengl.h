@@ -6,4 +6,6 @@ struct rgb {
 	unsigned char r, g, b;
 } extern framebuffer[160 * 144];
 
+extern const struct rgb palette[4];
+
 void drawFramebuffer(void);

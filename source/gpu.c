@@ -37,9 +37,7 @@ void gpuStep(void) {
 				hblank();
 				
 				if(gpu.scanline == 143) {
-					glClear(GL_COLOR_BUFFER_BIT);
 					drawFramebuffer();
-					LDFS_SwapBuffers();
 					
 					gpuMode = GPU_MODE_VBLANK;
 				}
@@ -92,17 +90,17 @@ void hblank(void) {
 }
 
 void renderScanline(void) {
-	// draw first 4 tiles as a test
+	// draw first 8 tiles as a test
 	{
 		int i;
-		for(i = 0; i < 4; i++) {
+		for(i = 0; i < 8; i++) {
 			int x;
 			for(x = 0; x < 8; x++) {
 				int y;
 				for(y = 0; y < 8; y++) {
-					framebuffer[i * 8 + x + y * 160].r = tiles[i + 430][x][y] * 64;
-					framebuffer[i * 8 + x + y * 160].g = tiles[i + 430][x][y] * 64;
-					framebuffer[i * 8 + x + y * 160].b = tiles[i + 430][x][y] * 64;
+					framebuffer[i * 8 + x + y * 160].r = palette[tiles[i][x][y]].r;
+					framebuffer[i * 8 + x + y * 160].g = palette[tiles[i][x][y]].g;
+					framebuffer[i * 8 + x + y * 160].b = palette[tiles[i][x][y]].b;
 				}
 			}
 		}

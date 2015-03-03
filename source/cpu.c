@@ -386,7 +386,25 @@ void cpuStep(void) {
 	// General breakpoints
 	if(registers.pc == 0x282a) {
 	//if(registers.pc == 0x2817) {
-	//if(registers.pc == 0x1f32) {
+		//FILE *f = fopen("tile0.bin", "wb");
+		//fwrite(vram, 16, 1, f);
+		//fclose(f);
+		
+		/*FILE *f = fopen("tile0.txt", "wb");
+		int x;
+		int y;
+		for(y = 0; y < 8; y++) {
+			for(x = 0; x < 8; x++) {
+				fprintf(f, "%02x ", tiles[0][x][y]);
+			}
+			fprintf(f, "\n");
+		}
+		fclose(f);*/
+		
+		
+		renderScanline();
+		drawFramebuffer();
+		
 		realtimeDebugEnable = 1;
 	}
 	
