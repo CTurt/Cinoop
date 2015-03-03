@@ -652,7 +652,7 @@ void push_bc(void) { writeShortToStack(registers.bc); }
 void ret_z(void) {
 	if(FLAGS_ISZERO) {
 		registers.pc = readShortFromStack();
-		ticks + 20;
+		ticks += 20;
 	}
 	else ticks += 8;
 }
