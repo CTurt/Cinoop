@@ -67,6 +67,7 @@ void or_c(void);
 void ret_nz(void);
 void jp_nn(unsigned short operand);
 void push_bc(void);
+void ret_z(void);
 void ret(void);
 void call_nn(unsigned short operand);
 void push_de(void);
