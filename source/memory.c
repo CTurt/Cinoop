@@ -1,3 +1,5 @@
+#include <stdio.h>
+
 #include "registers.h"
 #include "gpu.h"
 #include "interrupts.h"
@@ -58,6 +60,11 @@ unsigned short readShort(unsigned short address) {
 unsigned short readShortFromStack(void) {
 	unsigned short value = readShort(registers.sp);
 	registers.sp += 2;
+	
+	#ifdef DEBUG_STACK
+		printf("Stack read 0x%04x\n", value);
+	#endif
+	
 	return value;
 }
 
@@ -97,11 +104,15 @@ void writeByte(unsigned short address, unsigned char value) {
 }
 
 void writeShort(unsigned short address, unsigned short value) {
-	writeByte(address, (unsigned char)(value & 0xff00));
-	writeByte(address + 1, (unsigned char)(value & 0x00ff));
+	writeByte(address, (unsigned char)(value & 0x00ff));
+	writeByte(address + 1, (unsigned char)((value & 0xff00) >> 8));
 }
 
 void writeShortToStack(unsigned short value) {
 	registers.sp -= 2;
 	writeShort(registers.sp, value);
+	
+	#ifdef DEBUG_STACK
+		printf("Stack write 0x%04x 0x%04x\n", value, readShort(registers.sp));
+	#endif
 }

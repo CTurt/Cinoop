@@ -383,7 +383,10 @@ void cpuStep(void) {
 	unsigned short operand = 0;
 	
 	// General breakpoints
-	if(registers.pc == 0x2817) {
+	//if(registers.pc == 0x2817) {
+	//if(registers.pc == 0x0339) {
+	if(registers.pc == 0x27f7) {
+	//if(registers.pc == 0x031f) {
 		realtimeDebugEnable = 1;
 	}
 	
@@ -648,7 +651,7 @@ void jp_nn(unsigned short operand) {
 void push_bc(void) { writeShortToStack(registers.bc); }
 
 // 0xc9
-void ret(void) { registers.pc = readShort(registers.sp); registers.sp += 2; }
+void ret(void) { registers.pc = readShortFromStack(); }
 
 // 0xcd
 void call_nn(unsigned short operand) { writeShortToStack(registers.pc); registers.pc = operand; }
