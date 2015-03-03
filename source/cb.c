@@ -143,7 +143,7 @@ const struct extendedInstruction extendedInstructions[256] = {
 	{ "RES 0, H", NULL },    // 0x84
 	{ "RES 0, L", NULL },    // 0x85
 	{ "RES 0, (HL)", NULL }, // 0x86
-	{ "RES 0, A", NULL },    // 0x87
+	{ "RES 0, A", res_0_a }, // 0x87
 	{ "RES 1, B", NULL },    // 0x88
 	{ "RES 1, C", NULL },    // 0x89
 	{ "RES 1, D", NULL },    // 0x8a
@@ -275,7 +275,7 @@ const unsigned char extendedInstructionTicks[256] = {
 	0, 0, 0, 0, 0, 0, 0, 0,  0, 0, 0, 0, 0, 0, 0, 0, // 0x5_
 	0, 0, 0, 0, 0, 0, 0, 0,  0, 0, 0, 0, 0, 0, 0, 0, // 0x6_
 	0, 0, 0, 0, 0, 0, 0, 0,  0, 0, 0, 0, 0, 0, 0, 0, // 0x7_
-	0, 0, 0, 0, 0, 0, 0, 0,  0, 0, 0, 0, 0, 0, 0, 0, // 0x8_
+	0, 0, 0, 0, 0, 0, 0, 8,  0, 0, 0, 0, 0, 0, 0, 0, // 0x8_
 	0, 0, 0, 0, 0, 0, 0, 0,  0, 0, 0, 0, 0, 0, 0, 0, // 0x9_
 	0, 0, 0, 0, 0, 0, 0, 0,  0, 0, 0, 0, 0, 0, 0, 0, // 0xa_
 	0, 0, 0, 0, 0, 0, 0, 0,  0, 0, 0, 0, 0, 0, 0, 0, // 0xb_
@@ -308,3 +308,6 @@ void swap_a(void) {
 	
 	FLAGS_CLEAR(FLAGS_NEGATIVE | FLAGS_HALFCARRY | FLAGS_CARRY);
 }
+
+// 0x87
+void res_0_a(void) { registers.a &= ~0x01; }
