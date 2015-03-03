@@ -266,6 +266,25 @@ const struct extendedInstruction extendedInstructions[256] = {
 	{ "SET 7, A", NULL },    // 0xff
 };
 
+const unsigned char extendedInstructionTicks[256] = {
+	0, 0, 0, 0, 0, 0, 0, 0,  0, 0, 0, 0, 0, 0, 0, 0, // 0x0_
+	0, 0, 0, 0, 0, 0, 0, 0,  0, 0, 0, 0, 0, 0, 0, 0, // 0x1_
+	0, 0, 0, 0, 0, 0, 0, 0,  0, 0, 0, 0, 0, 0, 0, 0, // 0x2_
+	0, 0, 0, 0, 0, 0, 0, 8,  0, 0, 0, 0, 0, 0, 0, 0, // 0x3_
+	0, 0, 0, 0, 0, 0, 0, 0,  0, 0, 0, 0, 0, 0, 0, 0, // 0x4_
+	0, 0, 0, 0, 0, 0, 0, 0,  0, 0, 0, 0, 0, 0, 0, 0, // 0x5_
+	0, 0, 0, 0, 0, 0, 0, 0,  0, 0, 0, 0, 0, 0, 0, 0, // 0x6_
+	0, 0, 0, 0, 0, 0, 0, 0,  0, 0, 0, 0, 0, 0, 0, 0, // 0x7_
+	0, 0, 0, 0, 0, 0, 0, 0,  0, 0, 0, 0, 0, 0, 0, 0, // 0x8_
+	0, 0, 0, 0, 0, 0, 0, 0,  0, 0, 0, 0, 0, 0, 0, 0, // 0x9_
+	0, 0, 0, 0, 0, 0, 0, 0,  0, 0, 0, 0, 0, 0, 0, 0, // 0xa_
+	0, 0, 0, 0, 0, 0, 0, 0,  0, 0, 0, 0, 0, 0, 0, 0, // 0xb_
+	0, 0, 0, 0, 0, 0, 0, 0,  0, 0, 0, 0, 0, 0, 0, 0, // 0xc_
+	0, 0, 0, 0, 0, 0, 0, 0,  0, 0, 0, 0, 0, 0, 0, 0, // 0xd_
+	0, 0, 0, 0, 0, 0, 0, 0,  0, 0, 0, 0, 0, 0, 0, 0, // 0xe_
+	0, 0, 0, 0, 0, 0, 0, 0,  0, 0, 0, 0, 0, 0, 0, 0  // 0xf_
+};
+
 void cb_n(unsigned char instruction) {
 	if(!extendedInstructions[instruction].execute) {
 		printf("Unimplemented extended instruction 0x%02x (%s)!\n",  instruction, extendedInstructions[instruction].disassembly);
@@ -277,7 +296,7 @@ void cb_n(unsigned char instruction) {
 	
 	extendedInstructions[instruction].execute();
 	
-	// ticks += 
+	ticks += extendedInstructionTicks[instruction];
 }
 
 // 0x37

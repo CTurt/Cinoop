@@ -6,6 +6,8 @@ struct extendedInstruction {
 	//unsigned char ticks;
 } extern const extendedInstructions[256];
 
+extern const unsigned char extendedInstructionTicks[256];
+
 void cb_n(unsigned char instruction);
 
 void swap_a(void);
