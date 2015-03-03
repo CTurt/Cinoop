@@ -8,6 +8,7 @@
 #include "interrupts.h"
 #include "gpu.h"
 #include "opengl.h"
+#include "cb.h"
 
 #include "cpu.h"
 
@@ -233,7 +234,7 @@ const struct instruction instructions[256] = {
 	{ "RET Z", 0, ret_z },								    // 0xc8
 	{ "RET", 0, ret },									    // 0xc9
 	{ "JP Z,0x%04X", 2, NULL },						        // 0xca
-	{ "CB %02X", 1, NULL },								    // 0xcb
+	{ "CB %02X", 1, cb_n },								    // 0xcb
 	{ "CALL Z, 0x%04X", 2, NULL },					        // 0xcc
 	{ "CALL 0x%04X", 2, call_nn },					        // 0xcd
 	{ "ADC A, 0x%02X", 1, NULL },						    // 0xce
