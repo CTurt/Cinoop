@@ -73,6 +73,7 @@ void ret(void);
 void call_nn(unsigned short operand);
 void push_de(void);
 void ld_ff_n_ap(unsigned char operand);
+void pop_hl(void);
 void ld_ff_c_a(void);
 void push_hl(void);
 void and_n(unsigned char operand);

@@ -255,7 +255,7 @@ const struct instruction instructions[256] = {
 	{ "SBC A, 0x%02X", 1, NULL },						    // 0xde
 	{ "RST 0x18", 0, NULL },							    // 0xdf
 	{ "LD (0xFF00 + 0x%02X), A", 1, ld_ff_n_ap },	        // 0xe0
-	{ "POP HL", 0, NULL },							        // 0xe1
+	{ "POP HL", 0, pop_hl },						        // 0xe1
 	{ "LD (0xFF00 + C), A", 0, ld_ff_c_a },	                // 0xe2
 	{ "UNKNOWN", 0, NULL },							        // 0xe3
 	{ "UNKNOWN", 0, NULL },							        // 0xe4
@@ -383,8 +383,8 @@ void cpuStep(void) {
 	unsigned short operand = 0;
 	
 	// General breakpoints
-	//if(registers.pc == 0x2817) {
-	if(registers.pc == 0x1f32) {
+	if(registers.pc == 0x2817) {
+	//if(registers.pc == 0x1f32) {
 		realtimeDebugEnable = 1;
 	}
 	
@@ -671,6 +671,9 @@ void push_de(void) { writeShortToStack(registers.de); }
 
 // 0xe0
 void ld_ff_n_ap(unsigned char operand) { writeByte(0xff00 + operand, registers.a); }
+
+// 0xe1
+void pop_hl(void) { registers.hl = readShortFromStack(); }
 
 // 0xe2
 void ld_ff_c_a(void) { writeByte(0xff00 + registers.c, registers.a); }
