@@ -209,10 +209,10 @@ const struct instruction instructions[256] = {
 	{ "XOR A", 0, xor_a },								    // 0xaf
 	{ "OR B", 0, or_b },								    // 0xb0
 	{ "OR C", 0, or_c },								    // 0xb1
-	{ "OR D", 0, NULL },								    // 0xb2
-	{ "OR E", 0, NULL },								    // 0xb3
-	{ "OR H", 0, NULL },								    // 0xb4
-	{ "OR L", 0, NULL },								    // 0xb5
+	{ "OR D", 0, or_d },								    // 0xb2
+	{ "OR E", 0, or_e },								    // 0xb3
+	{ "OR H", 0, or_h },								    // 0xb4
+	{ "OR L", 0, or_l },								    // 0xb5
 	{ "OR (HL)", 0, NULL },					                // 0xb6
 	{ "OR A", 0, NULL },								    // 0xb7
 	{ "CP B", 0, NULL },								    // 0xb8
@@ -469,6 +469,15 @@ static unsigned char dec(unsigned char value) {
 	return value;
 }
 
+static void or(unsigned char value) {
+	registers.a |= value;
+	
+	if(registers.a) FLAGS_CLEAR(FLAGS_ZERO);
+	else FLAGS_SET(FLAGS_ZERO);
+	
+	FLAGS_CLEAR(FLAGS_CARRY | FLAGS_NEGATIVE | FLAGS_HALFCARRY);
+}
+
 // 0x00
 void nop(void) {  }
 
@@ -630,24 +639,22 @@ void and_a(void) {
 void xor_a(void) { registers.a = 0; FLAGS_SET(FLAGS_ZERO); FLAGS_CLEAR(FLAGS_CARRY | FLAGS_NEGATIVE | FLAGS_HALFCARRY); }
 
 // 0xb0
-void or_b(void) {
-	registers.a |= registers.b;
-	
-	if(registers.a) FLAGS_CLEAR(FLAGS_ZERO);
-	else FLAGS_SET(FLAGS_ZERO);
-	
-	FLAGS_CLEAR(FLAGS_CARRY | FLAGS_NEGATIVE | FLAGS_HALFCARRY);
-}
+void or_b(void) { or(registers.b); }
 
 // 0xb1
-void or_c(void) {
-	registers.a |= registers.c;
-	
-	if(registers.a) FLAGS_CLEAR(FLAGS_ZERO);
-	else FLAGS_SET(FLAGS_ZERO);
-	
-	FLAGS_CLEAR(FLAGS_CARRY | FLAGS_NEGATIVE | FLAGS_HALFCARRY);
-}
+void or_c(void) { or(registers.c); }
+
+// 0xb2
+void or_d(void) { or(registers.d); }
+
+// 0xb3
+void or_e(void) { or(registers.e); }
+
+// 0xb4
+void or_h(void) { or(registers.h); }
+
+// 0xb5
+void or_l(void) { or(registers.l); }
 
 // 0xc0
 void ret_nz(void) {
