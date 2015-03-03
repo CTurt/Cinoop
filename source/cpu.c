@@ -199,13 +199,13 @@ const struct instruction instructions[256] = {
 	{ "AND L", 0, NULL },								    // 0xa5
 	{ "AND (HL)", 0, NULL },					            // 0xa6
 	{ "AND A", 0, and_a },								    // 0xa7
-	{ "XOR B", 0, NULL },								    // 0xa8
-	{ "XOR C", 0, NULL },								    // 0xa9
-	{ "XOR D", 0, NULL },								    // 0xaa
-	{ "XOR E", 0, NULL },								    // 0xab
-	{ "XOR H", 0, NULL },								    // 0xac
-	{ "XOR L", 0, NULL },								    // 0xad
-	{ "XOR (HL)", 0, NULL },					            // 0xae
+	{ "XOR B", 0, xor_b },								    // 0xa8
+	{ "XOR C", 0, xor_c },								    // 0xa9
+	{ "XOR D", 0, xor_d },								    // 0xaa
+	{ "XOR E", 0, xor_e },								    // 0xab
+	{ "XOR H", 0, xor_h },								    // 0xac
+	{ "XOR L", 0, xor_l },								    // 0xad
+	{ "XOR (HL)", 0, xor_hlp },					            // 0xae
 	{ "XOR A", 0, xor_a },								    // 0xaf
 	{ "OR B", 0, or_b },								    // 0xb0
 	{ "OR C", 0, or_c },								    // 0xb1
@@ -478,6 +478,15 @@ static void or(unsigned char value) {
 	FLAGS_CLEAR(FLAGS_CARRY | FLAGS_NEGATIVE | FLAGS_HALFCARRY);
 }
 
+static void xor(unsigned char value) {
+	registers.a ^= value;
+	
+	if(registers.a) FLAGS_CLEAR(FLAGS_ZERO);
+	else FLAGS_SET(FLAGS_ZERO);
+	
+	FLAGS_CLEAR(FLAGS_CARRY | FLAGS_NEGATIVE | FLAGS_HALFCARRY);
+}
+
 // 0x00
 void nop(void) {  }
 
@@ -692,8 +701,29 @@ void and_a(void) {
 	else FLAGS_SET(FLAGS_ZERO);
 }
 
+// 0xa8
+void xor_b(void) { xor(registers.b); }
+
+// 0xa9
+void xor_c(void) { xor(registers.c); }
+
+// 0xaa
+void xor_d(void) { xor(registers.d); }
+
+// 0xab
+void xor_e(void) { xor(registers.e); }
+
+// 0xac
+void xor_h(void) { xor(registers.h); }
+
+// 0xad
+void xor_l(void) { xor(registers.l); }
+
+// 0xae
+void xor_hlp(void) { xor(readByte(registers.hl)); }
+
 // 0xaf
-void xor_a(void) { registers.a = 0; FLAGS_SET(FLAGS_ZERO); FLAGS_CLEAR(FLAGS_CARRY | FLAGS_NEGATIVE | FLAGS_HALFCARRY); }
+void xor_a(void) { xor(registers.a); }
 
 // 0xb0
 void or_b(void) { or(registers.b); }
