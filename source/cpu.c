@@ -53,7 +53,7 @@ const struct instruction instructions[256] = {
 	{ "INC DE", 0, NULL },							        // 0x13
 	{ "INC D", 0, NULL },								    // 0x14
 	{ "DEC D", 0, NULL },								    // 0x15
-	{ "LD D, 0x%02X", 1, NULL },						    // 0x16
+	{ "LD D, 0x%02X", 1, ld_d_n },						    // 0x16
 	{ "RLA", 0, NULL },									    // 0x17
 	{ "JR 0x%02X", 1, NULL },							    // 0x18
 	{ "ADD HL, DE", 0, NULL },						        // 0x19
@@ -549,6 +549,9 @@ void dec_c(void) { registers.c = dec(registers.c); }
 
 // 0x0e
 void ld_c_n(unsigned char operand) { registers.c = operand; }
+
+// 0x16
+void ld_d_n(unsigned char operand) { registers.d = operand; }
 
 // 0x1b
 void dec_de(void) { registers.de--; }
