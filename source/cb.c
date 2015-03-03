@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#include "cpu.h"
 #include "registers.h"
 #include "debug.h"
 
@@ -62,7 +63,7 @@ const struct extendedInstruction extendedInstructions[256] = {
 	{ "SWAP H", NULL },      // 0x34
 	{ "SWAP L", NULL },      // 0x35
 	{ "SWAP (HL)", NULL },   // 0x36
-	{ "SWAP A", NULL },      // 0x37
+	{ "SWAP A", swap_a },    // 0x37
 	{ "SRL B", NULL },       // 0x38
 	{ "SRL C", NULL },       // 0x39
 	{ "SRL D", NULL },       // 0x3a
@@ -273,4 +274,18 @@ void cb_n(unsigned char instruction) {
 		printRegisters();
 		exit(1);
 	}
+	
+	extendedInstructions[instruction].execute();
+	
+	// ticks += 
+}
+
+// 0x37
+void swap_a(void) {
+	registers.a = ((registers.a & 0xf) << 4) | ((registers.a & 0xf0) >> 4);
+	
+	if(registers.a) FLAGS_CLEAR(FLAGS_ZERO);
+	else FLAGS_SET(FLAGS_ZERO);
+	
+	FLAGS_CLEAR(FLAGS_NEGATIVE | FLAGS_HALFCARRY | FLAGS_CARRY);
 }
