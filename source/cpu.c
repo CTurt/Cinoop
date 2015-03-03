@@ -103,12 +103,12 @@ const struct instruction instructions[256] = {
 	{ "LD B, L", 0, ld_b_l },						        // 0x45
 	{ "LD B, (HL)", 0, ld_b_hlp },			                // 0x46
 	{ "LD B, A", 0, ld_b_a },						        // 0x47
-	{ "LD C, B", 0, NULL },							        // 0x48
-	{ "LD C, C", 0, NULL },								    // 0x49
-	{ "LD C, D", 0, NULL },							        // 0x4a
-	{ "LD C, E", 0, NULL },							        // 0x4b
-	{ "LD C, H", 0, NULL },							        // 0x4c
-	{ "LD C, L", 0, NULL },							        // 0x4d
+	{ "LD C, B", 0, ld_c_b },						        // 0x48
+	{ "LD C, C", 0, nop },								    // 0x49
+	{ "LD C, D", 0, ld_c_d },						        // 0x4a
+	{ "LD C, E", 0, ld_c_e },						        // 0x4b
+	{ "LD C, H", 0, ld_c_h },						        // 0x4c
+	{ "LD C, L", 0, ld_c_l },						        // 0x4d
 	{ "LD C, (HL)", 0, NULL },				                // 0x4e
 	{ "LD C, A", 0, NULL },							        // 0x4f
 	{ "LD D, B", 0, NULL },							        // 0x50
@@ -619,6 +619,21 @@ void ld_b_hlp(void) { registers.b = readByte(registers.hl); }
 
 // 0x47
 void ld_b_a(void) { registers.b = registers.a; }
+
+// 0x48
+void ld_c_b(void) { registers.c = registers.b; }
+
+// 0x4a
+void ld_c_d(void) { registers.c = registers.d; }
+
+// 0x4b
+void ld_c_e(void) { registers.c = registers.e; }
+
+// 0x4c
+void ld_c_h(void) { registers.c = registers.h; }
+
+// 0x4d
+void ld_c_l(void) { registers.c = registers.l; }
 
 // 0x77
 void ld_hlp_a(void) { writeByte(registers.hl, registers.a); }
