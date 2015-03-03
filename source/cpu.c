@@ -49,7 +49,7 @@ const struct instruction instructions[256] = {
 	{ "RRCA", 0, NULL },								    // 0x0f
 	{ "STOP", 1, NULL },								    // 0x10
 	{ "LD DE, 0x%04X", 2, ld_de_nn },				        // 0x11
-	{ "LD (DE), A", 0, NULL },				                // 0x12
+	{ "LD (DE), A", 0, ld_dep_a },			                // 0x12
 	{ "INC DE", 0, NULL },							        // 0x13
 	{ "INC D", 0, NULL },								    // 0x14
 	{ "DEC D", 0, NULL },								    // 0x15
@@ -384,7 +384,8 @@ void cpuStep(void) {
 	unsigned short operand = 0;
 	
 	// General breakpoints
-	if(registers.pc == 0x2817) {
+	if(registers.pc == 0x282a) {
+	//if(registers.pc == 0x2817) {
 	//if(registers.pc == 0x1f32) {
 		realtimeDebugEnable = 1;
 	}
@@ -568,6 +569,8 @@ void ld_c_n(unsigned char operand) { registers.c = operand; }
 
 // 0x11
 void ld_de_nn(unsigned short operand) { registers.de = operand; }
+
+void ld_dep_a(void) { writeByte(registers.de, registers.a); }
 
 // 0x16
 void ld_d_n(unsigned char operand) { registers.d = operand; }
