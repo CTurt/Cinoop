@@ -95,12 +95,12 @@ const struct instruction instructions[256] = {
 	{ "DEC A", 0, dec_a },								    // 0x3d
 	{ "LD A, 0x%02X", 1, ld_a_n },						    // 0x3e
 	{ "CCF", 0, NULL },									    // 0x3f
-	{ "LD B, B", 0, NULL },								    // 0x40
-	{ "LD B, C", 0, NULL },							        // 0x41
-	{ "LD B, D", 0, NULL },							        // 0x42
+	{ "LD B, B", 0, nop },								    // 0x40
+	{ "LD B, C", 0, ld_b_c },						        // 0x41
+	{ "LD B, D", 0, ld_b_d },						        // 0x42
 	{ "LD B, E", 0, ld_b_e },						        // 0x43
-	{ "LD B, H", 0, NULL },							        // 0x44
-	{ "LD B, L", 0, NULL },							        // 0x45
+	{ "LD B, H", 0, ld_b_h },						        // 0x44
+	{ "LD B, L", 0, ld_b_l },						        // 0x45
 	{ "LD B, (HL)", 0, NULL },				                // 0x46
 	{ "LD B, A", 0, ld_b_a },						        // 0x47
 	{ "LD C, B", 0, NULL },							        // 0x48
@@ -599,8 +599,20 @@ void dec_a(void) { registers.a = dec(registers.a); }
 // 0x3e
 void ld_a_n(unsigned char operand) { registers.a = operand; }
 
+// 0x41
+void ld_b_c(void) { registers.b = registers.c; }
+
+// 0x42
+void ld_b_d(void) { registers.b = registers.d; }
+
 // 0x43
 void ld_b_e(void) { registers.b = registers.e; }
+
+// 0x44
+void ld_b_h(void) { registers.b = registers.h; }
+
+// 0x45
+void ld_b_l(void) { registers.b = registers.l; }
 
 // 0x47
 void ld_b_a(void) { registers.b = registers.a; }
