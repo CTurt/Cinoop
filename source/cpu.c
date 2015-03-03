@@ -280,7 +280,7 @@ const struct instruction instructions[256] = {
 	{ "RST 0x30", 0, NULL },							    // 0xf7
 	{ "LD HL, SP+0x%02X", 1, NULL },				        // 0xf8
 	{ "LD SP, HL", 0, NULL },						        // 0xf9
-	{ "LD A, (0x%04X)", 2, NULL },			                // 0xfa
+	{ "LD A, (0x%04X)", 2, ld_a_nnp },		                // 0xfa
 	{ "EI", 0, ei },									    // 0xfb
 	{ "UNKNOWN", 0, NULL },							        // 0xfc
 	{ "UNKNOWN", 0, NULL },							        // 0xfd
@@ -384,9 +384,7 @@ void cpuStep(void) {
 	
 	// General breakpoints
 	//if(registers.pc == 0x2817) {
-	//if(registers.pc == 0x0339) {
-	if(registers.pc == 0x27f7) {
-	//if(registers.pc == 0x031f) {
+	if(registers.pc == 0x1f32) {
 		realtimeDebugEnable = 1;
 	}
 	
@@ -689,6 +687,9 @@ void di(void) { interrupt.master = 0; }
 
 // 0xf5
 void push_af(void) { writeShortToStack(registers.af); }
+
+// 0xfa
+void ld_a_nnp(unsigned short operand) { registers.a = readByte(operand); }
 
 // 0xfb
 void ei(void) { interrupt.master = 1; }
