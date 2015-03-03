@@ -46,6 +46,7 @@ void ld_hl_nn(unsigned short operand);
 void daa(void);
 void jr_z_n(char operand);
 void ldi_a_hlp(void);
+void cpl(void);
 void ld_sp_nn(unsigned short operand);
 void ldd_hlp_a(void);
 void inc_hlp(void);

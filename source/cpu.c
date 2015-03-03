@@ -77,7 +77,7 @@ const struct instruction instructions[256] = {
 	{ "INC L", 0, NULL },								    // 0x2c
 	{ "DEC L", 0, NULL },								    // 0x2d
 	{ "LD L, 0x%02X", 1, NULL },						    // 0x2e
-	{ "CPL", 0, NULL },									    // 0x2f
+	{ "CPL", 0, cpl },									    // 0x2f
 	{ "JR NC, 0x%02X", 1, NULL },						    // 0x30
 	{ "LD SP, 0x%04X", 2, ld_sp_nn },				        // 0x31
 	{ "LDD (HL), A", 0, ldd_hlp_a },		                // 0x32
@@ -233,7 +233,7 @@ const struct instruction instructions[256] = {
 	{ "RET Z", 0, ret_z },								    // 0xc8
 	{ "RET", 0, ret },									    // 0xc9
 	{ "JP Z,0x%04X", 2, NULL },						        // 0xca
-	{ "CB%02X", 1, NULL },								    // 0xcb
+	{ "CB %02X", 1, NULL },								    // 0xcb
 	{ "CALL Z, 0x%04X", 2, NULL },					        // 0xcc
 	{ "CALL 0x%04X", 2, call_nn },					        // 0xcd
 	{ "ADC A, 0x%02X", 1, NULL },						    // 0xce
@@ -555,6 +555,9 @@ void jr_z_n(char operand) {
 
 // 0x2a
 void ldi_a_hlp(void) { registers.a = readByte(registers.hl++); }
+
+// 0x2f
+void cpl(void) { registers.a = ~registers.a; FLAGS_SET(FLAGS_NEGATIVE | FLAGS_HALFCARRY); }
 
 // 0x31
 void ld_sp_nn(unsigned short operand) { registers.sp = operand; }
