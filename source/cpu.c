@@ -91,7 +91,7 @@ const struct instruction instructions[256] = {
 	{ "LD A, (HL-)", 0, NULL },			                    // 0x3a
 	{ "DEC SP", 0, NULL },							        // 0x3b
 	{ "INC A", 0, inc_a },								    // 0x3c
-	{ "DEC A", 0, NULL },								    // 0x3d
+	{ "DEC A", 0, dec_a },								    // 0x3d
 	{ "LD A, 0x%02X", 1, ld_a_n },						    // 0x3e
 	{ "CCF", 0, NULL },									    // 0x3f
 	{ "LD B, B", 0, NULL },								    // 0x40
@@ -579,6 +579,9 @@ void jr_c_n(char operand) {
 
 // 0x3c
 void inc_a(void) { registers.a = inc(registers.a); }
+
+// 0x3d
+void dec_a(void) { registers.a = dec(registers.a); }
 
 // 0x3e
 void ld_a_n(unsigned char operand) { registers.a = operand; }
