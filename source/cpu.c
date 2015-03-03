@@ -66,9 +66,9 @@ const struct instruction instructions[256] = {
 	{ "JR NZ, 0x%02X", 1, jr_nz_n },					    // 0x20
 	{ "LD HL, 0x%04X", 2, ld_hl_nn },				        // 0x21
 	{ "LD (HL+), A", 0, NULL },			                    // 0x22
-	{ "INC HL", 0, NULL },							        // 0x23
-	{ "INC H", 0, NULL },								    // 0x24
-	{ "DEC H", 0, NULL },								    // 0x25
+	{ "INC HL", 0, inc_hl },						        // 0x23
+	{ "INC H", 0, inc_h },								    // 0x24
+	{ "DEC H", 0, dec_h },								    // 0x25
 	{ "LD H, 0x%02X", 1, NULL },						    // 0x26
 	{ "DAA", 0, daa },									    // 0x27
 	{ "JR Z, 0x%02X", 1, jr_z_n },					        // 0x28
@@ -587,6 +587,15 @@ void jr_nz_n(char operand) {
 
 // 0x21
 void ld_hl_nn(unsigned short operand) { registers.hl = operand; }
+
+// 0x23
+void inc_hl(void) { registers.hl++; }
+
+// 0x24
+void inc_h(void) { registers.h = inc(registers.h); }
+
+// 0x25
+void dec_h(void) { registers.h = dec(registers.h); }
 
 // 0x27
 void daa(void) {
