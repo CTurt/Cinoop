@@ -19,7 +19,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	LDFS_Init(WndProc);
 	
 	printf("LDFS_CreateWindow\n");
-	LDFS_CreateWindow("GB", 0, 160, 144);
+	LDFS_CreateWindow("Cinoop", 0, 160, 144);
 	
 	printf("argc = %d\n", argc);
 	int i;

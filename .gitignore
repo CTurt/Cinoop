@@ -1,5 +1,4 @@
 build/
-bin
-bin.exe
+cinoop.exe
 *.gb
 debug.txt

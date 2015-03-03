@@ -8,7 +8,7 @@ CFILES	:=	$(wildcard $(SDIR)/*.c)
 OBJS	:=	$(patsubst $(SDIR)/%.c, build/%.o, $(wildcard $(SDIR)/*.c))
 
 bin: $(ODIR) $(OBJS)
-	$(CC) $(ODIR)/*.o -o bin.exe $(LFLAGS)
+	$(CC) $(ODIR)/*.o -o cinoop.exe $(LFLAGS)
 
 $(ODIR)/%.o: $(SDIR)/%.c
 	$(CC) -c -o $@ $< $(CFLAGS)
