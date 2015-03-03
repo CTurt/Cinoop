@@ -66,6 +66,7 @@ void ld_a_h(void);
 void ld_a_l(void);
 void and_a(void);
 void xor_a(void);
+void or_b(void);
 void or_c(void);
 void ret_nz(void);
 void pop_bc(void);
