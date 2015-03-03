@@ -113,6 +113,6 @@ void writeShortToStack(unsigned short value) {
 	writeShort(registers.sp, value);
 	
 	#ifdef DEBUG_STACK
-		printf("Stack write 0x%04x 0x%04x\n", value, readShort(registers.sp));
+		printf("Stack write 0x%04x\n", value);
 	#endif
 }
