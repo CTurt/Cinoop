@@ -90,17 +90,17 @@ void hblank(void) {
 }
 
 void renderScanline(void) {
-	// draw first 8 tiles as a test
+	// draw tileset to framebuffer as a test
 	{
 		int i;
-		for(i = 0; i < 8; i++) {
+		for(i = 0; i < (144 / 8) * (160 / 8); i++) {
 			int x;
 			for(x = 0; x < 8; x++) {
 				int y;
 				for(y = 0; y < 8; y++) {
-					framebuffer[i * 8 + x + y * 160].r = palette[tiles[i][x][y]].r;
-					framebuffer[i * 8 + x + y * 160].g = palette[tiles[i][x][y]].g;
-					framebuffer[i * 8 + x + y * 160].b = palette[tiles[i][x][y]].b;
+					framebuffer[(i * 8 % 160) + x + (y + i * 8 / 160 * 8) * 160].r = palette[tiles[i][x][y]].r;
+					framebuffer[(i * 8 % 160) + x + (y + i * 8 / 160 * 8) * 160].g = palette[tiles[i][x][y]].g;
+					framebuffer[(i * 8 % 160) + x + (y + i * 8 / 160 * 8) * 160].b = palette[tiles[i][x][y]].b;
 				}
 			}
 		}
