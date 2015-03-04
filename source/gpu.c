@@ -14,6 +14,7 @@ unsigned char tiles[512][8][8];
 
 /* References:
 http://www.codeslinger.co.uk/pages/projects/gameboy/lcd.html
+http://www.codeslinger.co.uk/pages/projects/gameboy/graphics.html
 http://imrannazar.com/GameBoy-Emulation-in-JavaScript:-Graphics
 */
 
@@ -106,11 +107,8 @@ void renderScanline(void) {
 		}
 	}*/
 	
-	//int mapOffset = gpu.bgPalette ? 0x1c00 : 0x1800;
-	int mapOffset = 0x1800;
-	mapOffset += ((gpu.scanline + gpu.scrollY) & 255) >> 3;
-	
-	//printf("%04x\n", mapOffset + 0x8000);
+	int mapOffset = (gpu.control & GPU_CONTROL_TILEMAP) ? 0x1c00 : 0x1800;
+	mapOffset += (((gpu.scanline + gpu.scrollY) & 255) >> 3) << 5;
 	
 	int lineOffset = (gpu.scrollX >> 3);
 	
