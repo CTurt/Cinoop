@@ -91,7 +91,7 @@ void hblank(void) {
 
 void renderScanline(void) {
 	// draw tileset to framebuffer as a test
-	{
+	/*{
 		int i;
 		for(i = 0; i < (144 / 8) * (160 / 8); i++) {
 			int x;
@@ -104,8 +104,7 @@ void renderScanline(void) {
 				}
 			}
 		}
-	}
-	
+	}*/
 	
 	int mapOffset = gpu.bgPalette ? 0x1c00 : 0x1800;
 	mapOffset += ((gpu.scanline + gpu.scrollY) & 255) >> 3;
@@ -115,10 +114,8 @@ void renderScanline(void) {
 	int x = gpu.scrollX & 7;
 	int y = (gpu.scanline + gpu.scrollY) & 7;
 	
-	int pixelOffset = gpu.scanline * 160 * 4;
-	
-	(void)y;
-	(void)pixelOffset;
+	//int pixelOffset = gpu.scanline * 160 * 4;
+	int pixelOffset = gpu.scanline * 160;
 	
 	unsigned char tile = vram[mapOffset + lineOffset];
 	
@@ -126,7 +123,10 @@ void renderScanline(void) {
 	
 	int i;
 	for(i = 0; i < 160; i++) {
-		// render to framebuffer
+		framebuffer[pixelOffset].r = palette[tiles[tile][x][y]].r;
+		framebuffer[pixelOffset].g = palette[tiles[tile][x][y]].g;
+		framebuffer[pixelOffset].b = palette[tiles[tile][x][y]].b;
+		pixelOffset += 1;
 		
 		x++;
 		if(x == 8) {
