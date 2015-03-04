@@ -106,15 +106,17 @@ void renderScanline(void) {
 		}
 	}*/
 	
-	int mapOffset = gpu.bgPalette ? 0x1c00 : 0x1800;
+	//int mapOffset = gpu.bgPalette ? 0x1c00 : 0x1800;
+	int mapOffset = 0x1800;
 	mapOffset += ((gpu.scanline + gpu.scrollY) & 255) >> 3;
+	
+	//printf("%04x\n", mapOffset + 0x8000);
 	
 	int lineOffset = (gpu.scrollX >> 3);
 	
 	int x = gpu.scrollX & 7;
 	int y = (gpu.scanline + gpu.scrollY) & 7;
 	
-	//int pixelOffset = gpu.scanline * 160 * 4;
 	int pixelOffset = gpu.scanline * 160;
 	
 	unsigned char tile = vram[mapOffset + lineOffset];
