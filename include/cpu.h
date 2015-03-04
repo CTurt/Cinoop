@@ -45,6 +45,7 @@ void ld_dep_a(void);
 void inc_de(void);
 void ld_d_n(unsigned char operand);
 void add_hl_de(void);
+void ld_a_dep(void);
 void dec_de(void);
 void jr_nz_n(char operand);
 void ld_hl_nn(unsigned short operand);

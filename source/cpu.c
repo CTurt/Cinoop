@@ -57,7 +57,7 @@ const struct instruction instructions[256] = {
 	{ "RLA", 0, NULL },									    // 0x17
 	{ "JR 0x%02X", 1, NULL },							    // 0x18
 	{ "ADD HL, DE", 0, add_hl_de },					        // 0x19
-	{ "LD A,(DE)", 0, NULL },				                // 0x1a
+	{ "LD A, (DE)", 0, ld_a_dep },			                // 0x1a
 	{ "DEC DE", 0, dec_de },						        // 0x1b
 	{ "INC E", 0, NULL },								    // 0x1c
 	{ "DEC E", 0, NULL },								    // 0x1d
@@ -384,7 +384,8 @@ void cpuStep(void) {
 	unsigned short operand = 0;
 	
 	// General breakpoints
-	if(registers.pc == 0x282a) {
+	//if(registers.pc == 0x282a) {
+	if(registers.pc == 0x2847) {
 		/*{
 			FILE *f = fopen("tile0.bin", "wb");
 			fwrite(vram, 16, 1, f);
@@ -601,6 +602,9 @@ void ld_d_n(unsigned char operand) { registers.d = operand; }
 
 // 0x19
 void add_hl_de(void) { add2(&registers.hl, registers.de); }
+
+// 0x1a
+void ld_a_dep(void) { registers.a = readByte(registers.de); }
 
 // 0x1b
 void dec_de(void) { registers.de--; }
