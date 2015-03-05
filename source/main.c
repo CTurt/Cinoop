@@ -81,7 +81,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) 
 					break;
 					
 				case VK_SPACE:
-					//if(!(lParam & 0x40000000)) holdingSpace = 1;
+					if(!(lParam & 0x40000000)) realtimeDebugEnable = 1;
 					break;
 			}
 			return 0;
