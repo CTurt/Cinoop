@@ -63,6 +63,7 @@ void cpl(void);
 void ld_sp_nn(unsigned short operand);
 void ldd_hlp_a(void);
 void inc_hlp(void);
+void dec_hlp(void);
 void ld_hlp_n(unsigned char operand);
 void jr_c_n(char operand);
 void inc_a(void);

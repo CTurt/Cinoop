@@ -84,7 +84,7 @@ const struct instruction instructions[256] = {
 	{ "LDD (HL), A", 0, ldd_hlp_a },		                // 0x32
 	{ "INC SP", 0, NULL },							        // 0x33
 	{ "INC (HL)", 0, inc_hlp },					            // 0x34
-	{ "DEC (HL)", 0, NULL },					            // 0x35
+	{ "DEC (HL)", 0, dec_hlp },					            // 0x35
 	{ "LD (HL), 0x%02X", 1, ld_hlp_n },			            // 0x36
 	{ "SCF", 0, NULL },									    // 0x37
 	{ "JR C, 0x%02X", 1, jr_c_n },					        // 0x38
@@ -384,32 +384,12 @@ void cpuStep(void) {
 	unsigned short operand = 0;
 	
 	// General breakpoints
-	//if(registers.pc == 0x282a) {
-	//if(registers.pc == 0x2847) {
-		/*{
-			FILE *f = fopen("tile0.bin", "wb");
-			fwrite(vram, 16, 1, f);
-			fclose(f);
-		}*/
-		
-		/*{
-			FILE *f = fopen("tile0.txt", "wb");
-			int x;
-			int y;
-			for(y = 0; y < 8; y++) {
-				for(x = 0; x < 8; x++) {
-					fprintf(f, "%02x ", tiles[0][x][y]);
-				}
-				fprintf(f, "\n");
-			}
-			fclose(f);
-		}*/
-		
-		//renderScanline();
-		//drawFramebuffer();
-		
+	//if(registers.pc == 0x034c) { // incorrect load
+	//if(registers.pc == 0x0309) { // start of function which writes to ff80
+	//if(registers.pc == 0x2a02) { // closer to function call which writes to ff80
+	if(registers.pc == 0x034c) { // function which writes to ffa6 timer
 		//realtimeDebugEnable = 1;
-	//}
+	}
 	
 	if(realtimeDebugEnable) realtimeDebug();
 	
@@ -693,6 +673,9 @@ void ldd_hlp_a(void) { writeByte(registers.hl, registers.a); registers.hl--; }
 
 // 0x34
 void inc_hlp(void) { writeByte(registers.hl, inc(readByte(registers.hl))); }
+
+// 0x35
+void dec_hlp(void) { writeByte(registers.hl, dec(readByte(registers.hl))); }
 
 // 0x36
 void ld_hlp_n(unsigned char operand) { writeByte(registers.hl, operand); }
