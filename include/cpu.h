@@ -59,6 +59,8 @@ void dec_h(void);
 void daa(void);
 void jr_z_n(char operand);
 void ldi_a_hlp(void);
+void inc_l(void);
+void dec_l(void);
 void cpl(void);
 void ld_sp_nn(unsigned short operand);
 void ldd_hlp_a(void);
