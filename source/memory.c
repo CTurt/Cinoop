@@ -70,9 +70,12 @@ unsigned short readShortFromStack(void) {
 
 void writeByte(unsigned short address, unsigned char value) {
 	// Set write breakpoints here
-	//if(address == 0x0300) {
-	//	realtimeDebugEnable = 1;
+	//if(address == 0xffa6) {
+		//realtimeDebugEnable = 1;
 	//}
+	
+	// Block writes to ff80
+	if(tetrisPatch && address == 0xff80) return;
 	
 	if(address >= 0xa000 && address <= 0xbfff)
 		sram[address - 0xa000] = value;

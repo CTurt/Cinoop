@@ -5,6 +5,7 @@
 //#define DEBUG_JUMP
 
 extern unsigned char realtimeDebugEnable;
+extern unsigned char tetrisPatch;
 
 void realtimeDebug(void);
 

@@ -9,6 +9,7 @@
 #include "debug.h"
 
 unsigned char realtimeDebugEnable = 0;
+unsigned char tetrisPatch = 0;
 
 void realtimeDebug(void) {
 	char debugMessage[5000];
@@ -33,6 +34,9 @@ void realtimeDebug(void) {
 	debugMessageP += sprintf(debugMessageP, "\nIME: 0x%02x\n", interrupt.master);
 	debugMessageP += sprintf(debugMessageP, "IE: 0x%02x\n", interrupt.enable);
 	debugMessageP += sprintf(debugMessageP, "IF: 0x%02x\n", interrupt.flags);
+	
+	//debugMessageP += sprintf(debugMessageP, "\nff80: 0x%02x\n", readByte(0xff80));
+	//debugMessageP += sprintf(debugMessageP, "\nffa6: 0x%02x\n", readByte(0xffa6));
 	
 	debugMessageP += sprintf(debugMessageP, "\nContinue debugging?\n");
 	
