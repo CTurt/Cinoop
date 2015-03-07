@@ -39,6 +39,7 @@ void gpuStep(void) {
 				
 				if(gpu.scanline == 143) {
 					drawFramebuffer();
+					vblank();
 					
 					gpuMode = GPU_MODE_VBLANK;
 				}
