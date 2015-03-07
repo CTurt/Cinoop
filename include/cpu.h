@@ -38,6 +38,7 @@ void ld_b_n(unsigned char operand);
 void rlca(void);
 void ld_nnp_sp(unsigned short operand);
 void add_hl_bc(void);
+void ld_a_bcp(void);
 void dec_bc(void);
 void inc_c(void);
 void dec_c(void);
