@@ -170,6 +170,8 @@ void or_d(void);
 void or_e(void);
 void or_h(void);
 void or_l(void);
+void or_hlp(void);
+void or_a(void);
 void ret_nz(void);
 void pop_bc(void);
 void jp_nn(unsigned short operand);

@@ -213,8 +213,8 @@ const struct instruction instructions[256] = {
 	{ "OR E", 0, or_e },								    // 0xb3
 	{ "OR H", 0, or_h },								    // 0xb4
 	{ "OR L", 0, or_l },								    // 0xb5
-	{ "OR (HL)", 0, NULL },					                // 0xb6
-	{ "OR A", 0, NULL },								    // 0xb7
+	{ "OR (HL)", 0, or_hlp },				                // 0xb6
+	{ "OR A", 0, or_a },								    // 0xb7
 	{ "CP B", 0, NULL },								    // 0xb8
 	{ "CP C", 0, NULL },								    // 0xb9
 	{ "CP D", 0, NULL },								    // 0xba
@@ -1062,6 +1062,12 @@ void or_h(void) { or(registers.h); }
 
 // 0xb5
 void or_l(void) { or(registers.l); }
+
+// 0xb6
+void or_hlp(void) { or(readByte(registers.hl)); }
+
+// 0xb7
+void or_a(void) { or(registers.a); }
 
 // 0xc0
 void ret_nz(void) {
