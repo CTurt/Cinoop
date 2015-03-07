@@ -38,7 +38,7 @@ const struct instruction instructions[256] = {
 	{ "INC B", 0, inc_b },								    // 0x04
 	{ "DEC B", 0, dec_b },								    // 0x05
 	{ "LD B, 0x%02X", 1, ld_b_n },						    // 0x06
-	{ "RLCA", 0, NULL },								    // 0x07
+	{ "RLCA", 0, rlca },								    // 0x07
 	{ "LD (0x%04X), SP", 2, ld_nnp_sp },	                // 0x08
 	{ "ADD HL, BC", 0, NULL },						        // 0x09
 	{ "LD A, (BC)", 0, NULL },				                // 0x0a
@@ -572,6 +572,18 @@ void dec_b(void) { registers.b = dec(registers.b); }
 
 // 0x06
 void ld_b_n(unsigned char operand) { registers.b = operand; }
+
+// 0x07
+void rlca(void) {
+	unsigned char carry = (registers.a & 0x80) >> 7;
+	if(carry) FLAGS_SET(FLAGS_CARRY);
+	else FLAGS_CLEAR(FLAGS_CARRY);
+	
+	registers.a <<= 1;
+	registers.a += carry;
+	
+	FLAGS_CLEAR(FLAGS_NEGATIVE | FLAGS_ZERO | FLAGS_HALFCARRY);
+}
 
 // 0x08
 void ld_nnp_sp(unsigned short operand) { writeShort(operand, registers.sp); }

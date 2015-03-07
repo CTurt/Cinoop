@@ -24,4 +24,6 @@ void drawFramebuffer(void) {
 	glPixelZoom(1, -1);
 	glDrawPixels(160, 144, GL_RGB, GL_UNSIGNED_BYTE, framebuffer);
 	LDFS_SwapBuffers();
+	
+	//LDFS_MaintainFramerate();
 }
