@@ -286,7 +286,7 @@ const struct instruction instructions[256] = {
 	{ "UNKNOWN", 0, NULL },							        // 0xfc
 	{ "UNKNOWN", 0, NULL },							        // 0xfd
 	{ "CP 0x%02X", 1, cp_n },							    // 0xfe
-	{ "RST 0x38", 0, NULL },							    // 0xff
+	{ "RST 0x38", 0, rst_38 },							    // 0xff
 };
 
 const unsigned char instructionTicks[256] = {
@@ -1123,3 +1123,6 @@ void cp_n(unsigned char operand) {
 	if((operand & 0x0f) > (registers.a & 0x0f)) FLAGS_SET(FLAGS_HALFCARRY);
 	else FLAGS_CLEAR(FLAGS_HALFCARRY);
 }
+
+//0xff
+void rst_38(void) { writeShortToStack(registers.pc); registers.pc = 0x38; }

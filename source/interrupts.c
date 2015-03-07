@@ -8,18 +8,14 @@ struct interrupt interrupt;
 
 void vblank(void) {
 	drawFramebuffer();
-	
 	interrupt.master = 0;
-	
 	writeShortToStack(registers.pc);
-	
 	registers.pc = 0x40;
 	
-	// timer 3, 12
+	ticks += 12;
 }
 
 void returnFromInterrupt(void) {
 	interrupt.master = 1;
-	
 	registers.pc = readShortFromStack();
 }
