@@ -40,6 +40,7 @@ void dec_bc(void);
 void inc_c(void);
 void dec_c(void);
 void ld_c_n(unsigned char operand);
+void rrca(void);
 void ld_de_nn(unsigned short operand);
 void ld_dep_a(void);
 void inc_de(void);

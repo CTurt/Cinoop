@@ -46,7 +46,7 @@ const struct instruction instructions[256] = {
 	{ "INC C", 0, inc_c },								    // 0x0c
 	{ "DEC C", 0, dec_c },								    // 0x0d
 	{ "LD C, 0x%02X", 1, ld_c_n },						    // 0x0e
-	{ "RRCA", 0, NULL },								    // 0x0f
+	{ "RRCA", 0, rrca },								    // 0x0f
 	{ "STOP", 1, NULL },								    // 0x10
 	{ "LD DE, 0x%04X", 2, ld_de_nn },				        // 0x11
 	{ "LD (DE), A", 0, ld_dep_a },			                // 0x12
@@ -587,6 +587,18 @@ void dec_c(void) { registers.c = dec(registers.c); }
 
 // 0x0e
 void ld_c_n(unsigned char operand) { registers.c = operand; }
+
+// 0x0f
+void rrca(void) {
+	unsigned char carry = registers.a & 0x01;
+	if(carry) FLAGS_SET(FLAGS_CARRY);
+	else FLAGS_CLEAR(FLAGS_CARRY);
+	
+	registers.a >>= 1;
+	if(carry) registers.a |= 0x80;
+	
+	FLAGS_CLEAR(FLAGS_NEGATIVE | FLAGS_ZERO | FLAGS_HALFCARRY);
+}
 
 // 0x11
 void ld_de_nn(unsigned short operand) { registers.de = operand; }
