@@ -269,7 +269,7 @@ const struct instruction instructions[256] = {
 	{ "UNKNOWN", 0, NULL },							        // 0xeb
 	{ "UNKNOWN", 0, NULL },							        // 0xec
 	{ "UNKNOWN", 0, NULL },							        // 0xed
-	{ "XOR 0x%02X", 1, NULL },							    // 0xee
+	{ "XOR 0x%02X", 1, xor_n },							    // 0xee
 	{ "RST 0x28", 0, rst_28 },							    // 0xef
 	{ "LD A, (0xFF00 + 0x%02X)", 1, ld_ff_ap_n },	        // 0xf0
 	{ "POP AF", 0, pop_af },						        // 0xf1
@@ -1235,6 +1235,9 @@ void jp_hl(void) {
 
 // 0xea
 void ld_nnp_a(unsigned short operand) { writeByte(operand, registers.a); }
+
+// 0xee
+void xor_n(unsigned char operand) { xor(operand); }
 
 //0xef
 void rst_28(void) { writeShortToStack(registers.pc); registers.pc = 0x28; }
