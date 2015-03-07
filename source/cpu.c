@@ -225,7 +225,7 @@ const struct instruction instructions[256] = {
 	{ "CP A", 0, NULL },								    // 0xbf
 	{ "RET NZ", 0, ret_nz },						        // 0xc0
 	{ "POP BC", 0, pop_bc },						        // 0xc1
-	{ "JP NZ, 0x%04X", 2, NULL },					        // 0xc2
+	{ "JP NZ, 0x%04X", 2, jp_nz_nn },				        // 0xc2
 	{ "JP 0x%04X", 2, jp_nn },							    // 0xc3
 	{ "CALL NZ, 0x%04X", 2, NULL },					        // 0xc4
 	{ "PUSH BC", 0, push_bc },						        // 0xc5
@@ -302,7 +302,7 @@ const unsigned char instructionTicks[256] = {
 	2, 2, 2, 2, 2, 2, 4, 2,  2, 2, 2, 2, 2, 2, 4, 2, // 0x9_
 	2, 2, 2, 2, 2, 2, 4, 2,  2, 2, 2, 2, 2, 2, 4, 2, // 0xa_
 	2, 2, 2, 2, 2, 2, 4, 2,  2, 2, 2, 2, 2, 2, 4, 2, // 0xb_
-	0, 6, 6, 6, 6, 8, 4, 8,  0, 2, 0, 0, 6, 6, 4, 8, // 0xc_
+	0, 6, 0, 6, 6, 8, 4, 8,  0, 2, 0, 0, 6, 6, 4, 8, // 0xc_
 	0, 6, 6, 0, 6, 8, 4, 8,  0, 8, 0, 0, 6, 0, 4, 8, // 0xd_
 	6, 6, 4, 0, 0, 8, 4, 8,  8, 2, 8, 0, 0, 0, 4, 8, // 0xe_
 	6, 6, 4, 2, 0, 8, 4, 8,  6, 4, 8, 2, 0, 0, 4, 8  // 0xf_
@@ -1120,6 +1120,16 @@ void ret_nz(void) {
 
 // 0xc1
 void pop_bc(void) { registers.bc = readShortFromStack(); }
+
+// 0xc2
+void jp_nz_nn(unsigned short operand) {
+	if(FLAGS_ISZERO) ticks += 12;
+	else {
+		registers.pc = operand;
+		debugJump();
+		ticks += 16;
+	}
+}
 
 // 0xc3
 void jp_nn(unsigned short operand) {

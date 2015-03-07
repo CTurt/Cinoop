@@ -184,6 +184,7 @@ void or_hlp(void);
 void or_a(void);
 void ret_nz(void);
 void pop_bc(void);
+void jp_nz_nn(unsigned short operand);
 void jp_nn(unsigned short operand);
 void push_bc(void);
 void ret_z(void);
