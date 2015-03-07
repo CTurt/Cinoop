@@ -79,7 +79,7 @@ const struct instruction instructions[256] = {
 	{ "DEC L", 0, dec_l },								    // 0x2d
 	{ "LD L, 0x%02X", 1, NULL },						    // 0x2e
 	{ "CPL", 0, cpl },									    // 0x2f
-	{ "JR NC, 0x%02X", 1, NULL },						    // 0x30
+	{ "JR NC, 0x%02X", 1, jr_nc_n },					    // 0x30
 	{ "LD SP, 0x%04X", 2, ld_sp_nn },				        // 0x31
 	{ "LDD (HL), A", 0, ldd_hlp_a },		                // 0x32
 	{ "INC SP", 0, NULL },							        // 0x33
@@ -407,6 +407,8 @@ void cpuStep(void) {
 		if(instructions[instruction].operandLength) printf(instructions[instruction].disassembly, operand);
 		else printf(instructions[instruction].disassembly);
 		printf(")!\n");
+		
+		MessageBox(NULL, "Unimplemented instruction!\n", "", MB_OK);
 		
 		registers.pc -= instructions[instruction].operandLength + 1;
 		printRegisters();
@@ -736,6 +738,16 @@ void dec_l(void) { registers.l = dec(registers.l); }
 
 // 0x2f
 void cpl(void) { registers.a = ~registers.a; FLAGS_SET(FLAGS_NEGATIVE | FLAGS_HALFCARRY); }
+
+// 0x30
+void jr_nc_n(char operand) {
+	if(FLAGS_ISCARRY) ticks += 8;
+	else {
+		registers.pc += operand;
+		debugJump();
+		ticks += 12;
+	}
+}
 
 // 0x31
 void ld_sp_nn(unsigned short operand) { registers.sp = operand; }

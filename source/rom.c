@@ -104,8 +104,8 @@ unsigned char loadROM(char *filename) {
 	
 	if(length != romSize * 16 * 1024) {
 		printf("ROM filesize does not equal ROM size!\n");
-		fclose(f);
-		return 0;
+		//fclose(f);
+		//return 0;
 	}
 	
 	ramSize = header[ROM_OFFSET_RAM_SIZE];
