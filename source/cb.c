@@ -89,7 +89,7 @@ const struct extendedInstruction extendedInstructions[256] = {
 	{ "BIT 1, L", NULL },    // 0x4d
 	{ "BIT 1, (HL)", NULL }, // 0x4e
 	{ "BIT 1, A", NULL },    // 0x4f
-	{ "BIT 2, B", bit_2_b }  // 0x50
+	{ "BIT 2, B", bit_2_b }, // 0x50
 	{ "BIT 2, C", NULL },    // 0x51
 	{ "BIT 2, D", NULL },    // 0x52
 	{ "BIT 2, E", NULL },    // 0x53
