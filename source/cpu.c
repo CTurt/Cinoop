@@ -40,7 +40,7 @@ const struct instruction instructions[256] = {
 	{ "LD B, 0x%02X", 1, ld_b_n },						    // 0x06
 	{ "RLCA", 0, rlca },								    // 0x07
 	{ "LD (0x%04X), SP", 2, ld_nnp_sp },	                // 0x08
-	{ "ADD HL, BC", 0, NULL },						        // 0x09
+	{ "ADD HL, BC", 0, add_hl_bc },					        // 0x09
 	{ "LD A, (BC)", 0, NULL },				                // 0x0a
 	{ "DEC BC", 0, dec_bc },						        // 0x0b
 	{ "INC C", 0, inc_c },								    // 0x0c
@@ -606,6 +606,9 @@ void rlca(void) {
 
 // 0x08
 void ld_nnp_sp(unsigned short operand) { writeShort(operand, registers.sp); }
+
+// 0x09
+void add_hl_bc(void) { add2(&registers.hl, registers.bc); }
 
 // 0x0b
 void dec_bc(void) { registers.bc--; }
