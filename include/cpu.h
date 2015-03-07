@@ -171,6 +171,7 @@ void call_nn(unsigned short operand);
 void pop_de(void);
 void push_de(void);
 void ret_c(void);
+void jp_c_nn(unsigned short operand);
 void ld_ff_n_ap(unsigned char operand);
 void pop_hl(void);
 void ld_ff_c_a(void);

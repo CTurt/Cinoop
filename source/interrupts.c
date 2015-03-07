@@ -1,3 +1,4 @@
+#include "cpu.h"
 #include "memory.h"
 #include "registers.h"
 #include "opengl.h"
