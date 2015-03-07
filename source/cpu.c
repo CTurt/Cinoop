@@ -149,7 +149,7 @@ const struct instruction instructions[256] = {
 	{ "LD (HL), E", 0, NULL },				                // 0x73
 	{ "LD (HL), H", 0, NULL },				                // 0x74
 	{ "LD (HL), L", 0, NULL },				                // 0x75
-	{ "HALT", 0, NULL },								    // 0x76
+	{ "HALT", 0, halt },								    // 0x76
 	{ "LD (HL), A", 0, ld_hlp_a },			                // 0x77
 	{ "LD A, B", 0, ld_a_b },						        // 0x78
 	{ "LD A, C", 0, ld_a_c },						        // 0x79
@@ -247,7 +247,7 @@ const struct instruction instructions[256] = {
 	{ "PUSH DE", 0, push_de },						        // 0xd5
 	{ "SUB 0x%02X", 1, NULL },							    // 0xd6
 	{ "RST 0x10", 0, NULL },							    // 0xd7
-	{ "RET C", 0, NULL },								    // 0xd8
+	{ "RET C", 0, ret_c },								    // 0xd8
 	{ "RETI", 0, returnFromInterrupt },					    // 0xd9
 	{ "JP C, 0x%04X", 2, NULL },						    // 0xda
 	{ "UNKNOWN", 0, NULL },							        // 0xdb
@@ -303,7 +303,7 @@ const unsigned char instructionTicks[256] = {
 	2, 2, 2, 2, 2, 2, 4, 2,  2, 2, 2, 2, 2, 2, 4, 2, // 0xa_
 	2, 2, 2, 2, 2, 2, 4, 2,  2, 2, 2, 2, 2, 2, 4, 2, // 0xb_
 	0, 6, 6, 6, 6, 8, 4, 8,  0, 2, 0, 0, 6, 6, 4, 8, // 0xc_
-	4, 6, 6, 0, 6, 8, 4, 8,  4, 8, 6, 0, 6, 0, 4, 8, // 0xd_
+	4, 6, 6, 0, 6, 8, 4, 8,  0, 8, 6, 0, 6, 0, 4, 8, // 0xd_
 	6, 6, 4, 0, 0, 8, 4, 8,  8, 2, 8, 0, 0, 0, 4, 8, // 0xe_
 	6, 6, 4, 2, 0, 8, 4, 8,  6, 4, 8, 2, 0, 0, 4, 8  // 0xf_
 };
@@ -850,6 +850,14 @@ void ld_l_hlp(void) { registers.l = readByte(registers.hl); }
 // 0x6f
 void ld_l_a(void) { registers.l = registers.a; }
 
+// 0x76
+void halt(void) {
+	if(interrupt.master) {
+		//HALT EXECUTION UNTIL AN INTERRUPT OCCURS
+	}
+	else registers.pc++;
+}
+
 // 0x77
 void ld_hlp_a(void) { writeByte(registers.hl, registers.a); }
 
@@ -1040,6 +1048,15 @@ void pop_de(void) { registers.de = readShortFromStack(); }
 
 // 0xd5
 void push_de(void) { writeShortToStack(registers.de); }
+
+// 0xd8
+void ret_c(void) {
+	if(FLAGS_ISCARRY) {
+		registers.pc = readShortFromStack();
+		ticks += 20;
+	}
+	else ticks += 8;
+}
 
 // 0xe0
 void ld_ff_n_ap(unsigned char operand) { writeByte(0xff00 + operand, registers.a); }
