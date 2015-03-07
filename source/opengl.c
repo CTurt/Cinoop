@@ -25,5 +25,5 @@ void drawFramebuffer(void) {
 	glDrawPixels(160, 144, GL_RGB, GL_UNSIGNED_BYTE, framebuffer);
 	LDFS_SwapBuffers();
 	
-	//LDFS_MaintainFramerate();
+	LDFS_MaintainFramerate();
 }
