@@ -3,6 +3,7 @@
 
 #include "memory.h"
 #include "cpu.h"
+#include "interrupts.h"
 #include "opengl.h"
 
 #include "gpu.h"
@@ -38,7 +39,6 @@ void gpuStep(void) {
 				hblank();
 				
 				if(gpu.scanline == 143) {
-					drawFramebuffer();
 					vblank();
 					
 					gpuMode = GPU_MODE_VBLANK;

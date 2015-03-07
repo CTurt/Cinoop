@@ -1,11 +1,14 @@
 #include "memory.h"
 #include "registers.h"
+#include "opengl.h"
 
 #include "interrupts.h"
 
 struct interrupt interrupt;
 
 void vblank(void) {
+	drawFramebuffer();
+	
 	interrupt.master = 0;
 	
 	writeShortToStack(registers.pc);

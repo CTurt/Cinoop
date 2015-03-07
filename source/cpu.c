@@ -175,14 +175,14 @@ const struct instruction instructions[256] = {
 	{ "ADC A, L", 0, NULL },							    // 0x8d
 	{ "ADC A, (HL)", 0, NULL },			                    // 0x8e
 	{ "ADC A, A", 0, NULL },							    // 0x8f
-	{ "SUB B", 0, NULL },								    // 0x90
-	{ "SUB C", 0, NULL },								    // 0x91
-	{ "SUB D", 0, NULL },								    // 0x92
-	{ "SUB E", 0, NULL },								    // 0x93
-	{ "SUB H", 0, NULL },								    // 0x94
-	{ "SUB L", 0, NULL },								    // 0x95
-	{ "SUB (HL)", 0, NULL },					            // 0x96
-	{ "SUB A", 0, NULL },								    // 0x97
+	{ "SUB B", 0, sub_b },								    // 0x90
+	{ "SUB C", 0, sub_c },								    // 0x91
+	{ "SUB D", 0, sub_d },								    // 0x92
+	{ "SUB E", 0, sub_e },								    // 0x93
+	{ "SUB H", 0, sub_h },								    // 0x94
+	{ "SUB L", 0, sub_l },								    // 0x95
+	{ "SUB (HL)", 0, sub_hlp },					            // 0x96
+	{ "SUB A", 0, sub_a },								    // 0x97
 	{ "SBC A, B", 0, NULL },							    // 0x98
 	{ "SBC A, C", 0, NULL },							    // 0x99
 	{ "SBC A, D", 0, NULL },							    // 0x9a
@@ -387,7 +387,10 @@ void cpuStep(void) {
 	//if(registers.pc == 0x034c) { // incorrect load
 	//if(registers.pc == 0x0309) { // start of function which writes to ff80
 	//if(registers.pc == 0x2a02) { // closer to function call which writes to ff80
-	if(registers.pc == 0x034c) { // function which writes to ffa6 timer
+	//if(registers.pc == 0x034c) { // function which writes to ffa6 timer
+	
+	//if(registers.pc == 0x036c) { // loop
+	if(registers.pc == 0x0040) { // vblank
 		//realtimeDebugEnable = 1;
 	}
 	
@@ -436,8 +439,10 @@ void cpuStep(void) {
 	gpuStep();
 	
 	if(interrupt.master && interrupt.enable && interrupt.flags) {
-		if(interrupt.enable & interrupt.flags & INTERRUPTS_VBLANK) {
-			interrupt.flags &= 255 - 0x01;
+		unsigned char fired = interrupt.enable & interrupt.flags;
+		
+		if(fired & INTERRUPTS_VBLANK) {
+			interrupt.flags &= ~INTERRUPTS_VBLANK;
 			vblank();
 		}
 	}
@@ -502,6 +507,21 @@ static void add2(unsigned short *destination, unsigned short value) {
 	// zero flag left alone
 	
 	FLAGS_CLEAR(FLAGS_NEGATIVE);
+}
+
+static void sub(unsigned char value) {
+	FLAGS_SET(FLAGS_NEGATIVE);
+	
+	if(value > registers.a) FLAGS_SET(FLAGS_CARRY);
+	else FLAGS_CLEAR(FLAGS_CARRY);
+	
+	if((value & 0x0f) > (registers.a & 0x0f)) FLAGS_SET(FLAGS_HALFCARRY);
+	else FLAGS_CLEAR(FLAGS_HALFCARRY);
+	
+	registers.a -= value;
+	
+	if(registers.a) FLAGS_CLEAR(FLAGS_ZERO);
+	else FLAGS_SET(FLAGS_ZERO);
 }
 
 static void and(unsigned char value) {
@@ -877,6 +897,30 @@ void add_a_hlp(void) { add(&registers.a, readByte(registers.hl)); }
 
 // 0x87
 void add_a_a(void) { add(&registers.a, registers.a); }
+
+// 0x90
+void sub_b(void) { sub(registers.b); }
+
+// 0x91
+void sub_c(void) { sub(registers.c); }
+
+// 0x92
+void sub_d(void) { sub(registers.d); }
+
+// 0x93
+void sub_e(void) { sub(registers.e); }
+
+// 0x94
+void sub_h(void) { sub(registers.h); }
+
+// 0x95
+void sub_l(void) { sub(registers.l); }
+
+// 0x96
+void sub_hlp(void) { sub(readByte(registers.hl)); }
+
+// 0x97
+void sub_a(void) { sub(registers.a); }
 
 // 0xa0
 void and_b(void) { and(registers.b); }
