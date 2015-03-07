@@ -135,7 +135,7 @@ const struct extendedInstruction extendedInstructions[256] = {
 	{ "BIT 7, H", NULL },    // 0x7c
 	{ "BIT 7, L", NULL },    // 0x7d
 	{ "BIT 7, (HL)", NULL }, // 0x7e
-	{ "BIT 7, A", NULL },    // 0x7f
+	{ "BIT 7, A", bit_7_a }, // 0x7f
 	{ "RES 0, B", NULL },    // 0x80
 	{ "RES 0, C", NULL },    // 0x81
 	{ "RES 0, D", NULL },    // 0x82
@@ -274,7 +274,7 @@ const unsigned char extendedInstructionTicks[256] = {
 	0, 0, 0, 0, 0, 0, 0, 0,  0, 0, 0, 0, 0, 0, 0, 0, // 0x4_
 	0, 0, 0, 0, 0, 0, 0, 0,  0, 0, 0, 0, 0, 0, 0, 0, // 0x5_
 	0, 0, 0, 0, 0, 0, 0, 0,  0, 0, 0, 0, 0, 0, 0, 0, // 0x6_
-	0, 0, 0, 0, 0, 0, 0, 0,  0, 0, 0, 0, 0, 0, 0, 0, // 0x7_
+	0, 0, 0, 0, 0, 0, 0, 0,  0, 0, 0, 0, 0, 0, 0, 8, // 0x7_
 	0, 0, 0, 0, 0, 0, 0, 8,  0, 0, 0, 0, 0, 0, 0, 0, // 0x8_
 	0, 0, 0, 0, 0, 0, 0, 0,  0, 0, 0, 0, 0, 0, 0, 0, // 0x9_
 	0, 0, 0, 0, 0, 0, 0, 0,  0, 0, 0, 0, 0, 0, 0, 0, // 0xa_
@@ -320,6 +320,15 @@ void swap_a(void) {
 	else FLAGS_SET(FLAGS_ZERO);
 	
 	FLAGS_CLEAR(FLAGS_NEGATIVE | FLAGS_HALFCARRY | FLAGS_CARRY);
+}
+
+// 0x7f
+void bit_7_a(void) {
+	if(registers.a & 0x80) FLAGS_CLEAR(FLAGS_ZERO);
+	else FLAGS_SET(FLAGS_ZERO);
+	
+	FLAGS_CLEAR(FLAGS_NEGATIVE);
+	FLAGS_SET(FLAGS_HALFCARRY);
 }
 
 // 0x87
