@@ -39,7 +39,7 @@ void gpuStep(void) {
 				hblank();
 				
 				if(gpu.scanline == 143) {
-					vblank();
+					if(interrupt.enable & INTERRUPTS_VBLANK) interrupt.flags |= INTERRUPTS_VBLANK;
 					
 					gpuMode = GPU_MODE_VBLANK;
 				}
