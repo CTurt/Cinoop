@@ -71,6 +71,7 @@ void inc_hlp(void);
 void dec_hlp(void);
 void ld_hlp_n(unsigned char operand);
 void jr_c_n(char operand);
+void add_hl_sp(void);
 void inc_a(void);
 void dec_a(void);
 void ld_a_n(unsigned char operand);
