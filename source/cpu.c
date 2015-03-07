@@ -167,14 +167,14 @@ const struct instruction instructions[256] = {
 	{ "ADD A, L", 0, add_a_l },							    // 0x85
 	{ "ADD A, (HL)", 0, add_a_hlp },		                // 0x86
 	{ "ADD A", 0, add_a_a },						        // 0x87
-	{ "ADC A, B", 0, NULL },							    // 0x88
-	{ "ADC A, C", 0, NULL },							    // 0x89
-	{ "ADC A, D", 0, NULL },							    // 0x8a
-	{ "ADC A, E", 0, NULL },							    // 0x8b
-	{ "ADC A, H", 0, NULL },							    // 0x8c
-	{ "ADC A, L", 0, NULL },							    // 0x8d
-	{ "ADC A, (HL)", 0, NULL },			                    // 0x8e
-	{ "ADC A, A", 0, NULL },							    // 0x8f
+	{ "ADC A, B", 0, adc_a_b },							    // 0x88
+	{ "ADC A, C", 0, adc_a_c },							    // 0x89
+	{ "ADC A, D", 0, adc_a_d },							    // 0x8a
+	{ "ADC A, E", 0, adc_a_e },							    // 0x8b
+	{ "ADC A, H", 0, adc_a_h },							    // 0x8c
+	{ "ADC A, L", 0, adc_a_l },							    // 0x8d
+	{ "ADC A, (HL)", 0, adc_a_hlp },	                    // 0x8e
+	{ "ADC A, A", 0, adc_a_a },							    // 0x8f
 	{ "SUB B", 0, sub_b },								    // 0x90
 	{ "SUB C", 0, sub_c },								    // 0x91
 	{ "SUB D", 0, sub_d },								    // 0x92
@@ -507,6 +507,25 @@ static void add2(unsigned short *destination, unsigned short value) {
 	// zero flag left alone
 	
 	FLAGS_CLEAR(FLAGS_NEGATIVE);
+}
+
+static void adc(unsigned char *destination, unsigned char value) {
+	value += FLAGS_ISCARRY ? 1 : 0;
+	
+	int result = *destination + value;
+	
+	FLAGS_SET(FLAGS_NEGATIVE);
+	
+	if(result & 0xff00) FLAGS_SET(FLAGS_CARRY);
+	else FLAGS_CLEAR(FLAGS_CARRY);
+	
+	if(value == *destination) FLAGS_SET(FLAGS_ZERO);
+	else FLAGS_CLEAR(FLAGS_ZERO);
+	
+	if(((value & 0x0f) + (registers.a & 0x0f)) > 0x0f) FLAGS_SET(FLAGS_HALFCARRY);
+	else FLAGS_CLEAR(FLAGS_HALFCARRY);
+	
+	*destination = (unsigned char)(result & 0xff);
 }
 
 static void sub(unsigned char value) {
@@ -929,6 +948,30 @@ void add_a_hlp(void) { add(&registers.a, readByte(registers.hl)); }
 
 // 0x87
 void add_a_a(void) { add(&registers.a, registers.a); }
+
+// 0x88
+void adc_a_b(void) { adc(&registers.a, registers.b); }
+
+// 0x89
+void adc_a_c(void) { adc(&registers.a, registers.c); }
+
+// 0x8a
+void adc_a_d(void) { adc(&registers.a, registers.d); }
+
+// 0x8b
+void adc_a_e(void) { adc(&registers.a, registers.e); }
+
+// 0x8c
+void adc_a_h(void) { adc(&registers.a, registers.h); }
+
+// 0x8d
+void adc_a_l(void) { adc(&registers.a, registers.l); }
+
+// 0x8e
+void adc_a_hlp(void) { adc(&registers.a, readByte(registers.hl)); }
+
+// 0x8f
+void adc_a_a(void) { adc(&registers.a, registers.a); }
 
 // 0x90
 void sub_b(void) { sub(registers.b); }
