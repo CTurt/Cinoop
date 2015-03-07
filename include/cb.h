@@ -13,4 +13,5 @@ void cb_n(unsigned char instruction);
 void sla_a(void);
 void swap_a(void);
 void bit_7_a(void);
+void res_0_hlp(void);
 void res_0_a(void);
