@@ -47,7 +47,7 @@ const struct extendedInstruction extendedInstructions[256] = {
 	{ "SLA H", NULL },       // 0x24
 	{ "SLA L", NULL },       // 0x25
 	{ "SLA (HL)", NULL },    // 0x26
-	{ "SLA A", NULL },       // 0x27
+	{ "SLA A", sla_a },      // 0x27
 	{ "SRA B", NULL },       // 0x28
 	{ "SRA C", NULL },       // 0x29
 	{ "SRA D", NULL },       // 0x2a
@@ -269,7 +269,7 @@ const struct extendedInstruction extendedInstructions[256] = {
 const unsigned char extendedInstructionTicks[256] = {
 	0, 0, 0, 0, 0, 0, 0, 0,  0, 0, 0, 0, 0, 0, 0, 0, // 0x0_
 	0, 0, 0, 0, 0, 0, 0, 0,  0, 0, 0, 0, 0, 0, 0, 0, // 0x1_
-	0, 0, 0, 0, 0, 0, 0, 0,  0, 0, 0, 0, 0, 0, 0, 0, // 0x2_
+	0, 0, 0, 0, 0, 0, 0, 8,  0, 0, 0, 0, 0, 0, 0, 0, // 0x2_
 	0, 0, 0, 0, 0, 0, 0, 8,  0, 0, 0, 0, 0, 0, 0, 0, // 0x3_
 	0, 0, 0, 0, 0, 0, 0, 0,  0, 0, 0, 0, 0, 0, 0, 0, // 0x4_
 	0, 0, 0, 0, 0, 0, 0, 0,  0, 0, 0, 0, 0, 0, 0, 0, // 0x5_
@@ -297,6 +297,19 @@ void cb_n(unsigned char instruction) {
 	extendedInstructions[instruction].execute();
 	
 	ticks += extendedInstructionTicks[instruction];
+}
+
+// 0x27
+void sla_a(void) {
+	if(registers.a & 0x80) FLAGS_SET(FLAGS_CARRY);
+	else FLAGS_CLEAR(FLAGS_CARRY);
+	
+	registers.a <<= 1;
+	
+	if(registers.a) FLAGS_CLEAR(FLAGS_ZERO);
+	else FLAGS_SET(FLAGS_ZERO);
+	
+	FLAGS_CLEAR(FLAGS_NEGATIVE | FLAGS_HALFCARRY);
 }
 
 // 0x37
