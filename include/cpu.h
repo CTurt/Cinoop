@@ -210,6 +210,7 @@ void ld_ff_ap_n(unsigned char operand);
 void pop_af(void);
 void di(void);
 void push_af(void);
+void or_n(unsigned char operand);
 void ld_a_nnp(unsigned short operand);
 void ei(void);
 void cp_n(unsigned char operand);
