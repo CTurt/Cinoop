@@ -188,6 +188,7 @@ void pop_bc(void);
 void jp_nz_nn(unsigned short operand);
 void jp_nn(unsigned short operand);
 void push_bc(void);
+void add_a_n(unsigned char operand);
 void ret_z(void);
 void ret(void);
 void jp_z_nn(unsigned short operand);

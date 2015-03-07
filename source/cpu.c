@@ -229,7 +229,7 @@ const struct instruction instructions[256] = {
 	{ "JP 0x%04X", 2, jp_nn },							    // 0xc3
 	{ "CALL NZ, 0x%04X", 2, NULL },					        // 0xc4
 	{ "PUSH BC", 0, push_bc },						        // 0xc5
-	{ "ADD A, 0x%02X", 1, NULL },						    // 0xc6
+	{ "ADD A, 0x%02X", 1, add_a_n },					    // 0xc6
 	{ "RST 0x00", 0, NULL },							    // 0xc7
 	{ "RET Z", 0, ret_z },								    // 0xc8
 	{ "RET", 0, ret },									    // 0xc9
@@ -1142,6 +1142,9 @@ void jp_nn(unsigned short operand) {
 
 // 0xc5
 void push_bc(void) { writeShortToStack(registers.bc); }
+
+// 0xc6
+void add_a_n(unsigned char operand) { add(&registers.a, operand); }
 
 // 0xc8
 void ret_z(void) {
