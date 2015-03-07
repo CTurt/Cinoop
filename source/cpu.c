@@ -239,7 +239,7 @@ const struct instruction instructions[256] = {
 	{ "CALL 0x%04X", 2, call_nn },					        // 0xcd
 	{ "ADC A, 0x%02X", 1, NULL },						    // 0xce
 	{ "RST 0x08", 0, NULL },							    // 0xcf
-	{ "RET NC", 0, NULL },							        // 0xd0
+	{ "RET NC", 0, ret_nc },						        // 0xd0
 	{ "POP DE", 0, pop_de },						        // 0xd1
 	{ "JP NC, 0x%04X", 2, NULL },					        // 0xd2
 	{ "UNKNOWN", 0, NULL },							        // 0xd3
@@ -303,7 +303,7 @@ const unsigned char instructionTicks[256] = {
 	2, 2, 2, 2, 2, 2, 4, 2,  2, 2, 2, 2, 2, 2, 4, 2, // 0xa_
 	2, 2, 2, 2, 2, 2, 4, 2,  2, 2, 2, 2, 2, 2, 4, 2, // 0xb_
 	0, 6, 6, 6, 6, 8, 4, 8,  0, 2, 0, 0, 6, 6, 4, 8, // 0xc_
-	4, 6, 6, 0, 6, 8, 4, 8,  0, 8, 0, 0, 6, 0, 4, 8, // 0xd_
+	0, 6, 6, 0, 6, 8, 4, 8,  0, 8, 0, 0, 6, 0, 4, 8, // 0xd_
 	6, 6, 4, 0, 0, 8, 4, 8,  8, 2, 8, 0, 0, 0, 4, 8, // 0xe_
 	6, 6, 4, 2, 0, 8, 4, 8,  6, 4, 8, 2, 0, 0, 4, 8  // 0xf_
 };
@@ -1115,6 +1115,15 @@ void jp_z_nn(unsigned short operand) {
 
 // 0xcd
 void call_nn(unsigned short operand) { writeShortToStack(registers.pc); registers.pc = operand; }
+
+// 0xd0
+void ret_nc(void) {
+	if(FLAGS_ISCARRY) ticks += 8;
+	else {
+		registers.pc = readShortFromStack();
+		ticks += 20;
+	}
+}
 
 // 0xd1
 void pop_de(void) { registers.de = readShortFromStack(); }
