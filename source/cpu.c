@@ -74,7 +74,7 @@ const struct instruction instructions[256] = {
 	{ "JR Z, 0x%02X", 1, jr_z_n },					        // 0x28
 	{ "ADD HL, HL", 0, NULL },						        // 0x29
 	{ "LDI A, (HL)", 0, ldi_a_hlp },	                    // 0x2a
-	{ "DEC HL", 0, NULL },							        // 0x2b
+	{ "DEC HL", 0, dec_hl },						        // 0x2b
 	{ "INC L", 0, inc_l },								    // 0x2c
 	{ "DEC L", 0, dec_l },								    // 0x2d
 	{ "LD L, 0x%02X", 1, NULL },						    // 0x2e
@@ -729,6 +729,9 @@ void jr_z_n(char operand) {
 
 // 0x2a
 void ldi_a_hlp(void) { registers.a = readByte(registers.hl++); }
+
+// 0x2b
+void dec_hl(void) { registers.hl--; }
 
 // 0x2c
 void inc_l(void) { registers.l = inc(registers.l); }
