@@ -1,6 +1,7 @@
 #include <windows.h>
 #include <LDFS.h>
 
+#include "debug.h"
 #include "opengl.h"
 
 struct rgb framebuffer[160 * 144];
@@ -25,5 +26,7 @@ void drawFramebuffer(void) {
 	glDrawPixels(160, 144, GL_RGB, GL_UNSIGNED_BYTE, framebuffer);
 	LDFS_SwapBuffers();
 	
-	LDFS_MaintainFramerate();
+	#ifndef DEBUG_SPEED
+		LDFS_MaintainFramerate();
+	#endif
 }
