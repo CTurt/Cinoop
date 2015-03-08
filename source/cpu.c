@@ -238,7 +238,7 @@ const struct instruction instructions[256] = {
 	{ "CALL Z, 0x%04X", 2, NULL },					        // 0xcc
 	{ "CALL 0x%04X", 2, call_nn },					        // 0xcd
 	{ "ADC A, 0x%02X", 1, NULL },						    // 0xce
-	{ "RST 0x08", 0, NULL },							    // 0xcf
+	{ "RST 0x08", 0, rst_08 },							    // 0xcf
 	{ "RET NC", 0, ret_nc },						        // 0xd0
 	{ "POP DE", 0, pop_de },						        // 0xd1
 	{ "JP NC, 0x%04X", 2, NULL },					        // 0xd2
@@ -1178,6 +1178,9 @@ void jp_z_nn(unsigned short operand) {
 
 // 0xcd
 void call_nn(unsigned short operand) { writeShortToStack(registers.pc); registers.pc = operand; }
+
+// 0xcf
+void rst_08(void) { writeShortToStack(registers.pc); registers.pc = 0x08; }
 
 // 0xd0
 void ret_nc(void) {

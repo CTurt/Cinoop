@@ -196,6 +196,7 @@ void ret_z(void);
 void ret(void);
 void jp_z_nn(unsigned short operand);
 void call_nn(unsigned short operand);
+void rst_08(void);
 void ret_nc(void);
 void pop_de(void);
 void push_de(void);
