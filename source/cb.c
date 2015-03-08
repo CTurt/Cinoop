@@ -305,6 +305,14 @@ void cb_n(unsigned char instruction) {
 	ticks += extendedInstructionTicks[instruction];
 }
 
+static void bit(unsigned char bit, unsigned char value) {
+	if(value & bit) FLAGS_CLEAR(FLAGS_ZERO);
+	else FLAGS_SET(FLAGS_ZERO);
+	
+	FLAGS_CLEAR(FLAGS_NEGATIVE);
+	FLAGS_SET(FLAGS_HALFCARRY);
+}
+
 // 0x27
 void sla_a(void) {
 	if(registers.a & 0x80) FLAGS_SET(FLAGS_CARRY);
@@ -342,40 +350,16 @@ void srl_a(void) {
 }
 
 // 0x40
-void bit_0_b(void) {
-	if(registers.b & 0x01) FLAGS_CLEAR(FLAGS_ZERO);
-	else FLAGS_SET(FLAGS_ZERO);
-	
-	FLAGS_CLEAR(FLAGS_NEGATIVE);
-	FLAGS_SET(FLAGS_HALFCARRY);
-}
+void bit_0_b(void) { bit(1 << 0, registers.b); }
 
 // 0x50
-void bit_2_b(void) {
-	if(registers.b & 0x04) FLAGS_CLEAR(FLAGS_ZERO);
-	else FLAGS_SET(FLAGS_ZERO);
-	
-	FLAGS_CLEAR(FLAGS_NEGATIVE);
-	FLAGS_SET(FLAGS_HALFCARRY);
-}
+void bit_2_b(void) { bit(1 << 2, registers.b); }
 
 // 0x7e
-void bit_7_hlp(void) {
-	if(readByte(registers.hl) & 0x80) FLAGS_CLEAR(FLAGS_ZERO);
-	else FLAGS_SET(FLAGS_ZERO);
-	
-	FLAGS_CLEAR(FLAGS_NEGATIVE);
-	FLAGS_SET(FLAGS_HALFCARRY);
-}
+void bit_7_hlp(void) { bit(1 << 7, readByte(registers.hl)); }
 
 // 0x7f
-void bit_7_a(void) {
-	if(registers.a & 0x80) FLAGS_CLEAR(FLAGS_ZERO);
-	else FLAGS_SET(FLAGS_ZERO);
-	
-	FLAGS_CLEAR(FLAGS_NEGATIVE);
-	FLAGS_SET(FLAGS_HALFCARRY);
-}
+void bit_7_a(void) { bit(1 << 7, registers.a); }
 
 // 0x86
 void res_0_hlp(void) { writeByte(registers.hl, readByte(registers.hl) & ~0x01); }
