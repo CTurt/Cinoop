@@ -1,5 +1,6 @@
 #include <windows.h>
 #include <LDFS.h>
+#include <stddef.h>
 
 #include "memory.h"
 #include "cpu.h"
@@ -122,12 +123,17 @@ void renderScanline(void) {
 	
 	if((gpu.control & GPU_CONTROL_TILESET) == 1 && tile < 128) tile += 256;
 	
+	unsigned char scanlineRow[160];
+	
+	// if bg enabled
 	int i;
 	for(i = 0; i < 160; i++) {
+		scanlineRow[i] = tiles[tile][x][y];
+		
 		framebuffer[pixelOffset].r = palette[tiles[tile][x][y]].r;
 		framebuffer[pixelOffset].g = palette[tiles[tile][x][y]].g;
 		framebuffer[pixelOffset].b = palette[tiles[tile][x][y]].b;
-		pixelOffset += 1;
+		pixelOffset++;
 		
 		x++;
 		if(x == 8) {
@@ -135,6 +141,33 @@ void renderScanline(void) {
 			lineOffset = (lineOffset + 1) & 31;
 			tile = vram[mapOffset + lineOffset];
 			if((gpu.control & GPU_CONTROL_TILESET) == 1 && tile < 128) tile += 256;
+		}
+	}
+	
+	// if sprites enabled
+	for(i = 0; i < 40; i++) {
+		struct sprite *sprite = &((struct sprite *)oam)[i];
+		
+		if(sprite->y <= gpu.scanline && (sprite->y + 8) > gpu.scanline) {
+			unsigned char paletteNumber = gpu.spritePalette[sprite->palette];
+			int pixelOffset = (gpu.scanline * 160 + sprite->x) * 4;
+			unsigned char *tileRow = tiles[sprite->tile][gpu.scanline - sprite->y];
+			
+			// handle flipping
+			
+			int x;
+			for(x = 0; x < 8; x++) {
+				if(sprite->x + x >= 0 && sprite->x + x < 160 && tileRow[x] && (sprite->priority || !scanlineRow[sprite->x + x])) {
+					// handle flipping
+					
+					struct rgb colour = palette[tileRow[x]];
+					
+					framebuffer[pixelOffset].r = colour.r;
+					framebuffer[pixelOffset].g = colour.g;
+					framebuffer[pixelOffset].b = colour.b;
+					pixelOffset++;
+				}
+			}
 		}
 	}
 }
@@ -152,3 +185,18 @@ void updateTile(unsigned short address, unsigned char value) {
 		tiles[tile][x][y] = ((vram[address] & bitIndex) ? 1 : 0) + ((vram[address + 1] & bitIndex) ? 2 : 0);
 	}
 }
+
+/*void updateOAM(unsigned short address, unsigned char value) {
+	address -= 0xfe00;
+	
+	unsigned char spriteNumber = address >> 2;
+	if(spriteNumber < 40) {
+		switch(address & (sizeof(struct sprite) - 1)) {
+			case offsetof(struct sprite, y):
+				break;
+			
+			case offsetof(struct sprite, x):
+				break;
+		}
+	}
+}*/

@@ -15,6 +15,7 @@ struct gpu {
 	unsigned char scrollY;
 	unsigned char scanline;
 	unsigned char bgPalette;
+	unsigned char spritePalette[2];
 	unsigned long tick;
 } extern gpu;
 
@@ -22,15 +23,21 @@ struct sprite {
 	unsigned char y;
 	unsigned char x;
 	unsigned char tile;
-	unsigned char priority : 1;
-	unsigned char vFlip : 1;
-	unsigned char hFlip : 1;
-	unsigned char palette : 1;
+	struct options {
+		unsigned char priority : 1;
+		unsigned char vFlip : 1;
+		unsigned char hFlip : 1;
+		unsigned char palette : 1;
+	}; struct options options;
 };
 
 extern unsigned char tiles[512][8][8];
 
 void gpuStep(void);
+
 void hblank(void);
+
 void renderScanline(void);
+
 void updateTile(unsigned short address, unsigned char value);
+//void updateOAM(unsigned short address, unsigned char value);

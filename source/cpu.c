@@ -340,6 +340,8 @@ void reset(void) {
 	gpu.scrollY = 0;
 	gpu.scanline = 0;
 	gpu.bgPalette = 0;
+	gpu.spritePalette[0] = 0;
+	gpu.spritePalette[1] = 0;
 	gpu.tick = 0;
 	
 	ticks = 0;
@@ -433,12 +435,7 @@ void cpuStep(void) {
 	
 	ticks += instructionTicks[instruction];
 	
-	//int i;
-	//for(i = 0; i < 40; i++) {
-		//if(((struct sprite *)(oam + i * 4))->y == 80) {
-		//	printf("s %d\n", i);
-		//}
-	//}
+	//printf("%d\n", ((struct sprite *)oam)[0].y);
 }
 
 static unsigned char inc(unsigned char value) {
