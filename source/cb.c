@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <windows.h>
 
 #include "cpu.h"
 #include "registers.h"
@@ -289,6 +290,10 @@ const unsigned char extendedInstructionTicks[256] = {
 void cb_n(unsigned char instruction) {
 	if(!extendedInstructions[instruction].execute) {
 		printf("Unimplemented extended instruction 0x%02x (%s)!\n",  instruction, extendedInstructions[instruction].disassembly);
+		
+		char d[100];
+		sprintf(d, "Unimplemented extended instruction 0x%02x!\n\nCheck stdout for more details.", instruction);
+		MessageBox(NULL, d, "Cinoop", MB_OK);
 		
 		registers.pc -= 2;
 		printRegisters();

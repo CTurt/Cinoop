@@ -408,7 +408,9 @@ void cpuStep(void) {
 		else printf(instructions[instruction].disassembly);
 		printf(")!\n");
 		
-		MessageBox(NULL, "Unimplemented instruction!\n", "", MB_OK);
+		char d[100];
+		sprintf(d, "Unimplemented instruction 0x%02x!\n\nCheck stdout for more details.", instruction);
+		MessageBox(NULL, d, "Cinoop", MB_OK);
 		
 		registers.pc -= instructions[instruction].operandLength + 1;
 		printRegisters();
