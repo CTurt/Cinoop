@@ -122,7 +122,7 @@ const struct extendedInstruction extendedInstructions[256] = {
 	{ "BIT 6, L", bit_5_l }, // 0x6d
 	{ "BIT 5, (HL)", bit_5_hlp }, // 0x6e
 	{ "BIT 5, A", bit_5_a }, // 0x6f
-	{ "BIT 6, B", NULL },    // 0x70
+	{ "BIT 6, B", bit_6_b }, // 0x70
 	{ "BIT 6, C", NULL },    // 0x71
 	{ "BIT 6, D", NULL },    // 0x72
 	{ "BIT 6, E", NULL },    // 0x73
@@ -276,7 +276,7 @@ const unsigned char extendedInstructionTicks[256] = {
 	8, 0, 0, 0, 0, 0,  0, 0,  8, 0, 0, 0, 0, 0,  0, 0, // 0x4_
 	8, 0, 0, 0, 0, 0,  0, 0,  0, 0, 0, 0, 0, 0,  0, 8, // 0x5_
 	8, 8, 8, 8, 8, 0,  0, 0,  8, 8, 8, 8, 8, 8,  8, 8, // 0x6_
-	0, 0, 0, 0, 0, 0,  0, 8,  0, 0, 0, 0, 0, 0, 12, 8, // 0x7_
+	8, 0, 0, 0, 0, 0,  0, 8,  0, 0, 0, 0, 0, 0, 12, 8, // 0x7_
 	0, 0, 0, 0, 0, 0, 12, 8,  0, 0, 0, 0, 0, 0,  0, 0, // 0x8_
 	0, 0, 0, 0, 0, 0,  0, 0,  0, 0, 0, 0, 0, 0,  0, 0, // 0x9_
 	0, 0, 0, 0, 0, 0,  0, 0,  0, 0, 0, 0, 0, 0,  0, 0, // 0xa_
@@ -407,6 +407,9 @@ void bit_5_hlp(void) { bit(1 << 5, readByte(registers.hl)); }
 
 // 0x6f
 void bit_5_a(void) { bit(1 << 5, registers.a); }
+
+// 0x70
+void bit_6_b(void) { bit(1 << 6, registers.b); }
 
 // 0x77
 void bit_6_a(void) { bit(1 << 6, registers.a); }

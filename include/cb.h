@@ -32,6 +32,7 @@ void bit_5_h(void);
 void bit_5_l(void);
 void bit_5_hlp(void);
 void bit_5_a(void);
+void bit_6_b(void);
 void bit_6_a(void);
 void bit_7_hlp(void);
 void bit_7_a(void);
