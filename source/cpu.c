@@ -439,17 +439,6 @@ void cpuStep(void) {
 		//	printf("s %d\n", i);
 		//}
 	//}
-	
-	gpuStep();
-	
-	if(interrupt.master && interrupt.enable && interrupt.flags) {
-		unsigned char fired = interrupt.enable & interrupt.flags;
-		
-		if(fired & INTERRUPTS_VBLANK) {
-			interrupt.flags &= ~INTERRUPTS_VBLANK;
-			vblank();
-		}
-	}
 }
 
 static unsigned char inc(unsigned char value) {

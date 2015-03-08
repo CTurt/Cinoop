@@ -5,6 +5,8 @@
 
 #include "rom.h"
 #include "cpu.h"
+#include "gpu.h"
+#include "interrupts.h"
 #include "opengl.h"
 #include "debug.h"
 #include "keys.h"
@@ -51,6 +53,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	while(1) {
 		if(LDFS_NoFramerateUpdate()) {
 			cpuStep();
+			gpuStep();
+			interruptStep();
 		}
 		else {
 			unloadROM();

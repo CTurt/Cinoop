@@ -7,6 +7,17 @@
 
 struct interrupt interrupt;
 
+void interruptStep(void) {
+	if(interrupt.master && interrupt.enable && interrupt.flags) {
+		unsigned char fired = interrupt.enable & interrupt.flags;
+		
+		if(fired & INTERRUPTS_VBLANK) {
+			interrupt.flags &= ~INTERRUPTS_VBLANK;
+			vblank();
+		}
+	}
+}
+
 void vblank(void) {
 	drawFramebuffer();
 	interrupt.master = 0;
