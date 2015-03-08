@@ -17,6 +17,7 @@ void srl_a(void);
 void bit_0_b(void);
 void bit_2_b(void);
 void bit_3_a(void);
+void bit_5_a(void);
 void bit_6_a(void);
 void bit_7_hlp(void);
 void bit_7_a(void);
