@@ -69,7 +69,7 @@ const struct instruction instructions[256] = {
 	{ "INC HL", 0, inc_hl },						        // 0x23
 	{ "INC H", 0, inc_h },								    // 0x24
 	{ "DEC H", 0, dec_h },								    // 0x25
-	{ "LD H, 0x%02X", 1, NULL },						    // 0x26
+	{ "LD H, 0x%02X", 1, ld_h_n },						    // 0x26
 	{ "DAA", 0, daa },									    // 0x27
 	{ "JR Z, 0x%02X", 1, jr_z_n },					        // 0x28
 	{ "ADD HL, HL", 0, NULL },						        // 0x29
@@ -701,6 +701,9 @@ void inc_h(void) { registers.h = inc(registers.h); }
 
 // 0x25
 void dec_h(void) { registers.h = dec(registers.h); }
+
+// 0x26
+void ld_h_n(unsigned char operand) { registers.h = operand; }
 
 // 0x27
 void daa(void) {
