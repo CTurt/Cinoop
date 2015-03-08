@@ -131,12 +131,7 @@ void writeByte(unsigned short address, unsigned char value) {
 	else if(address == 0xff40) gpu.control = value;
 	else if(address == 0xff42) gpu.scrollY = value;
 	else if(address == 0xff43) gpu.scrollX = value;
-	
-	else if(address == 0xff46) {
-		copy(0xfe00, value << 8, 160);
-		ticks += 671;
-	}
-	
+	else if(address == 0xff46) copy(0xfe00, value << 8, 160); // OAM DMA
 	else if(address == 0xff47) gpu.bgPalette = value; // write only
 	else if(address == 0xff48) gpu.spritePalette[0] = value; // write only
 	else if(address == 0xff49) gpu.spritePalette[1] = value; // write only
