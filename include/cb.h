@@ -13,6 +13,7 @@ void cb_n(unsigned char instruction);
 void sla_a(void);
 void swap_a(void);
 void srl_a(void);
+void bit_0_b(void);
 void bit_2_b(void);
 void bit_7_hlp(void);
 void bit_7_a(void);

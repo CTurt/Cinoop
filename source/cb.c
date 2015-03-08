@@ -74,7 +74,7 @@ const struct extendedInstruction extendedInstructions[256] = {
 	{ "SRL L", NULL },       // 0x3d
 	{ "SRL (HL)", NULL },    // 0x3e
 	{ "SRL A", srl_a },      // 0x3f
-	{ "BIT 0, B", NULL },    // 0x40
+	{ "BIT 0, B", bit_0_b }, // 0x40
 	{ "BIT 0, C", NULL },    // 0x41
 	{ "BIT 0, D", NULL },    // 0x42
 	{ "BIT 0, E", NULL },    // 0x43
@@ -273,7 +273,7 @@ const unsigned char extendedInstructionTicks[256] = {
 	0, 0, 0, 0, 0, 0,  0, 0,  0, 0, 0, 0, 0, 0,  0, 0, // 0x1_
 	0, 0, 0, 0, 0, 0,  0, 8,  0, 0, 0, 0, 0, 0,  0, 0, // 0x2_
 	0, 0, 0, 0, 0, 0,  0, 8,  0, 0, 0, 0, 0, 0,  0, 8, // 0x3_
-	0, 0, 0, 0, 0, 0,  0, 0,  0, 0, 0, 0, 0, 0,  0, 0, // 0x4_
+	8, 0, 0, 0, 0, 0,  0, 0,  0, 0, 0, 0, 0, 0,  0, 0, // 0x4_
 	8, 0, 0, 0, 0, 0,  0, 0,  0, 0, 0, 0, 0, 0,  0, 0, // 0x5_
 	0, 0, 0, 0, 0, 0,  0, 0,  0, 0, 0, 0, 0, 0,  0, 0, // 0x6_
 	0, 0, 0, 0, 0, 0,  0, 0,  0, 0, 0, 0, 0, 0, 12, 8, // 0x7_
@@ -339,6 +339,15 @@ void srl_a(void) {
 	else FLAGS_SET(FLAGS_ZERO);
 	
 	FLAGS_CLEAR(FLAGS_NEGATIVE | FLAGS_HALFCARRY);
+}
+
+// 0x40
+void bit_0_b(void) {
+	if(registers.b & 0x01) FLAGS_CLEAR(FLAGS_ZERO);
+	else FLAGS_SET(FLAGS_ZERO);
+	
+	FLAGS_CLEAR(FLAGS_NEGATIVE);
+	FLAGS_SET(FLAGS_HALFCARRY);
 }
 
 // 0x50
