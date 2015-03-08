@@ -10,6 +10,8 @@ extern unsigned char oam[0x100];
 extern unsigned char wram[0x2000];
 extern unsigned char hram[0x80];
 
+void copy(unsigned short destination, unsigned short source, size_t length);
+
 unsigned char readByte(unsigned short address);
 unsigned short readShort(unsigned short address);
 unsigned short readShortFromStack(void);

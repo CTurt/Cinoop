@@ -34,6 +34,11 @@ unsigned char oam[0x100];
 unsigned char wram[0x2000];
 unsigned char hram[0x80];
 
+void copy(unsigned short destination, unsigned short source, size_t length) {
+	unsigned int i;
+	for(i = length; i > 0; i--) writeByte(destination + i, readByte(source + i));
+}
+
 unsigned char readByte(unsigned short address) {
 	// Set read breakpoints here
 	//if(address == 0x0300) {
@@ -58,9 +63,6 @@ unsigned char readByte(unsigned short address) {
 	else if(address >= 0xfe00 && address <= 0xfeff)
 		return oam[address - 0xfe00];
 	
-	//else if(address >= 0xff00 && address <= 0xff7f)
-	//	return io[address - 0xff00];
-	
 	else if(address >= 0xff80 && address <= 0xfffe)
 		return hram[address - 0xff80];
 	
@@ -68,6 +70,9 @@ unsigned char readByte(unsigned short address) {
 	else if(address == 0xff42) return gpu.scrollY;
 	else if(address == 0xff43) return gpu.scrollX;
 	else if(address == 0xff44) return gpu.scanline; // read only
+	
+	//else if(address >= 0xff00 && address <= 0xff7f)
+	//	return io[address - 0xff00];
 	
 	else if(address == 0xff0f) return interrupt.flags;
 	else if(address == 0xffff) return interrupt.enable;
@@ -113,11 +118,11 @@ void writeByte(unsigned short address, unsigned char value) {
 	else if(address >= 0xe000 && address <= 0xfdff)
 		wram[address - 0xe000] = value;
 	
-	else if(address >= 0xfe00 && address <= 0xfeff)
+	else if(address >= 0xfe00 && address <= 0xfeff) {
 		oam[address - 0xfe00] = value;
-	
-	else if(address >= 0xff00 && address <= 0xff7f)
-		io[address - 0xff00] = value;
+		//printf("wrote 0x%04x\n", address);
+		//updateOAM(address, value);
+	}
 	
 	else if(address >= 0xff80 && address <= 0xfffe)
 		hram[address - 0xff80] = value;
@@ -125,7 +130,13 @@ void writeByte(unsigned short address, unsigned char value) {
 	else if(address == 0xff40) gpu.control = value;
 	else if(address == 0xff42) gpu.scrollY = value;
 	else if(address == 0xff43) gpu.scrollX = value;
+	
 	else if(address == 0xff47) gpu.bgPalette = value; // write only
+	else if(address == 0xff48) gpu.spritePalette[0] = value; // write only
+	else if(address == 0xff49) gpu.spritePalette[1] = value; // write only
+	
+	else if(address >= 0xff00 && address <= 0xff7f)
+		io[address - 0xff00] = value;
 	
 	else if(address == 0xff0f) interrupt.flags = value;
 	else if(address == 0xffff) interrupt.enable = value;
