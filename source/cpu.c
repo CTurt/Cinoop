@@ -312,7 +312,7 @@ unsigned long ticks;
 
 void reset(void) {
 	memset(sram, 0, sizeof(sram));
-	memset(io, 0, sizeof(io));
+	memcpy(io, ioReset, sizeof(io));
 	memset(vram, 0, sizeof(vram));
 	memset(oam, 0, sizeof(oam));
 	memset(wram, 0, sizeof(wram));

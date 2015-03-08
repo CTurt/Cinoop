@@ -1,5 +1,7 @@
 #pragma once
 
+extern const unsigned char ioReset[0x100];
+
 extern unsigned char cart[0x8000];
 extern unsigned char sram[0x2000];
 extern unsigned char io[0x100];
