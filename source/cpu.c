@@ -263,7 +263,7 @@ const struct instruction instructions[256] = {
 	{ "PUSH HL", 0, push_hl },						        // 0xe5
 	{ "AND 0x%02X", 1, and_n },							    // 0xe6
 	{ "RST 0x20", 0, NULL },							    // 0xe7
-	{ "ADD SP,0x%02X", 1, NULL },					        // 0xe8
+	{ "ADD SP,0x%02X", 1, add_sp_n },				        // 0xe8
 	{ "JP HL", 0, jp_hl },								    // 0xe9
 	{ "LD (0x%04X), A", 2, ld_nnp_a },			            // 0xea
 	{ "UNKNOWN", 0, NULL },							        // 0xeb
@@ -1239,6 +1239,22 @@ void and_n(unsigned char operand) {
 	FLAGS_SET(FLAGS_HALFCARRY);
 	if(registers.a) FLAGS_CLEAR(FLAGS_ZERO);
 	else FLAGS_SET(FLAGS_ZERO);
+}
+
+// 0xe8
+void add_sp_n(char operand) {
+	int result = registers.sp + operand;
+	
+	if(result & 0xffff0000) FLAGS_SET(FLAGS_CARRY);
+	else FLAGS_CLEAR(FLAGS_CARRY);
+	
+	registers.sp = result & 0xffff;
+	
+	if(((registers.sp & 0x0f) + (operand & 0x0f)) > 0x0f) FLAGS_SET(FLAGS_HALFCARRY);
+	else FLAGS_CLEAR(FLAGS_HALFCARRY);
+	
+	// _does_ clear the zero flag
+	FLAGS_CLEAR(FLAGS_ZERO | FLAGS_NEGATIVE);
 }
 
 // 0xe9
