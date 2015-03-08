@@ -35,9 +35,6 @@ void realtimeDebug(void) {
 	debugMessageP += sprintf(debugMessageP, "IE: 0x%02x\n", interrupt.enable);
 	debugMessageP += sprintf(debugMessageP, "IF: 0x%02x\n", interrupt.flags);
 	
-	//debugMessageP += sprintf(debugMessageP, "\nff80: 0x%02x\n", readByte(0xff80));
-	//debugMessageP += sprintf(debugMessageP, "\nffa6: 0x%02x\n", readByte(0xffa6));
-	
 	debugMessageP += sprintf(debugMessageP, "\nContinue debugging?\n");
 	
 	realtimeDebugEnable = MessageBox(NULL, debugMessage, "Cinoop Breakpoint", MB_YESNO) == IDYES ? 1 : 0;

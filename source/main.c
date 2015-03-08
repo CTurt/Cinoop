@@ -7,6 +7,7 @@
 #include "cpu.h"
 #include "opengl.h"
 #include "debug.h"
+#include "keys.h"
 
 #include "main.h"
 
@@ -79,7 +80,43 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) 
 					PostQuitMessage(0);
 					return 0;
 					break;
-					
+				
+				case 'X':
+					if(!(lParam & 0x40000000)) {
+						keys.a = 1;
+					}
+					break;
+				
+				case 'Z':
+					if(!(lParam & 0x40000000)) {
+						keys.b = 1;
+					}
+					break;
+				
+				case VK_UP:
+					if(!(lParam & 0x40000000)) {
+						keys.up = 1;
+					}
+					break;
+				
+				case VK_DOWN:
+					if(!(lParam & 0x40000000)) {
+						keys.down = 1;
+					}
+					break;
+				
+				case VK_LEFT:
+					if(!(lParam & 0x40000000)) {
+						keys.left = 1;
+					}
+					break;
+				
+				case VK_RIGHT:
+					if(!(lParam & 0x40000000)) {
+						keys.right = 1;
+					}
+					break;
+				
 				case VK_SPACE:
 					if(!(lParam & 0x40000000)) realtimeDebugEnable = 1;
 					break;
