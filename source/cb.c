@@ -61,7 +61,7 @@ const struct extendedInstruction extendedInstructions[256] = {
 	{ "SWAP B", NULL },      // 0x30
 	{ "SWAP C", NULL },      // 0x31
 	{ "SWAP D", NULL },      // 0x32
-	{ "SWAP E", NULL },      // 0x33
+	{ "SWAP E", swap_e },    // 0x33
 	{ "SWAP H", NULL },      // 0x34
 	{ "SWAP L", NULL },      // 0x35
 	{ "SWAP (HL)", NULL },   // 0x36
@@ -272,7 +272,7 @@ const unsigned char extendedInstructionTicks[256] = {
 	0, 0, 0, 0, 0, 0,  0, 0,  0, 0, 0, 0, 0, 0,  0, 0, // 0x0_
 	0, 0, 0, 0, 0, 0,  0, 0,  0, 0, 0, 0, 0, 0,  0, 0, // 0x1_
 	0, 0, 0, 0, 0, 0,  0, 8,  0, 0, 0, 0, 0, 0,  0, 0, // 0x2_
-	0, 0, 0, 0, 0, 0,  0, 8,  0, 0, 0, 0, 0, 0,  0, 8, // 0x3_
+	0, 0, 0, 8, 0, 0,  0, 8,  0, 0, 0, 0, 0, 0,  0, 8, // 0x3_
 	8, 0, 0, 0, 0, 0,  0, 0,  0, 0, 0, 0, 0, 0,  0, 0, // 0x4_
 	8, 0, 0, 0, 0, 0,  0, 0,  0, 0, 0, 0, 0, 0,  0, 8, // 0x5_
 	0, 0, 0, 0, 0, 0,  0, 0,  0, 0, 0, 0, 0, 0,  0, 0, // 0x6_
@@ -305,6 +305,15 @@ void cb_n(unsigned char instruction) {
 	ticks += extendedInstructionTicks[instruction];
 }
 
+static void swap(unsigned char *destination) {
+	*destination = ((*destination & 0xf) << 4) | ((*destination & 0xf0) >> 4);
+	
+	if(*destination) FLAGS_CLEAR(FLAGS_ZERO);
+	else FLAGS_SET(FLAGS_ZERO);
+	
+	FLAGS_CLEAR(FLAGS_NEGATIVE | FLAGS_HALFCARRY | FLAGS_CARRY);
+}
+
 static void bit(unsigned char bit, unsigned char value) {
 	if(value & bit) FLAGS_CLEAR(FLAGS_ZERO);
 	else FLAGS_SET(FLAGS_ZERO);
@@ -326,15 +335,11 @@ void sla_a(void) {
 	FLAGS_CLEAR(FLAGS_NEGATIVE | FLAGS_HALFCARRY);
 }
 
+// 0x33
+void swap_e(void) { swap(&registers.e); }
+
 // 0x37
-void swap_a(void) {
-	registers.a = ((registers.a & 0xf) << 4) | ((registers.a & 0xf0) >> 4);
-	
-	if(registers.a) FLAGS_CLEAR(FLAGS_ZERO);
-	else FLAGS_SET(FLAGS_ZERO);
-	
-	FLAGS_CLEAR(FLAGS_NEGATIVE | FLAGS_HALFCARRY | FLAGS_CARRY);
-}
+void swap_a(void) { swap(&registers.a); }
 
 // 0x3f
 void srl_a(void) {

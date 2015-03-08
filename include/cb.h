@@ -11,6 +11,7 @@ extern const unsigned char extendedInstructionTicks[256];
 void cb_n(unsigned char instruction);
 
 void sla_a(void);
+void swap_e(void);
 void swap_a(void);
 void srl_a(void);
 void bit_0_b(void);
