@@ -110,7 +110,7 @@ void writeByte(unsigned short address, unsigned char value) {
 	
 	else if(address >= 0x8000 && address <= 0x9fff) {
 		vram[address - 0x8000] = value;
-		updateTile(address, value);
+		if(address <= 0x97ff) updateTile(address, value);
 	}
 	
 	if(address >= 0xc000 && address <= 0xdfff)

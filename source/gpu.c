@@ -175,12 +175,9 @@ void updateTile(unsigned short address, unsigned char value) {
 	address &= 0x1ffe;
 	
 	unsigned short tile = (address >> 4) & 511;
-	if(tile >= 384) return;
-	
 	unsigned short y = (address >> 1) & 7;
 	
 	unsigned char x, bitIndex;
-	
 	for(x = 0; x < 8; x++) {
 		bitIndex = 1 << (7 - x);
 		tiles[tile][x][y] = ((vram[address] & bitIndex) ? 1 : 0) + ((vram[address + 1] & bitIndex) ? 2 : 0);
