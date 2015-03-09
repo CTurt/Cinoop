@@ -258,14 +258,14 @@ const struct extendedInstruction extendedInstructions[256] = {
 	{ "SET 6, L", NULL },    // 0xf5
 	{ "SET 6, (HL)", NULL }, // 0xf6
 	{ "SET 6, A", NULL },    // 0xf7
-	{ "SET 7, B", NULL },    // 0xf8
-	{ "SET 7, C", NULL },    // 0xf9
-	{ "SET 7, D", NULL },    // 0xfa
-	{ "SET 7, E", NULL },    // 0xfb
-	{ "SET 7, H", NULL },    // 0xfc
-	{ "SET 7, L", NULL },    // 0xfd
-	{ "SET 7, (HL)", NULL }, // 0xfe
-	{ "SET 7, A", NULL },    // 0xff
+	{ "SET 7, B", set_7_b }, // 0xf8
+	{ "SET 7, C", set_7_c }, // 0xf9
+	{ "SET 7, D", set_7_d }, // 0xfa
+	{ "SET 7, E", set_7_e }, // 0xfb
+	{ "SET 7, H", set_7_h }, // 0xfc
+	{ "SET 7, L", set_7_l }, // 0xfd
+	{ "SET 7, (HL)", set_7_hlp }, // 0xfe
+	{ "SET 7, A", set_7_a }, // 0xff
 };
 
 const unsigned char extendedInstructionTicks[256] = {
@@ -284,7 +284,7 @@ const unsigned char extendedInstructionTicks[256] = {
 	0, 0, 0, 0, 0,  0,  0, 0,  0, 0, 0, 0, 0, 0,  0, 0, // 0xc_
 	0, 0, 0, 0, 0,  0,  0, 0,  0, 0, 0, 0, 0, 0,  0, 0, // 0xd_
 	0, 0, 0, 0, 0,  0,  0, 0,  0, 0, 0, 0, 0, 0,  0, 0, // 0xe_
-	0, 0, 0, 0, 0,  0,  0, 0,  0, 0, 0, 0, 0, 0,  0, 0  // 0xf_
+	0, 0, 0, 0, 0,  0,  0, 0,  8, 8, 8, 8, 8, 8, 12, 8  // 0xf_
 };
 
 void cb_n(unsigned char instruction) {
@@ -404,6 +404,11 @@ static void bit(unsigned char bit, unsigned char value) {
 	
 	FLAGS_CLEAR(FLAGS_NEGATIVE);
 	FLAGS_SET(FLAGS_HALFCARRY);
+}
+
+static unsigned char set(unsigned char bit, unsigned char value) {
+	value |= bit;
+	return value;
 }
 
 // 0x00
@@ -676,3 +681,27 @@ void res_0_hlp(void) { writeByte(registers.hl, readByte(registers.hl) & ~0x01); 
 
 // 0x87
 void res_0_a(void) { registers.a &= ~0x01; }
+
+// 0xf8
+void set_7_b(void) { registers.b = set(1 << 7, registers.b); }
+
+// 0xf9
+void set_7_c(void) { registers.c = set(1 << 7, registers.c); }
+
+// 0xfa
+void set_7_d(void) { registers.d = set(1 << 7, registers.d); }
+
+// 0xfb
+void set_7_e(void) { registers.e = set(1 << 7, registers.e); }
+
+// 0xfc
+void set_7_h(void) { registers.h = set(1 << 7, registers.h); }
+
+// 0xfd
+void set_7_l(void) { registers.l = set(1 << 7, registers.l); }
+
+// 0xfe
+void set_7_hlp(void) { writeByte(registers.hl, set(1 << 7, readByte(registers.hl))); }
+
+// 0xff
+void set_7_a(void) { registers.a = set(1 << 7, registers.a); }
