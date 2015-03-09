@@ -48,7 +48,7 @@ const struct instruction instructions[256] = {
 	{ "DEC C", 0, dec_c },								    // 0x0d
 	{ "LD C, 0x%02X", 1, ld_c_n },						    // 0x0e
 	{ "RRCA", 0, rrca },								    // 0x0f
-	{ "STOP", 1, NULL },								    // 0x10
+	{ "STOP", 1, stop },								    // 0x10
 	{ "LD DE, 0x%04X", 2, ld_de_nn },				        // 0x11
 	{ "LD (DE), A", 0, ld_dep_a },			                // 0x12
 	{ "INC DE", 0, inc_de },						        // 0x13
@@ -87,7 +87,7 @@ const struct instruction instructions[256] = {
 	{ "INC (HL)", 0, inc_hlp },					            // 0x34
 	{ "DEC (HL)", 0, dec_hlp },					            // 0x35
 	{ "LD (HL), 0x%02X", 1, ld_hlp_n },			            // 0x36
-	{ "SCF", 0, NULL },									    // 0x37
+	{ "SCF", 0, scf },									    // 0x37
 	{ "JR C, 0x%02X", 1, jr_c_n },					        // 0x38
 	{ "ADD HL, SP", 0, add_hl_sp },					        // 0x39
 	{ "LDD A, (HL)", 0, ldd_a_hlp },	                    // 0x3a
@@ -310,6 +310,7 @@ const unsigned char instructionTicks[256] = {
 };
 
 unsigned long ticks;
+unsigned char stopped;
 
 void reset(void) {
 	memset(sram, 0, sizeof(sram));
@@ -355,6 +356,7 @@ void reset(void) {
 	gpu.tick = 0;
 	
 	ticks = 0;
+	stopped = 0;
 	
 	memset(framebuffer, 255, sizeof(framebuffer));
 	
@@ -394,6 +396,8 @@ void reset(void) {
 void cpuStep(void) {
 	unsigned char instruction;
 	unsigned short operand = 0;
+	
+	if(stopped) return;
 	
 	// General breakpoints
 	//if(registers.pc == 0x034c) { // incorrect load
@@ -650,6 +654,9 @@ void rrca(void) {
 	FLAGS_CLEAR(FLAGS_NEGATIVE | FLAGS_ZERO | FLAGS_HALFCARRY);
 }
 
+// 0x10
+void stop(unsigned char operand) { stopped = 1; }
+
 // 0x11
 void ld_de_nn(unsigned short operand) { registers.de = operand; }
 
@@ -795,6 +802,9 @@ void dec_hlp(void) { writeByte(registers.hl, dec(readByte(registers.hl))); }
 
 // 0x36
 void ld_hlp_n(unsigned char operand) { writeByte(registers.hl, operand); }
+
+// 0x37
+void scf(void) { FLAGS_SET(FLAGS_CARRY); FLAGS_CLEAR(FLAGS_NEGATIVE | FLAGS_HALFCARRY); }
 
 // 0x38
 void jr_c_n(char operand) {

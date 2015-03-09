@@ -24,6 +24,7 @@ struct instruction {
 extern const unsigned char instructionTicks[256];
 
 extern unsigned long ticks;
+extern unsigned char stopped;
 
 void reset(void);
 void cpuStep(void);
@@ -44,6 +45,7 @@ void inc_c(void);
 void dec_c(void);
 void ld_c_n(unsigned char operand);
 void rrca(void);
+void stop(unsigned char operand);
 void ld_de_nn(unsigned short operand);
 void ld_dep_a(void);
 void inc_de(void);
@@ -78,6 +80,7 @@ void inc_sp(void);
 void inc_hlp(void);
 void dec_hlp(void);
 void ld_hlp_n(unsigned char operand);
+void scf(void);
 void jr_c_n(char operand);
 void add_hl_sp(void);
 void ldd_a_hlp(void);
