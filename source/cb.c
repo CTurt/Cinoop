@@ -91,20 +91,20 @@ const struct extendedInstruction extendedInstructions[256] = {
 	{ "BIT 1, (HL)", NULL }, // 0x4e
 	{ "BIT 1, A", NULL },    // 0x4f
 	{ "BIT 2, B", bit_2_b }, // 0x50
-	{ "BIT 2, C", NULL },    // 0x51
-	{ "BIT 2, D", NULL },    // 0x52
-	{ "BIT 2, E", NULL },    // 0x53
-	{ "BIT 2, H", NULL },    // 0x54
-	{ "BIT 2, L", NULL },    // 0x55
-	{ "BIT 2, (HL)", NULL }, // 0x56
-	{ "BIT 2, A", NULL },    // 0x57
-	{ "BIT 3, B", NULL },    // 0x58
-	{ "BIT 3, C", NULL },    // 0x59
-	{ "BIT 3, D", NULL },    // 0x5a
-	{ "BIT 3, E", NULL },    // 0x5b
-	{ "BIT 3, H", NULL },    // 0x5c
-	{ "BIT 3, L", NULL },    // 0x5d
-	{ "BIT 3, (HL)", NULL }, // 0x5e
+	{ "BIT 2, C", bit_2_c }, // 0x51
+	{ "BIT 2, D", bit_2_d }, // 0x52
+	{ "BIT 2, E", bit_2_e }, // 0x53
+	{ "BIT 2, H", bit_2_h }, // 0x54
+	{ "BIT 2, L", bit_2_l }, // 0x55
+	{ "BIT 2, (HL)", bit_2_hlp }, // 0x56
+	{ "BIT 2, A", bit_2_a }, // 0x57
+	{ "BIT 3, B", bit_3_b }, // 0x58
+	{ "BIT 3, C", bit_3_c }, // 0x59
+	{ "BIT 3, D", bit_3_d }, // 0x5a
+	{ "BIT 3, E", bit_3_e }, // 0x5b
+	{ "BIT 3, H", bit_3_h }, // 0x5c
+	{ "BIT 3, L", bit_3_l }, // 0x5d
+	{ "BIT 3, (HL)", bit_3_hlp }, // 0x5e
 	{ "BIT 3, A", bit_3_a }, // 0x5f
 	{ "BIT 4, B", bit_4_b }, // 0x60
 	{ "BIT 4, C", bit_4_c }, // 0x61
@@ -274,7 +274,7 @@ const unsigned char extendedInstructionTicks[256] = {
 	0, 0, 0, 0, 0,  0,  0, 8,  0, 0, 0, 0, 0, 0,  0, 0, // 0x2_
 	8, 8, 8, 8, 8,  8, 16, 8,  0, 0, 0, 0, 0, 0,  0, 8, // 0x3_
 	8, 0, 0, 0, 0,  0,  0, 0,  8, 0, 0, 0, 0, 0,  0, 0, // 0x4_
-	8, 0, 0, 0, 0,  0,  0, 0,  0, 0, 0, 0, 0, 0,  0, 8, // 0x5_
+	8, 8, 8, 8, 8,  8, 12, 8,  8, 8, 8, 8, 8, 8, 12, 8, // 0x5_
 	8, 8, 8, 8, 8,  0,  0, 0,  8, 8, 8, 8, 8, 8,  8, 8, // 0x6_
 	8, 0, 0, 0, 0,  0,  0, 8,  0, 0, 0, 0, 0, 0, 12, 8, // 0x7_
 	0, 0, 0, 0, 0,  0, 12, 8,  0, 0, 0, 0, 0, 0,  0, 0, // 0x8_
@@ -546,6 +546,48 @@ void bit_1_b(void) { bit(1 << 1, registers.b); }
 
 // 0x50
 void bit_2_b(void) { bit(1 << 2, registers.b); }
+
+// 0x51
+void bit_2_c(void) { bit(1 << 2, registers.c); }
+
+// 0x52
+void bit_2_d(void) { bit(1 << 2, registers.d); }
+
+// 0x53
+void bit_2_e(void) { bit(1 << 2, registers.e); }
+
+// 0x54
+void bit_2_h(void) { bit(1 << 2, registers.h); }
+
+// 0x55
+void bit_2_l(void) { bit(1 << 2, registers.l); }
+
+// 0x56
+void bit_2_hlp(void) { bit(1 << 2, readByte(registers.hl)); }
+
+// 0x57
+void bit_2_a(void) { bit(1 << 2, registers.a); }
+
+// 0x58
+void bit_3_b(void) { bit(1 << 3, registers.b); }
+
+// 0x59
+void bit_3_c(void) { bit(1 << 3, registers.c); }
+
+// 0x5a
+void bit_3_d(void) { bit(1 << 3, registers.d); }
+
+// 0x5b
+void bit_3_e(void) { bit(1 << 3, registers.e); }
+
+// 0x5c
+void bit_3_h(void) { bit(1 << 3, registers.h); }
+
+// 0x5d
+void bit_3_l(void) { bit(1 << 3, registers.l); }
+
+// 0x5e
+void bit_3_hlp(void) { bit(1 << 3, readByte(registers.hl)); }
 
 // 0x5f
 void bit_3_a(void) { bit(1 << 3, registers.a); }
