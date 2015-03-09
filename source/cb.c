@@ -10,14 +10,14 @@
 #include "cb.h"
 
 const struct extendedInstruction extendedInstructions[256] = {
-	{ "RLC B", NULL },       // 0x00
-	{ "RLC C", NULL },       // 0x01
-	{ "RLC D", NULL },       // 0x02
-	{ "RLC E", NULL },       // 0x03
-	{ "RLC H", NULL },       // 0x04
-	{ "RLC L", NULL },       // 0x05
-	{ "RLC (HL)", NULL },    // 0x06
-	{ "RLC A", NULL },       // 0x07
+	{ "RLC B", rlc_b },      // 0x00
+	{ "RLC C", rlc_c },      // 0x01
+	{ "RLC D", rlc_d },      // 0x02
+	{ "RLC E", rlc_e },      // 0x03
+	{ "RLC H", rlc_h },      // 0x04
+	{ "RLC L", rlc_l },      // 0x05
+	{ "RLC (HL)", rlc_hlp }, // 0x06
+	{ "RLC A", rlc_a },      // 0x07
 	{ "RRC B", NULL },       // 0x08
 	{ "RRC C", NULL },       // 0x09
 	{ "RRC D", NULL },       // 0x0a
@@ -269,22 +269,22 @@ const struct extendedInstruction extendedInstructions[256] = {
 };
 
 const unsigned char extendedInstructionTicks[256] = {
-	0, 0, 0, 0, 0, 0,  0, 0,  0, 0, 0, 0, 0, 0,  0, 0, // 0x0_
-	0, 0, 0, 0, 0, 0,  0, 0,  0, 0, 0, 0, 0, 0,  0, 0, // 0x1_
-	0, 0, 0, 0, 0, 0,  0, 8,  0, 0, 0, 0, 0, 0,  0, 0, // 0x2_
-	0, 0, 0, 8, 0, 0,  0, 8,  0, 0, 0, 0, 0, 0,  0, 8, // 0x3_
-	8, 0, 0, 0, 0, 0,  0, 0,  8, 0, 0, 0, 0, 0,  0, 0, // 0x4_
-	8, 0, 0, 0, 0, 0,  0, 0,  0, 0, 0, 0, 0, 0,  0, 8, // 0x5_
-	8, 8, 8, 8, 8, 0,  0, 0,  8, 8, 8, 8, 8, 8,  8, 8, // 0x6_
-	8, 0, 0, 0, 0, 0,  0, 8,  0, 0, 0, 0, 0, 0, 12, 8, // 0x7_
-	0, 0, 0, 0, 0, 0, 12, 8,  0, 0, 0, 0, 0, 0,  0, 0, // 0x8_
-	0, 0, 0, 0, 0, 0,  0, 0,  0, 0, 0, 0, 0, 0,  0, 0, // 0x9_
-	0, 0, 0, 0, 0, 0,  0, 0,  0, 0, 0, 0, 0, 0,  0, 0, // 0xa_
-	0, 0, 0, 0, 0, 0,  0, 0,  0, 0, 0, 0, 0, 0,  0, 0, // 0xb_
-	0, 0, 0, 0, 0, 0,  0, 0,  0, 0, 0, 0, 0, 0,  0, 0, // 0xc_
-	0, 0, 0, 0, 0, 0,  0, 0,  0, 0, 0, 0, 0, 0,  0, 0, // 0xd_
-	0, 0, 0, 0, 0, 0,  0, 0,  0, 0, 0, 0, 0, 0,  0, 0, // 0xe_
-	0, 0, 0, 0, 0, 0,  0, 0,  0, 0, 0, 0, 0, 0,  0, 0  // 0xf_
+	8, 8, 8, 8, 8, 16,  8, 8,  0, 0, 0, 0, 0, 0,  0, 0, // 0x0_
+	0, 0, 0, 0, 0,  0,  0, 0,  0, 0, 0, 0, 0, 0,  0, 0, // 0x1_
+	0, 0, 0, 0, 0,  0,  0, 8,  0, 0, 0, 0, 0, 0,  0, 0, // 0x2_
+	0, 0, 0, 8, 0,  0,  0, 8,  0, 0, 0, 0, 0, 0,  0, 8, // 0x3_
+	8, 0, 0, 0, 0,  0,  0, 0,  8, 0, 0, 0, 0, 0,  0, 0, // 0x4_
+	8, 0, 0, 0, 0,  0,  0, 0,  0, 0, 0, 0, 0, 0,  0, 8, // 0x5_
+	8, 8, 8, 8, 8,  0,  0, 0,  8, 8, 8, 8, 8, 8,  8, 8, // 0x6_
+	8, 0, 0, 0, 0,  0,  0, 8,  0, 0, 0, 0, 0, 0, 12, 8, // 0x7_
+	0, 0, 0, 0, 0,  0, 12, 8,  0, 0, 0, 0, 0, 0,  0, 0, // 0x8_
+	0, 0, 0, 0, 0,  0,  0, 0,  0, 0, 0, 0, 0, 0,  0, 0, // 0x9_
+	0, 0, 0, 0, 0,  0,  0, 0,  0, 0, 0, 0, 0, 0,  0, 0, // 0xa_
+	0, 0, 0, 0, 0,  0,  0, 0,  0, 0, 0, 0, 0, 0,  0, 0, // 0xb_
+	0, 0, 0, 0, 0,  0,  0, 0,  0, 0, 0, 0, 0, 0,  0, 0, // 0xc_
+	0, 0, 0, 0, 0,  0,  0, 0,  0, 0, 0, 0, 0, 0,  0, 0, // 0xd_
+	0, 0, 0, 0, 0,  0,  0, 0,  0, 0, 0, 0, 0, 0,  0, 0, // 0xe_
+	0, 0, 0, 0, 0,  0,  0, 0,  0, 0, 0, 0, 0, 0,  0, 0  // 0xf_
 };
 
 void cb_n(unsigned char instruction) {
@@ -305,6 +305,23 @@ void cb_n(unsigned char instruction) {
 	ticks += extendedInstructionTicks[instruction];
 }
 
+static unsigned char rlc(unsigned char value) {
+	int carry = (value & 0x80) >> 7;
+	
+	if(value & 0x80) FLAGS_SET(FLAGS_CARRY);
+	else FLAGS_CLEAR(FLAGS_CARRY);
+	
+	value <<= 1;
+	value += carry;
+	
+	if(value) FLAGS_CLEAR(FLAGS_ZERO);
+	else FLAGS_SET(FLAGS_ZERO);
+	
+	FLAGS_CLEAR(FLAGS_NEGATIVE | FLAGS_HALFCARRY);
+	
+	return value;
+}
+
 static void swap(unsigned char *destination) {
 	*destination = ((*destination & 0xf) << 4) | ((*destination & 0xf0) >> 4);
 	
@@ -321,6 +338,30 @@ static void bit(unsigned char bit, unsigned char value) {
 	FLAGS_CLEAR(FLAGS_NEGATIVE);
 	FLAGS_SET(FLAGS_HALFCARRY);
 }
+
+// 0x00
+void rlc_b(void) { registers.b = rlc(registers.b); }
+
+// 0x01
+void rlc_c(void) { registers.c = rlc(registers.c); }
+
+// 0x02
+void rlc_d(void) { registers.d = rlc(registers.d); }
+
+// 0x03
+void rlc_e(void) { registers.e = rlc(registers.e); }
+
+// 0x04
+void rlc_h(void) { registers.h = rlc(registers.h); }
+
+// 0x05
+void rlc_l(void) { registers.l = rlc(registers.l); }
+
+// 0x06
+void rlc_hlp(void) { writeByte(registers.hl, rlc(readByte(registers.hl))); }
+
+// 0x07
+void rlc_a(void) { registers.a = rlc(registers.a); }
 
 // 0x27
 void sla_a(void) {

@@ -10,6 +10,14 @@ extern const unsigned char extendedInstructionTicks[256];
 
 void cb_n(unsigned char instruction);
 
+void rlc_b(void);
+void rlc_c(void);
+void rlc_d(void);
+void rlc_e(void);
+void rlc_h(void);
+void rlc_l(void);
+void rlc_hlp(void);
+void rlc_a(void);
 void sla_a(void);
 void swap_e(void);
 void swap_a(void);
