@@ -86,35 +86,59 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) 
 					break;
 				
 				case 'X':
-					if(!(lParam & 0x40000000)) keys.a = 0;
+					if(!(lParam & 0x40000000)) {
+						keys.a = 0;
+						stopped = 0;
+					}
 					break;
 				
 				case 'Z':
-					if(!(lParam & 0x40000000)) keys.b = 0;
+					if(!(lParam & 0x40000000)) {
+						keys.b = 0;
+						stopped = 0;
+					}
 					break;
 				
 				case VK_SHIFT:
-					if(!(lParam & 0x40000000)) keys.select = 0;
+					if(!(lParam & 0x40000000)) {
+						keys.select = 0;
+						stopped = 0;
+					}
 					break;
 				
 				case VK_RETURN:
-					if(!(lParam & 0x40000000)) keys.start = 0;
+					if(!(lParam & 0x40000000)) {
+						keys.start = 0;
+						stopped = 0;
+					}
 					break;
 				
 				case VK_UP:
-					if(!(lParam & 0x40000000)) keys.up = 0;
+					if(!(lParam & 0x40000000)) {
+						keys.up = 0;
+						stopped = 0;
+					}
 					break;
 				
 				case VK_DOWN:
-					if(!(lParam & 0x40000000)) keys.down = 0;
+					if(!(lParam & 0x40000000)) {
+						keys.down = 0;
+						stopped = 0;
+					}
 					break;
 				
 				case VK_LEFT:
-					if(!(lParam & 0x40000000)) keys.left = 0;
+					if(!(lParam & 0x40000000)) {
+						keys.left = 0;
+						stopped = 0;
+					}
 					break;
 				
 				case VK_RIGHT:
-					if(!(lParam & 0x40000000)) keys.right = 0;
+					if(!(lParam & 0x40000000)) {
+						keys.right = 0;
+						stopped = 0;
+					}
 					break;
 				
 				case VK_SPACE:
@@ -127,34 +151,42 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) 
 			switch(wParam) {
 				case 'X':
 					keys.a = 1;
+					stopped = 0;
 					break;
 				
 				case 'Z':
 					keys.b = 1;
+					stopped = 0;
 					break;
 				
 				case VK_SHIFT:
 					keys.select = 1;
+					stopped = 0;
 					break;
 				
 				case VK_RETURN:
 					keys.start = 1;
+					stopped = 0;
 					break;
 				
 				case VK_UP:
 					keys.up = 1;
+					stopped = 0;
 					break;
 				
 				case VK_DOWN:
 					keys.down = 1;
+					stopped = 0;
 					break;
 				
 				case VK_LEFT:
 					keys.left = 1;
+					stopped = 0;
 					break;
 				
 				case VK_RIGHT:
 					keys.right = 1;
+					stopped = 0;
 					break;
 			}
 			
