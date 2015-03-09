@@ -58,13 +58,13 @@ const struct extendedInstruction extendedInstructions[256] = {
 	{ "SRA L", NULL },       // 0x2d
 	{ "SRA (HL)", NULL },    // 0x2e
 	{ "SRA A", NULL },       // 0x2f
-	{ "SWAP B", NULL },      // 0x30
-	{ "SWAP C", NULL },      // 0x31
-	{ "SWAP D", NULL },      // 0x32
+	{ "SWAP B", swap_b },    // 0x30
+	{ "SWAP C", swap_c },    // 0x31
+	{ "SWAP D", swap_d },    // 0x32
 	{ "SWAP E", swap_e },    // 0x33
-	{ "SWAP H", NULL },      // 0x34
-	{ "SWAP L", NULL },      // 0x35
-	{ "SWAP (HL)", NULL },   // 0x36
+	{ "SWAP H", swap_h },    // 0x34
+	{ "SWAP L", swap_l },    // 0x35
+	{ "SWAP (HL)", swap_hlp },// 0x36
 	{ "SWAP A", swap_a },    // 0x37
 	{ "SRL B", NULL },       // 0x38
 	{ "SRL C", NULL },       // 0x39
@@ -269,10 +269,10 @@ const struct extendedInstruction extendedInstructions[256] = {
 };
 
 const unsigned char extendedInstructionTicks[256] = {
-	8, 8, 8, 8, 8, 16,  8, 8,  0, 0, 0, 0, 0, 0,  0, 0, // 0x0_
+	8, 8, 8, 8, 8,  8, 16, 8,  0, 0, 0, 0, 0, 0,  0, 0, // 0x0_
 	0, 0, 0, 0, 0,  0,  0, 0,  0, 0, 0, 0, 0, 0,  0, 0, // 0x1_
 	0, 0, 0, 0, 0,  0,  0, 8,  0, 0, 0, 0, 0, 0,  0, 0, // 0x2_
-	0, 0, 0, 8, 0,  0,  0, 8,  0, 0, 0, 0, 0, 0,  0, 8, // 0x3_
+	8, 8, 8, 8, 8,  8, 16, 8,  0, 0, 0, 0, 0, 0,  0, 8, // 0x3_
 	8, 0, 0, 0, 0,  0,  0, 0,  8, 0, 0, 0, 0, 0,  0, 0, // 0x4_
 	8, 0, 0, 0, 0,  0,  0, 0,  0, 0, 0, 0, 0, 0,  0, 8, // 0x5_
 	8, 8, 8, 8, 8,  0,  0, 0,  8, 8, 8, 8, 8, 8,  8, 8, // 0x6_
@@ -322,13 +322,15 @@ static unsigned char rlc(unsigned char value) {
 	return value;
 }
 
-static void swap(unsigned char *destination) {
-	*destination = ((*destination & 0xf) << 4) | ((*destination & 0xf0) >> 4);
+static unsigned char swap(unsigned char value) {
+	value = ((value & 0xf) << 4) | ((value & 0xf0) >> 4);
 	
-	if(*destination) FLAGS_CLEAR(FLAGS_ZERO);
+	if(value) FLAGS_CLEAR(FLAGS_ZERO);
 	else FLAGS_SET(FLAGS_ZERO);
 	
 	FLAGS_CLEAR(FLAGS_NEGATIVE | FLAGS_HALFCARRY | FLAGS_CARRY);
+	
+	return value;
 }
 
 static void bit(unsigned char bit, unsigned char value) {
@@ -376,11 +378,29 @@ void sla_a(void) {
 	FLAGS_CLEAR(FLAGS_NEGATIVE | FLAGS_HALFCARRY);
 }
 
+// 0x30
+void swap_b(void) { registers.b = swap(registers.b); }
+
+// 0x31
+void swap_c(void) { registers.c = swap(registers.c); }
+
+// 0x32
+void swap_d(void) { registers.d = swap(registers.d); }
+
 // 0x33
-void swap_e(void) { swap(&registers.e); }
+void swap_e(void) { registers.e = swap(registers.e); }
+
+// 0x34
+void swap_h(void) { registers.h = swap(registers.h); }
+
+// 0x35
+void swap_l(void) { registers.l = swap(registers.l); }
+
+// 0x36
+void swap_hlp(void) { writeByte(registers.hl, swap(readByte(registers.hl))); }
 
 // 0x37
-void swap_a(void) { swap(&registers.a); }
+void swap_a(void) { registers.a = swap(registers.a); }
 
 // 0x3f
 void srl_a(void) {
