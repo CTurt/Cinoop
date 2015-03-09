@@ -52,7 +52,7 @@ const struct instruction instructions[256] = {
 	{ "LD DE, 0x%04X", 2, ld_de_nn },				        // 0x11
 	{ "LD (DE), A", 0, ld_dep_a },			                // 0x12
 	{ "INC DE", 0, inc_de },						        // 0x13
-	{ "INC D", 0, NULL },								    // 0x14
+	{ "INC D", 0, inc_d },								    // 0x14
 	{ "DEC D", 0, dec_d },								    // 0x15
 	{ "LD D, 0x%02X", 1, ld_d_n },						    // 0x16
 	{ "RLA", 0, NULL },									    // 0x17
@@ -665,6 +665,9 @@ void ld_dep_a(void) { writeByte(registers.de, registers.a); }
 
 // 0x13
 void inc_de(void) { registers.de++; }
+
+// 0x14
+void inc_d(void) { registers.d = inc(registers.d); }
 
 // 0x15
 void dec_d(void) { registers.d = dec(registers.d); }

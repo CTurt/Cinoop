@@ -49,6 +49,7 @@ void stop(unsigned char operand);
 void ld_de_nn(unsigned short operand);
 void ld_dep_a(void);
 void inc_de(void);
+void inc_d(void);
 void dec_d(void);
 void ld_d_n(unsigned char operand);
 void jr_n(char operand);

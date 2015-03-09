@@ -74,6 +74,7 @@ unsigned char readByte(unsigned short address) {
 	else if(address == 0xff44) return gpu.scanline; // read only
 	
 	else if(address == 0xff00) {
+		// Fix this
 		if(!(io[0x00] & 0x20)) {
 			return (unsigned char)~(0xc0 | (keys.keys1 << 2)) | 0x10;
 		}
