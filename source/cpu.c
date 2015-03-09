@@ -216,14 +216,14 @@ const struct instruction instructions[256] = {
 	{ "OR L", 0, or_l },								    // 0xb5
 	{ "OR (HL)", 0, or_hlp },				                // 0xb6
 	{ "OR A", 0, or_a },								    // 0xb7
-	{ "CP B", 0, NULL },								    // 0xb8
-	{ "CP C", 0, NULL },								    // 0xb9
-	{ "CP D", 0, NULL },								    // 0xba
-	{ "CP E", 0, NULL },								    // 0xbb
-	{ "CP H", 0, NULL },								    // 0xbc
-	{ "CP L", 0, NULL },								    // 0xbd
-	{ "CP (HL)", 0, NULL },					                // 0xbe
-	{ "CP A", 0, NULL },								    // 0xbf
+	{ "CP B", 0, cp_b },								    // 0xb8
+	{ "CP C", 0, cp_c },								    // 0xb9
+	{ "CP D", 0, cp_d },								    // 0xba
+	{ "CP E", 0, cp_e },								    // 0xbb
+	{ "CP H", 0, cp_h },								    // 0xbc
+	{ "CP L", 0, cp_l },								    // 0xbd
+	{ "CP (HL)", 0, cp_hlp },				                // 0xbe
+	{ "CP A", 0, cp_a },								    // 0xbf
 	{ "RET NZ", 0, ret_nz },						        // 0xc0
 	{ "POP BC", 0, pop_bc },						        // 0xc1
 	{ "JP NZ, 0x%04X", 2, jp_nz_nn },				        // 0xc2
@@ -569,6 +569,19 @@ static void xor(unsigned char value) {
 	else FLAGS_SET(FLAGS_ZERO);
 	
 	FLAGS_CLEAR(FLAGS_CARRY | FLAGS_NEGATIVE | FLAGS_HALFCARRY);
+}
+
+static void cp(unsigned char value) {
+	if(registers.a == value) FLAGS_SET(FLAGS_ZERO);
+	else FLAGS_CLEAR(FLAGS_ZERO);
+	
+	if(value > registers.a) FLAGS_SET(FLAGS_CARRY);
+	else FLAGS_CLEAR(FLAGS_CARRY);
+	
+	if((value & 0x0f) > (registers.a & 0x0f)) FLAGS_SET(FLAGS_HALFCARRY);
+	else FLAGS_CLEAR(FLAGS_HALFCARRY);
+	
+	FLAGS_SET(FLAGS_NEGATIVE);
 }
 
 // 0x00
@@ -1123,6 +1136,30 @@ void or_hlp(void) { or(readByte(registers.hl)); }
 
 // 0xb7
 void or_a(void) { or(registers.a); }
+
+// 0xb8
+void cp_b(void) { cp(registers.b); }
+
+// 0xb9
+void cp_c(void) { cp(registers.c); }
+
+// 0xba
+void cp_d(void) { cp(registers.d); }
+
+// 0xbb
+void cp_e(void) { cp(registers.e); }
+
+// 0xbc
+void cp_h(void) { cp(registers.h); }
+
+// 0xbd
+void cp_l(void) { cp(registers.l); }
+
+// 0xbe
+void cp_hlp(void) { cp(readByte(registers.hl)); }
+
+// 0xbf
+void cp_a(void) { cp(registers.a); }
 
 // 0xc0
 void ret_nz(void) {
