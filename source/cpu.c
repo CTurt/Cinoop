@@ -246,7 +246,7 @@ const struct instruction instructions[256] = {
 	{ "UNKNOWN", 0, NULL },							        // 0xd3
 	{ "CALL NC, 0x%04X", 2, NULL },				            // 0xd4
 	{ "PUSH DE", 0, push_de },						        // 0xd5
-	{ "SUB 0x%02X", 1, NULL },							    // 0xd6
+	{ "SUB 0x%02X", 1, sub_n },							    // 0xd6
 	{ "RST 0x10", 0, NULL },							    // 0xd7
 	{ "RET C", 0, ret_c },								    // 0xd8
 	{ "RETI", 0, returnFromInterrupt },					    // 0xd9
@@ -1212,6 +1212,9 @@ void pop_de(void) { registers.de = readShortFromStack(); }
 
 // 0xd5
 void push_de(void) { writeShortToStack(registers.de); }
+
+// 0xd6
+void sub_n(unsigned char operand) { sub(operand); }
 
 // 0xd8
 void ret_c(void) {

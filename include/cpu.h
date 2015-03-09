@@ -203,6 +203,7 @@ void rst_08(void);
 void ret_nc(void);
 void pop_de(void);
 void push_de(void);
+void sub_n(unsigned char operand);
 void ret_c(void);
 void jp_c_nn(unsigned short operand);
 void ld_ff_n_ap(unsigned char operand);
