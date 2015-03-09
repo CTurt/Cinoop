@@ -26,14 +26,14 @@ const struct extendedInstruction extendedInstructions[256] = {
 	{ "RRC L", rrc_l },      // 0x0d
 	{ "RRC (HL)", rrc_hlp }, // 0x0e
 	{ "RRC A", rrc_a },      // 0x0f
-	{ "RL B", NULL },        // 0x10
-	{ "RL C", NULL },        // 0x11
-	{ "RL D", NULL },        // 0x12
-	{ "RL E", NULL },        // 0x13
-	{ "RL H", NULL },        // 0x14
-	{ "RL L", NULL },        // 0x15
-	{ "RL (HL)", NULL },     // 0x16
-	{ "RL A", NULL },        // 0x17
+	{ "RL B", rl_b },        // 0x10
+	{ "RL C", rl_c },        // 0x11
+	{ "RL D", rl_d },        // 0x12
+	{ "RL E", rl_e },        // 0x13
+	{ "RL H", rl_h },        // 0x14
+	{ "RL L", rl_l },        // 0x15
+	{ "RL (HL)", rl_hlp },   // 0x16
+	{ "RL A", rl_a },        // 0x17
 	{ "RR B", NULL },        // 0x18
 	{ "RR C", NULL },        // 0x19
 	{ "RR D", NULL },        // 0x1a
@@ -270,7 +270,7 @@ const struct extendedInstruction extendedInstructions[256] = {
 
 const unsigned char extendedInstructionTicks[256] = {
 	8, 8, 8, 8, 8,  8, 16, 8,  8, 8, 8, 8, 8, 8, 16, 8, // 0x0_
-	0, 0, 0, 0, 0,  0,  0, 0,  0, 0, 0, 0, 0, 0,  0, 0, // 0x1_
+	8, 8, 8, 8, 8,  8, 16, 8,  0, 0, 0, 0, 0, 0,  0, 0, // 0x1_
 	0, 0, 0, 0, 0,  0,  0, 8,  0, 0, 0, 0, 0, 0,  0, 0, // 0x2_
 	8, 8, 8, 8, 8,  8, 16, 8,  0, 0, 0, 0, 0, 0,  0, 8, // 0x3_
 	8, 0, 0, 0, 0,  0,  0, 0,  8, 0, 0, 0, 0, 0,  0, 0, // 0x4_
@@ -341,6 +341,20 @@ static unsigned char rrc(unsigned char value) {
 	return value;
 }
 
+static unsigned char rl(unsigned char value) {
+	int carry = FLAGS_ISSET(FLAGS_CARRY) ? 1 : 0;
+	
+	if(value & 0x80) FLAGS_SET(FLAGS_CARRY);
+	else FLAGS_CLEAR(FLAGS_CARRY);
+	
+	value <<= 1;
+	value += carry;
+	
+	FLAGS_CLEAR(FLAGS_NEGATIVE | FLAGS_ZERO | FLAGS_HALFCARRY);
+	
+	return value;
+}
+
 static unsigned char swap(unsigned char value) {
 	value = ((value & 0xf) << 4) | ((value & 0xf0) >> 4);
 	
@@ -407,6 +421,30 @@ void rrc_hlp(void) { writeByte(registers.hl, rrc(readByte(registers.hl))); }
 
 // 0x0f
 void rrc_a(void) { registers.a = rrc(registers.a); }
+
+// 0x10
+void rl_b(void) { registers.b = rl(registers.b); }
+
+// 0x11
+void rl_c(void) { registers.c = rl(registers.c); }
+
+// 0x12
+void rl_d(void) { registers.d = rl(registers.d); }
+
+// 0x13
+void rl_e(void) { registers.e = rl(registers.e); }
+
+// 0x14
+void rl_h(void) { registers.h = rl(registers.h); }
+
+// 0x15
+void rl_l(void) { registers.l = rl(registers.l); }
+
+// 0x16
+void rl_hlp(void) { writeByte(registers.hl, rl(readByte(registers.hl))); }
+
+// 0x17
+void rl_a(void) { registers.a = rl(registers.a); }
 
 // 0x27
 void sla_a(void) {
