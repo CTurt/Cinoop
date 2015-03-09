@@ -72,8 +72,8 @@ unsigned char readByte(unsigned short address) {
 	else if(address == 0xff43) return gpu.scrollX;
 	else if(address == 0xff44) return gpu.scanline; // read only
 	
-	//else if(address >= 0xff00 && address <= 0xff7f)
-	//	return io[address - 0xff00];
+	else if(address >= 0xff00 && address <= 0xff7f)
+		return io[address - 0xff00];
 	
 	else if(address == 0xff0f) return interrupt.flags;
 	else if(address == 0xffff) return interrupt.enable;

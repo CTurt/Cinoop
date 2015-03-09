@@ -11,8 +11,7 @@
 
 struct gpu gpu;
 
-// There must be space for 512 tiles, but only 384 can be used
-unsigned char tiles[512][8][8];
+unsigned char tiles[384][8][8];
 
 /* References:
 http://www.codeslinger.co.uk/pages/projects/gameboy/lcd.html
@@ -149,7 +148,7 @@ void renderScanline(void) {
 		struct sprite *sprite = &((struct sprite *)oam)[i];
 		
 		if(sprite->y <= gpu.scanline && (sprite->y + 8) > gpu.scanline) {
-			unsigned char paletteNumber = gpu.spritePalette[sprite->palette];
+			//unsigned char paletteNumber = gpu.spritePalette[sprite->palette];
 			int pixelOffset = (gpu.scanline * 160 + sprite->x) * 4;
 			unsigned char *tileRow = tiles[sprite->tile][gpu.scanline - sprite->y];
 			
@@ -175,7 +174,9 @@ void renderScanline(void) {
 void updateTile(unsigned short address, unsigned char value) {
 	address &= 0x1ffe;
 	
-	unsigned short tile = (address >> 4) & 511;	
+	unsigned short tile = (address >> 4) & 511;
+	if(tile >= 384) return;
+	
 	unsigned short y = (address >> 1) & 7;
 	
 	unsigned char x, bitIndex;

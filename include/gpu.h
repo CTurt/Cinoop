@@ -31,7 +31,7 @@ struct sprite {
 	}; struct options options;
 };
 
-extern unsigned char tiles[512][8][8];
+extern unsigned char tiles[384][8][8];
 
 void gpuStep(void);
 
