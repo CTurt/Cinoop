@@ -6,6 +6,7 @@
 #include "registers.h"
 #include "memory.h"
 #include "interrupts.h"
+#include "keys.h"
 #include "gpu.h"
 #include "opengl.h"
 #include "cb.h"
@@ -72,7 +73,7 @@ const struct instruction instructions[256] = {
 	{ "LD H, 0x%02X", 1, ld_h_n },						    // 0x26
 	{ "DAA", 0, daa },									    // 0x27
 	{ "JR Z, 0x%02X", 1, jr_z_n },					        // 0x28
-	{ "ADD HL, HL", 0, NULL },						        // 0x29
+	{ "ADD HL, HL", 0, add_hl_hl },					        // 0x29
 	{ "LDI A, (HL)", 0, ldi_a_hlp },	                    // 0x2a
 	{ "DEC HL", 0, dec_hl },						        // 0x2b
 	{ "INC L", 0, inc_l },								    // 0x2c
@@ -333,6 +334,15 @@ void reset(void) {
 	interrupt.enable = 0;
 	interrupt.flags = 0;
 	
+	keys.a = 1;
+	keys.b = 1;
+	keys.select = 1;
+	keys.start = 1;
+	keys.right = 1;
+	keys.left = 1;
+	keys.up = 1;
+	keys.down = 1;
+	
 	memset(tiles, 0, sizeof(tiles));
 	
 	gpu.control = 0;
@@ -392,9 +402,9 @@ void cpuStep(void) {
 	//if(registers.pc == 0x034c) { // function which writes to ffa6 timer
 	
 	//if(registers.pc == 0x036c) { // loop
-	if(registers.pc == 0x0040) { // vblank
+	//if(registers.pc == 0x0040) { // vblank
 		//realtimeDebugEnable = 1;
-	}
+	//}
 	
 	if(realtimeDebugEnable) realtimeDebug();
 	
@@ -723,6 +733,9 @@ void jr_z_n(char operand) {
 	}
 	else ticks += 8;
 }
+
+// 0x29
+void add_hl_hl(void) { add2(&registers.hl, registers.hl); }
 
 // 0x2a
 void ldi_a_hlp(void) { registers.a = readByte(registers.hl++); }

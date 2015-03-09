@@ -4,6 +4,7 @@
 #include "cpu.h"
 #include "gpu.h"
 #include "interrupts.h"
+#include "keys.h"
 #include "debug.h"
 
 #include "memory.h"
@@ -72,6 +73,19 @@ unsigned char readByte(unsigned short address) {
 	else if(address == 0xff43) return gpu.scrollX;
 	else if(address == 0xff44) return gpu.scanline; // read only
 	
+	else if(address == 0xff00) {
+		if(!(io[0x00] & 0x20)) {
+			return (unsigned char)~(0xc0 | (keys.keys1 << 2)) | 0x10;
+		}
+		
+		else if(!(io[0x00] & 0x10)) {
+			return (unsigned char)(~0xc0 | (keys.keys2 << 2)) | 0x20;
+		}
+		
+		else if(!(io[0x00] & 0x30)) return 0xff;
+		else return 0;
+	}
+	
 	else if(address >= 0xff00 && address <= 0xff7f)
 		return io[address - 0xff00];
 	
@@ -98,8 +112,8 @@ unsigned short readShortFromStack(void) {
 
 void writeByte(unsigned short address, unsigned char value) {
 	// Set write breakpoints here
-	//if(address == 0xffa6) {
-		//realtimeDebugEnable = 1;
+	//if(address == 0xff00) {
+	//	realtimeDebugEnable = 1;
 	//}
 	
 	// Block writes to ff80
