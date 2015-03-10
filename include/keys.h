@@ -1,10 +1,10 @@
 #pragma once
 
 struct keys1 {
-	unsigned char start : 1;
-	unsigned char select : 1;
-	unsigned char b : 1;
 	unsigned char a : 1;
+	unsigned char b : 1;
+	unsigned char select : 1;
+	unsigned char start : 1;
 };
 
 struct keys2 {

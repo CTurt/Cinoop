@@ -407,7 +407,9 @@ void cpuStep(void) {
 	
 	//if(registers.pc == 0x036c) { // loop
 	//if(registers.pc == 0x0040) { // vblank
-		//realtimeDebugEnable = 1;
+	
+	//if(registers.pc == 0x29fa) { // input
+	//	realtimeDebugEnable = 1;
 	//}
 	
 	if(realtimeDebugEnable) realtimeDebug();

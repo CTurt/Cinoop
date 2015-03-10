@@ -99,7 +99,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) 
 					}
 					break;
 				
-				case VK_SHIFT:
+				case VK_BACK:
 					if(!(lParam & 0x40000000)) {
 						keys.select = 0;
 						stopped = 0;
@@ -141,6 +141,10 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) 
 					}
 					break;
 				
+				case VK_MULTIPLY:
+					if(!(lParam & 0x40000000)) reset();
+					break;
+				
 				case VK_SPACE:
 					if(!(lParam & 0x40000000)) realtimeDebugEnable = 1;
 					break;
@@ -159,7 +163,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) 
 					stopped = 0;
 					break;
 				
-				case VK_SHIFT:
+				case VK_BACK:
 					keys.select = 1;
 					stopped = 0;
 					break;

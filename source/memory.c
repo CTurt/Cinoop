@@ -74,13 +74,12 @@ unsigned char readByte(unsigned short address) {
 	else if(address == 0xff44) return gpu.scanline; // read only
 	
 	else if(address == 0xff00) {
-		// Fix this
 		if(!(io[0x00] & 0x20)) {
-			return (unsigned char)~(0xc0 | (keys.keys1 << 2)) | 0x10;
+			return (unsigned char)(0xc0 | keys.keys1 | 0x10);
 		}
 		
 		else if(!(io[0x00] & 0x10)) {
-			return (unsigned char)(~0xc0 | (keys.keys2 << 2)) | 0x20;
+			return (unsigned char)(0xc0 | keys.keys2 | 0x20);
 		}
 		
 		else if(!(io[0x00] & 0x30)) return 0xff;
