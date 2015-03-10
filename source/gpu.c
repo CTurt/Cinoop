@@ -161,10 +161,12 @@ void renderScanline(void) {
 					
 					struct rgb colour = palette[tileRow[x]];
 					
-					framebuffer[pixelOffset].r = colour.r;
-					framebuffer[pixelOffset].g = colour.g;
-					framebuffer[pixelOffset].b = colour.b;
-					pixelOffset++;
+					if(pixelOffset >= 0 && pixelOffset < 160 * 144) {
+						framebuffer[pixelOffset].r = colour.r;
+						framebuffer[pixelOffset].g = colour.g;
+						framebuffer[pixelOffset].b = colour.b;
+						pixelOffset++;
+					}
 				}
 			}
 		}
