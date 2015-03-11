@@ -2,14 +2,20 @@
 #include <stdlib.h>
 #include <string.h>
 
+#ifdef DS
+#include "fakeWindows.h"
+#else
+#include "opengl.h"
+#endif
+
 #include "debug.h"
 #include "registers.h"
 #include "memory.h"
 #include "interrupts.h"
 #include "keys.h"
 #include "gpu.h"
-#include "opengl.h"
 #include "cb.h"
+#include "main.h"
 
 #include "cpu.h"
 
@@ -358,7 +364,9 @@ void reset(void) {
 	ticks = 0;
 	stopped = 0;
 	
+	#ifndef DS
 	memset(framebuffer, 255, sizeof(framebuffer));
+	#endif
 	
 	writeByte(0xFF05, 0);
 	writeByte(0xFF06, 0);
@@ -432,7 +440,8 @@ void cpuStep(void) {
 		
 		registers.pc -= instructions[instruction].operandLength + 1;
 		printRegisters();
-		exit(1);
+		
+		quit();
 	}
 	
 	switch(instructions[instruction].operandLength) {
@@ -678,8 +687,8 @@ void dec_d(void) { registers.d = dec(registers.d); }
 void ld_d_n(unsigned char operand) { registers.d = operand; }
 
 // 0x18
-void jr_n(char operand) {
-	registers.pc += operand;
+void jr_n(unsigned char operand) {
+	registers.pc += (signed char)operand;
 	debugJump();
 }
 
@@ -702,10 +711,11 @@ void dec_e(void) { registers.e = dec(registers.e); }
 void ld_e_n(unsigned char operand) { registers.e = operand; }
 
 // 0x20
-void jr_nz_n(char operand) {
+void jr_nz_n(unsigned char operand) {
 	if(FLAGS_ISZERO) ticks += 8;
 	else {
-		registers.pc += operand;
+		registers.pc += (signed char)operand;
+		
 		debugJump();
 		ticks += 12;
 	}
@@ -753,9 +763,9 @@ void daa(void) {
 }
 
 // 0x28
-void jr_z_n(char operand) {
+void jr_z_n(unsigned char operand) {
 	if(FLAGS_ISZERO) {
-		registers.pc += operand;
+		registers.pc += (signed)operand;
 		debugJump();
 		ticks += 12;
 	}

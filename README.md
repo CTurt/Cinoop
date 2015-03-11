@@ -1,6 +1,6 @@
 Cinoop
 ======
-A Game Boy emulator for Windows, written in C.
+A Game Boy emulator for Windows and DS, written in C.
 
 ## Progress
 **CPU:** Around half of the CPU instructions are implemented,
@@ -9,13 +9,17 @@ A Game Boy emulator for Windows, written in C.
 
 **Memory:** Support for 32KB ROMs, without mappers, only,
 
-**Input:** Supported,
+**Input:** Supported on Windows only,
 
 **Sound:** None,
 
-**Games:** I've been testing with almost solely Tetris, which Cinoop can reach the menu screen of. It is unlikely that any games are playable yet.
+**Games:** It is unlikely that any games are playable yet. Cinoop used to be able to reach the menu screen of Tetris using a dirty hack, but it no longer works in the latest update.
 
 ![Running Tetris](tetris.png)
+
+![Emulatorception](ds.png)
+
+**Optimisations to do:** Currently the DS renders the Game Boy screen in framebuffer mode, this is slow. The DS supports hardware tile rendering, which will be much faster.
 
 ## Building
 Just run `make` on the directory.

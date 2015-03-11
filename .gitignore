@@ -1,4 +1,7 @@
-build/
+dbuild/
+wbuild/
+cinoop.elf
+cinoop.nds
 cinoop.exe
 *.gb
 debug.txt

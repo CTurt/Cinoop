@@ -8,4 +8,5 @@ struct rgb {
 
 extern const struct rgb palette[4];
 
+void renderScanline(void);
 void drawFramebuffer(void);

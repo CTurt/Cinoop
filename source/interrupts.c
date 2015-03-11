@@ -1,7 +1,12 @@
+#ifdef DS
+#include "fakeWindows.h"
+#else
+#include "opengl.h"
+#endif
+
 #include "cpu.h"
 #include "memory.h"
 #include "registers.h"
-#include "opengl.h"
 
 #include "interrupts.h"
 
@@ -19,7 +24,10 @@ void interruptStep(void) {
 }
 
 void vblank(void) {
+	#ifndef DS
 	drawFramebuffer();
+	#endif
+	
 	interrupt.master = 0;
 	writeShortToStack(registers.pc);
 	registers.pc = 0x40;

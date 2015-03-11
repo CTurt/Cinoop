@@ -13,6 +13,10 @@
 
 #include "main.h"
 
+void quit(void) {
+	exit(1);
+}
+
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int iCmdShow) {
 	char *filename = NULL;
 	

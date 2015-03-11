@@ -1,4 +1,9 @@
+#ifdef DS
+#include "fakeWindows.h"
+#else
 #include <windows.h>
+#endif
+
 #include <stdio.h>
 
 #include "registers.h"
@@ -11,6 +16,7 @@
 unsigned char realtimeDebugEnable = 0;
 unsigned char tetrisPatch = 0;
 
+#ifndef DS
 void realtimeDebug(void) {
 	char debugMessage[5000];
 	char *debugMessageP = debugMessage;
@@ -66,3 +72,4 @@ void printRegisters(void) {
 	printf("IE: 0x%02x\n", interrupt.enable);
 	printf("IF: 0x%02x\n", interrupt.flags);
 }
+#endif

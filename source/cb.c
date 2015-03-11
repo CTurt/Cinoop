@@ -1,11 +1,17 @@
+#ifdef DS
+#include "fakeWindows.h"
+#else
+#include <windows.h>
+#endif
+
 #include <stdio.h>
 #include <stdlib.h>
-#include <windows.h>
 
 #include "cpu.h"
 #include "registers.h"
 #include "memory.h"
 #include "debug.h"
+#include "main.h"
 
 #include "cb.h"
 
@@ -297,7 +303,7 @@ void cb_n(unsigned char instruction) {
 		
 		registers.pc -= 2;
 		printRegisters();
-		exit(1);
+		quit();
 	}
 	
 	extendedInstructions[instruction].execute();
