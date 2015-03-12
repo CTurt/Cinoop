@@ -14,10 +14,14 @@ extern unsigned char tetrisPatch;
 	void realtimeDebug(void);
 #endif
 
+#ifdef DS
+	#define debugJump()
+#else
 #ifndef DEBUG_JUMP
 	#define debugJump()
 #else
 	void debugJump(void);
+#endif
 #endif
 
 #ifdef DS
