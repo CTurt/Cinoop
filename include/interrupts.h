@@ -15,4 +15,9 @@ struct interrupt {
 void interruptStep(void);
 
 void vblank(void);
+void lcdStat(void);
+void timer(void);
+void serial(void);
+void joypad(void);
+
 void returnFromInterrupt(void);
