@@ -39,11 +39,12 @@ int main(void) {
 	reset();
 	
 	while(1) {
+		// The Game Boy and DS use the same key layout, how convenient :)
+		keys.c = (unsigned char)REG_KEYINPUT;
+		
 		cpuStep();
 		gpuStep();
 		interruptStep();
-		
-		//swiWaitForVBlank();
 	}
 	
 	return 0;

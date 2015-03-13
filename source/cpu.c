@@ -3,9 +3,9 @@
 #include <string.h>
 
 #ifdef DS
-#include "fakeWindows.h"
+	#include "fakeWindows.h"
 #else
-#include "opengl.h"
+	#include "opengl.h"
 #endif
 
 #include "debug.h"

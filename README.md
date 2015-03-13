@@ -9,11 +9,11 @@ A Game Boy emulator for Windows and DS, written in C.
 
 **Memory:** Support for 32KB ROMs, without mappers, only,
 
-**Input:** Supported on Windows only,
+**Input:** Supported,
 
 **Sound:** None,
 
-**Games:** Cinoop can reach the menu screen of Tetris using a dirty hack; it is unlikely that any games are playable yet.
+**Games:** Cinoop can almost play Tetris; sprites are not displayed, so you can only see a piece once it has reached the bottom, and there is no random number generator, so the same piece is always given, and there are many unimplemented instructions. It is unlikely that any games are playable yet.
 
 ![Running Tetris](tetris.png)
 
@@ -42,8 +42,15 @@ To view the full debug log, you will need to redirect `stdout` to a file, like s
 - A: X
 - Start: Enter
 - Select: Backspace
-- D-Pad: Arrow keys
+- DPad: Arrow keys
 
 - Debug: Space
 - Reset (not finished yet): *
 - Quit: Escape
+
+### DS Controls
+- B: B
+- A: A
+- Start: Start
+- Select: Select
+- DPad: DPad
