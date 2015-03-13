@@ -232,14 +232,14 @@ const struct extendedInstruction extendedInstructions[256] = {
 	{ "SET 2, L", NULL },    // 0xd5
 	{ "SET 2, (HL)", NULL }, // 0xd6
 	{ "SET 2, A", NULL },    // 0xd7
-	{ "SET 3, B", NULL },    // 0xd8
-	{ "SET 3, C", NULL },    // 0xd9
-	{ "SET 3, D", NULL },    // 0xda
-	{ "SET 3, E", NULL },    // 0xdb
-	{ "SET 3, H", NULL },    // 0xdc
-	{ "SET 3, L", NULL },    // 0xdd
-	{ "SET 3, (HL)", NULL }, // 0xde
-	{ "SET 3, A", NULL },    // 0xdf
+	{ "SET 3, B", set_3_b }, // 0xd8
+	{ "SET 3, C", set_3_c }, // 0xd9
+	{ "SET 3, D", set_3_d }, // 0xda
+	{ "SET 3, E", set_3_e }, // 0xdb
+	{ "SET 3, H", set_3_h }, // 0xdc
+	{ "SET 3, L", set_3_l }, // 0xdd
+	{ "SET 3, (HL)", set_3_hlp }, // 0xde
+	{ "SET 3, A", set_3_a }, // 0xdf
 	{ "SET 4, B", NULL },    // 0xe0
 	{ "SET 4, C", NULL },    // 0xe1
 	{ "SET 4, D", NULL },    // 0xe2
@@ -288,7 +288,7 @@ const unsigned char extendedInstructionTicks[256] = {
 	0, 0, 0, 0, 0,  0,  0, 0,  0, 0, 0, 0, 0, 0,  0, 0, // 0xa_
 	0, 0, 0, 0, 0,  0,  0, 0,  8, 8, 8, 8, 8, 8, 12, 8, // 0xb_
 	0, 0, 0, 0, 0,  0,  0, 0,  0, 0, 0, 0, 0, 0,  0, 0, // 0xc_
-	0, 0, 0, 0, 0,  0,  0, 0,  0, 0, 0, 0, 0, 0,  0, 0, // 0xd_
+	0, 0, 0, 0, 0,  0,  0, 0,  8, 8, 8, 8, 8, 8, 12, 8, // 0xd_
 	0, 0, 0, 0, 0,  0,  0, 0,  0, 0, 0, 0, 0, 0,  0, 0, // 0xe_
 	0, 0, 0, 0, 0,  0,  0, 0,  8, 8, 8, 8, 8, 8, 12, 8  // 0xf_
 };
@@ -750,6 +750,30 @@ void res_7_hlp(void) { writeByte(registers.hl, readByte(registers.hl) & ~(1 << 7
 
 // 0xbf
 void res_7_a(void) { registers.a &= ~(1 << 7); }
+
+// 0xd8
+void set_3_b(void) { registers.b = set(1 << 3, registers.b); }
+
+// 0xd9
+void set_3_c(void) { registers.c = set(1 << 3, registers.c); }
+
+// 0xda
+void set_3_d(void) { registers.d = set(1 << 3, registers.d); }
+
+// 0xdb
+void set_3_e(void) { registers.e = set(1 << 3, registers.e); }
+
+// 0xdc
+void set_3_h(void) { registers.h = set(1 << 3, registers.h); }
+
+// 0xdd
+void set_3_l(void) { registers.l = set(1 << 3, registers.l); }
+
+// 0xde
+void set_3_hlp(void) { writeByte(registers.hl, set(1 << 3, readByte(registers.hl))); }
+
+// 0xdf
+void set_3_a(void) { registers.a = set(1 << 3, registers.a); }
 
 // 0xf8
 void set_7_b(void) { registers.b = set(1 << 7, registers.b); }
