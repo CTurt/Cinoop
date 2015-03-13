@@ -1,7 +1,7 @@
-#ifdef DS
-#include "fakeWindows.h"
+#ifdef WIN
+	#include <windows.h>
 #else
-#include <windows.h>
+	#include "fakeWindows.h"
 #endif
 
 #include <stdio.h>
@@ -16,7 +16,7 @@
 unsigned char realtimeDebugEnable = 0;
 unsigned char tetrisPatch = 0;
 
-#ifndef DS
+#ifdef WIN
 void realtimeDebug(void) {
 	char debugMessage[5000];
 	char *debugMessageP = debugMessage;

@@ -1,7 +1,7 @@
-#ifdef DS
-#include "fakeWindows.h"
+#ifdef WIN
+	#include <windows.h>
 #else
-#include <windows.h>
+	#include "fakeWindows.h"
 #endif
 
 #include <stdio.h>

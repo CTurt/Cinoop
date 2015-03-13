@@ -2,10 +2,10 @@
 #include <stdlib.h>
 #include <string.h>
 
-#ifdef DS
-	#include "fakeWindows.h"
-#else
+#ifdef WIN
 	#include "opengl.h"
+#else
+	#include "fakeWindows.h"
 #endif
 
 #include "debug.h"
@@ -364,8 +364,8 @@ void reset(void) {
 	ticks = 0;
 	stopped = 0;
 	
-	#ifndef DS
-	memset(framebuffer, 255, sizeof(framebuffer));
+	#ifdef WIN
+		memset(framebuffer, 255, sizeof(framebuffer));
 	#endif
 	
 	writeByte(0xFF05, 0);

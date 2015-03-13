@@ -1,9 +1,9 @@
-#ifdef DS
-#include "fakeWindows.h"
+#ifdef WIN
+	#include <windows.h>
+	#include <LDFS.h>
+	#include "opengl.h"
 #else
-#include <windows.h>
-#include <LDFS.h>
-#include "opengl.h"
+	#include "fakeWindows.h"
 #endif
 
 #include <stddef.h>

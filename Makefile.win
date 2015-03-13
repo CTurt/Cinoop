@@ -1,7 +1,7 @@
 CC		:=	gcc
 SDIR	:=	source
 IDIR	:=	-Iinclude -I../LDFS/LDFS/include
-CFLAGS	:=	$(IDIR) -Wall -fms-extensions -Ofast
+CFLAGS	:=	$(IDIR) -Wall -fms-extensions -Ofast -DWIN
 LFLAGS	:=	../LDFS/libstaticLDFS.a -lmingw32 -mwindows -lwinmm -lws2_32 -lopengl32 -lglu32
 ODIR	:=	wbuild
 CFILES	:=	$(wildcard $(SDIR)/*.c)

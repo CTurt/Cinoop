@@ -1,7 +1,5 @@
-#ifdef DS
-#include "fakeWindows.h"
-#else
-#include "opengl.h"
+#ifdef WIN
+	#include "opengl.h"
 #endif
 
 #include "cpu.h"
@@ -44,8 +42,8 @@ void interruptStep(void) {
 }
 
 void vblank(void) {
-	#ifndef DS
-	drawFramebuffer();
+	#ifdef WIN
+		drawFramebuffer();
 	#endif
 	
 	interrupt.master = 0;

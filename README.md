@@ -1,6 +1,6 @@
 Cinoop
 ======
-A Game Boy emulator for Windows and DS, written in C.
+A Game Boy emulator for Windows, DS, and GameCube, written in C.
 
 ## Progress
 **CPU:** Around half of the CPU instructions are implemented,
@@ -19,10 +19,12 @@ A Game Boy emulator for Windows and DS, written in C.
 
 ![Emulatorception](ds.png)
 
+The GameCube port can not load ROMs yet.
+
 **Optimisations to do:** Currently the DS renders the Game Boy screen in framebuffer mode, this is slow. The DS supports hardware tile rendering, which will be much faster.
 
 ## Building
-Just run `make` on the directory to build both the DS and Windows binaries. Or, `make cinoop.exe` for just Windows, and `make cinoop.nds` for just DS.
+Just run `make` on the directory to build both all binaries. Or, `make cinoop.exe` for just Windows, `make cinoop.nds` for just DS, and `make cinoop.dol` for just GameCube.
 
 Building the Windows version requires [LDFS](https://github.com/CTurt/LDFS), and has been tested with [MinGW](http://www.mingw.org/), using another compiler may require some tweaking.
 

@@ -5,6 +5,6 @@
 
 void quit(void);
 
-#ifndef DS
+#ifdef WIN
 	LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 #endif
