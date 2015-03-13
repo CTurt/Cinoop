@@ -1,15 +1,21 @@
 #include <gccore.h>
-#include <malloc.h>
+#include <ogcsys.h>
+#include <fat.h>
+
 #include <stdio.h>
 #include <stdlib.h>
-#include <ogcsys.h>
-#include <time.h>
-#include <sys/time.h>
+#include <malloc.h>
 
-#include <debug.h>
-#include <math.h>
+#include "rom.h"
+#include "cpu.h"
+#include "gpu.h"
+#include "interrupts.h"
+#include "debug.h"
+#include "keys.h"
 
-static void *xfb = NULL;
+#include "main.h"
+
+unsigned short *framebuffer = NULL;
 
 u32 first_frame = 1;
 GXRModeObj *rmode;
@@ -19,6 +25,10 @@ vu16 keydown;
 vu16 keyup;
 PADStatus pad[4];
 
+void quit(void) {
+	while(1) VIDEO_WaitVSync();;
+}
+
 int main(void) {
 	VIDEO_Init();
 	
@@ -26,27 +36,45 @@ int main(void) {
 	
 	PAD_Init();
 	
-	xfb = MEM_K0_TO_K1(SYS_AllocateFramebuffer(rmode));
-		
+	framebuffer = MEM_K0_TO_K1(SYS_AllocateFramebuffer(rmode));
+	
 	VIDEO_Configure(rmode);
-		
-	VIDEO_SetNextFramebuffer(xfb);
+	
+	VIDEO_SetNextFramebuffer(framebuffer);
 	
 	VIDEO_SetBlack(FALSE);
 	VIDEO_Flush();
 	VIDEO_WaitVSync();
-	if(rmode->viTVMode&VI_NON_INTERLACE) VIDEO_WaitVSync();
+	if(rmode->viTVMode & VI_NON_INTERLACE) VIDEO_WaitVSync();
 	
-	console_init(xfb,20,20,rmode->fbWidth,rmode->xfbHeight,rmode->fbWidth*2);
+	console_init(framebuffer, 20, 20, rmode->fbWidth, rmode->xfbHeight, rmode->fbWidth * 2);
 	
-	time_t gc_time;
-	gc_time = time(NULL);
+	printf("Starting...\n");
 	
-	srand(gc_time);
+	if(!fatInitDefault()) {
+		printf("FAT init failed!\n");
+		quit();
+	}
 	
-	printf("Cinoop is coming to GC!\n");
+	if(!loadROM("tetris.gb")) {
+		printf("Failed to load ROM!\n");
+		quit();
+	}
+	
+	printf("ROM load passed!\n");
+	
+	reset();
 	
 	while(1) {
+		/*int i;
+		for(i = 0; i < 60; i++) {
+			framebuffer[i * 640 + i] = 0xffff;
+		}*/
+		
+		//cpuStep();
+		//gpuStep();
+		//interruptStep();
+		
 		VIDEO_WaitVSync();
 		PAD_ScanPads();
 		
