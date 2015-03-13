@@ -13,7 +13,7 @@ A Game Boy emulator for Windows and DS, written in C.
 
 **Sound:** None,
 
-**Games:** It is unlikely that any games are playable yet. Cinoop used to be able to reach the menu screen of Tetris using a dirty hack, but it no longer works in the latest update.
+**Games:** Cinoop can reach the menu screen of Tetris using a dirty hack; it is unlikely that any games are playable yet.
 
 ![Running Tetris](tetris.png)
 
@@ -22,7 +22,7 @@ A Game Boy emulator for Windows and DS, written in C.
 **Optimisations to do:** Currently the DS renders the Game Boy screen in framebuffer mode, this is slow. The DS supports hardware tile rendering, which will be much faster.
 
 ## Building
-Just run `make` on the directory to build both the DS and Windows binaries.
+Just run `make` on the directory to build both the DS and Windows binaries. Or, `make cinoop.exe` for just Windows, and `make dbuild` for just DS.
 
 Building the Windows version requires [LDFS](https://github.com/CTurt/LDFS), and has been tested with [MinGW](http://www.mingw.org/), using another compiler may require some tweaking.
 
