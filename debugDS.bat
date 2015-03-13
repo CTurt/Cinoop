@@ -1,3 +1,3 @@
-make dbuild
+make cinoop.nds
 pause
 cinoop.nds

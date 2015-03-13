@@ -1,0 +1,22 @@
+CC		:=	gcc
+SDIR	:=	source
+IDIR	:=	-Iinclude -I../LDFS/LDFS/include
+CFLAGS	:=	$(IDIR) -Wall -fms-extensions -Ofast
+LFLAGS	:=	../LDFS/libstaticLDFS.a -lmingw32 -mwindows -lwinmm -lws2_32 -lopengl32 -lglu32
+ODIR	:=	wbuild
+CFILES	:=	$(wildcard $(SDIR)/*.c)
+CFILES	:=	$(CFILES) $(wildcard $(SDIR)/windows/*.c)
+OBJS	:=	$(patsubst $(SDIR)/windows/%.c, $(ODIR)/%.o, $(CFILES))
+OBJS	:=	$(patsubst $(SDIR)/%.c, $(ODIR)/%.o, $(OBJS))
+
+cinoop.exe: $(ODIR) $(OBJS)
+	$(CC) $(ODIR)/*.o -o $@ $(LFLAGS)
+
+$(ODIR)/%.o: $(SDIR)/%.c
+	$(CC) -c -o $@ $< $(CFLAGS)
+
+$(ODIR)/%.o: $(SDIR)/windows/%.c
+	$(CC) -c -o $@ $< $(CFLAGS)
+
+$(ODIR):
+	@mkdir $@
