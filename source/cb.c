@@ -200,14 +200,14 @@ const struct extendedInstruction extendedInstructions[256] = {
 	{ "RES 6, L", NULL },    // 0xb5
 	{ "RES 6, (HL)", NULL }, // 0xb6
 	{ "RES 6, A", NULL },    // 0xb7
-	{ "RES 7, B", NULL },    // 0xb8
-	{ "RES 7, C", NULL },    // 0xb9
-	{ "RES 7, D", NULL },    // 0xba
-	{ "RES 7, E", NULL },    // 0xbb
-	{ "RES 7, H", NULL },    // 0xbc
-	{ "RES 7, L", NULL },    // 0xbd
-	{ "RES 7, (HL)", NULL }, // 0xbe
-	{ "RES 7, A", NULL },    // 0xbf
+	{ "RES 7, B", res_7_b }, // 0xb8
+	{ "RES 7, C", res_7_c }, // 0xb9
+	{ "RES 7, D", res_7_d }, // 0xba
+	{ "RES 7, E", res_7_e }, // 0xbb
+	{ "RES 7, H", res_7_h }, // 0xbc
+	{ "RES 7, L", res_7_l }, // 0xbd
+	{ "RES 7, (HL)", res_7_hlp }, // 0xbe
+	{ "RES 7, A", res_7_a }, // 0xbf
 	{ "SET 0, B", NULL },    // 0xc0
 	{ "SET 0, C", NULL },    // 0xc1
 	{ "SET 0, D", NULL },    // 0xc2
@@ -286,7 +286,7 @@ const unsigned char extendedInstructionTicks[256] = {
 	0, 0, 0, 0, 0,  0, 12, 8,  0, 0, 0, 0, 0, 0,  0, 0, // 0x8_
 	0, 0, 0, 0, 0,  0,  0, 0,  0, 0, 0, 0, 0, 0,  0, 0, // 0x9_
 	0, 0, 0, 0, 0,  0,  0, 0,  0, 0, 0, 0, 0, 0,  0, 0, // 0xa_
-	0, 0, 0, 0, 0,  0,  0, 0,  0, 0, 0, 0, 0, 0,  0, 0, // 0xb_
+	0, 0, 0, 0, 0,  0,  0, 0,  8, 8, 8, 8, 8, 8, 12, 8, // 0xb_
 	0, 0, 0, 0, 0,  0,  0, 0,  0, 0, 0, 0, 0, 0,  0, 0, // 0xc_
 	0, 0, 0, 0, 0,  0,  0, 0,  0, 0, 0, 0, 0, 0,  0, 0, // 0xd_
 	0, 0, 0, 0, 0,  0,  0, 0,  0, 0, 0, 0, 0, 0,  0, 0, // 0xe_
@@ -725,7 +725,31 @@ void bit_7_a(void) { bit(1 << 7, registers.a); }
 void res_0_hlp(void) { writeByte(registers.hl, readByte(registers.hl) & ~0x01); }
 
 // 0x87
-void res_0_a(void) { registers.a &= ~0x01; }
+void res_0_a(void) { registers.a &= ~(1 << 0); }
+
+// 0xb8
+void res_7_b(void) { registers.b &= ~(1 << 7); }
+
+// 0xb9
+void res_7_c(void) { registers.c &= ~(1 << 7); }
+
+// 0xba
+void res_7_d(void) { registers.d &= ~(1 << 7); }
+
+// 0xbb
+void res_7_e(void) { registers.e &= ~(1 << 7); }
+
+// 0xbc
+void res_7_h(void) { registers.h &= ~(1 << 7); }
+
+// 0xbd
+void res_7_l(void) { registers.l &= ~(1 << 7); }
+
+// 0xbe
+void res_7_hlp(void) { writeByte(registers.hl, readByte(registers.hl) & ~(1 << 7)); }
+
+// 0xbf
+void res_7_a(void) { registers.a &= ~(1 << 7); }
 
 // 0xf8
 void set_7_b(void) { registers.b = set(1 << 7, registers.b); }
