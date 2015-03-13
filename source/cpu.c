@@ -765,7 +765,7 @@ void daa(void) {
 // 0x28
 void jr_z_n(unsigned char operand) {
 	if(FLAGS_ISZERO) {
-		registers.pc += (signed)operand;
+		registers.pc += (signed char)operand;
 		debugJump();
 		ticks += 12;
 	}
