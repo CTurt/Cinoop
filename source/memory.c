@@ -38,7 +38,7 @@ unsigned char hram[0x80];
 
 void copy(unsigned short destination, unsigned short source, size_t length) {
 	unsigned int i;
-	for(i = length; i > 0; i--) writeByte(destination + i, readByte(source + i));
+	for(i = 0; i < length; i++) writeByte(destination + i, readByte(source + i));
 }
 
 unsigned char readByte(unsigned short address) {

@@ -463,8 +463,6 @@ void cpuStep(void) {
 	}
 	
 	ticks += instructionTicks[instruction];
-	
-	//printf("%d\n", ((struct sprite *)oam)[0].y);
 }
 
 static unsigned char inc(unsigned char value) {
