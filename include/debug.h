@@ -8,24 +8,24 @@
 extern unsigned char realtimeDebugEnable;
 extern unsigned char tetrisPatch;
 
-#ifdef DS
-	#define realtimeDebug()
-#else
+#ifdef WIN
 	void realtimeDebug(void);
+#else
+	#define realtimeDebug()
 #endif
 
-#ifdef DS
-	#define debugJump()
+#ifdef WIN
+	#ifndef DEBUG_JUMP
+		#define debugJump()
+	#else
+		void debugJump(void);
+	#endif
 #else
-#ifndef DEBUG_JUMP
 	#define debugJump()
-#else
-	void debugJump(void);
-#endif
 #endif
 
-#ifdef DS
-	#define printRegisters()
-#else
+#ifdef WIN
 	void printRegisters(void);
+#else
+	#define printRegisters()
 #endif

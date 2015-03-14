@@ -19,7 +19,7 @@ A Game Boy emulator for Windows, DS, and GameCube, written in C.
 
 ![Emulatorception](ds.png)
 
-The GameCube port can not load ROMs yet.
+The GameCube port does not currently work.
 
 **Optimisations to do:** Currently the DS renders the Game Boy screen in framebuffer mode, this is slow. The DS supports hardware tile rendering, which will be much faster.
 

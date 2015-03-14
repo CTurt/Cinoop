@@ -1,15 +1,17 @@
-#include <nds.h>
+#include <gccore.h>
 
 #include "memory.h"
 #include "gpu.h"
 
 #include "display.h"
 
-const unsigned short palette[4] = {
-	RGB15(31, 31, 31),
-	RGB15(24, 24, 24),
-	RGB15(12, 12, 12),
-	RGB15(0, 0, 0),
+unsigned int *framebuffer = NULL;
+
+const unsigned int palette[4] = {
+	0xFF80FF80,
+	0xC080C080,
+	0x60806080,
+	0x00800080,
 };
 
 void renderScanline(void) {
@@ -48,7 +50,7 @@ void renderScanline(void) {
 	for(i = 0; i < 160; i++) {
 		scanlineRow[i] = tiles[tile][x][y];
 		
-		framebuffer[(256 - 160) / 2 + (192 - 144) / 2 * 256 + (pixelOffset / 160) * 256 + pixelOffset % 160] = palette[tiles[tile][x][y]];
+		framebuffer[(320 - 160) / 2 + (480 - 144) / 2 * 320 + (pixelOffset / 160) * 320 + pixelOffset % 160] = palette[tiles[tile][x][y]];
 		pixelOffset++;
 		
 		x++;

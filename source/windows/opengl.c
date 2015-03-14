@@ -4,6 +4,7 @@
 #include "memory.h"
 #include "gpu.h"
 #include "debug.h"
+
 #include "opengl.h"
 
 struct rgb framebuffer[160 * 144];

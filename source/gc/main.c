@@ -7,15 +7,24 @@
 #include <malloc.h>
 
 #include "rom.h"
+#include "registers.h"
 #include "cpu.h"
 #include "gpu.h"
 #include "interrupts.h"
 #include "debug.h"
 #include "keys.h"
+#include "display.h"
+
+#define NOFS
+#ifdef NOFS
+	#include "string.h"
+	
+	#include "memory.h"
+	
+	#include "tetris_bin.h"
+#endif
 
 #include "main.h"
-
-unsigned short *framebuffer = NULL;
 
 u32 first_frame = 1;
 GXRModeObj *rmode;
@@ -51,31 +60,39 @@ int main(void) {
 	
 	printf("Starting...\n");
 	
-	if(!fatInitDefault()) {
-		printf("FAT init failed!\n");
-		quit();
-	}
-	
-	if(!loadROM("tetris.gb")) {
-		printf("Failed to load ROM!\n");
-		quit();
-	}
+	#ifndef NOFS
+		if(!fatInitDefault()) {
+			printf("FAT init failed!\n");
+			quit();
+		}
+		
+		if(!loadROM("tetris.gb")) {
+			printf("Failed to load ROM!\n");
+			quit();
+		}
+	#else
+		memcpy(cart, tetris_bin, tetris_bin_size);
+		tetrisPatch = 1;
+	#endif
 	
 	printf("ROM load passed!\n");
 	
 	reset();
 	
 	while(1) {
-		/*int i;
-		for(i = 0; i < 60; i++) {
-			framebuffer[i * 640 + i] = 0xffff;
-		}*/
+		cpuStep();
+		gpuStep();
+		interruptStep();
 		
-		//cpuStep();
-		//gpuStep();
-		//interruptStep();
+		if(registers.pc == 0x282a) {
+			int x, y;
+			for(y = 0; y < 8; y++) {
+				for(x = 0; x < 8; x++) printf("%02x ", tiles[0][x][y]);
+				printf("\n");
+			}
+		}
 		
-		VIDEO_WaitVSync();
+		//VIDEO_WaitVSync();
 		PAD_ScanPads();
 		
 		int buttonsDown = PAD_ButtonsDown(0);

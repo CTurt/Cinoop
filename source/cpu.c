@@ -428,6 +428,10 @@ void cpuStep(void) {
 	if(instructions[instruction].operandLength == 2) operand = readShort(registers.pc);
 	registers.pc += instructions[instruction].operandLength;
 	
+	//if(instructions[instruction].operandLength) printf(instructions[instruction].disassembly, operand);
+	//else printf(instructions[instruction].disassembly);
+	//printf("\n");
+	
 	if(!instructions[instruction].execute) {
 		printf("Unimplemented instruction 0x%02x (",  instruction);
 		if(instructions[instruction].operandLength) printf(instructions[instruction].disassembly, operand);
