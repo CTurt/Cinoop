@@ -4,9 +4,9 @@
 
 #ifdef WIN
 	#include "opengl.h"
-#else
-	#include "fakeWindows.h"
 #endif
+
+#include "platform.h"
 
 #include "debug.h"
 #include "registers.h"

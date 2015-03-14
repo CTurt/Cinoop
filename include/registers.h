@@ -1,11 +1,18 @@
 #pragma once
 
+#include "platform.h"
+
 struct registers {
 	struct {
 		union {
 			struct {
-				unsigned char f;
-				unsigned char a;
+				#ifdef LITTLE_E
+					unsigned char f;
+					unsigned char a;
+				#else
+					unsigned char a;
+					unsigned char f;
+				#endif
 			};
 			unsigned short af;
 		};
@@ -14,8 +21,13 @@ struct registers {
 	struct {
 		union {
 			struct {
-				unsigned char c;
-				unsigned char b;
+				#ifdef LITTLE_E
+					unsigned char c;
+					unsigned char b;
+				#else
+					unsigned char b;
+					unsigned char c;
+				#endif
 			};
 			unsigned short bc;
 		};
@@ -24,8 +36,13 @@ struct registers {
 	struct {
 		union {
 			struct {
-				unsigned char e;
-				unsigned char d;
+				#ifdef LITTLE_E
+					unsigned char e;
+					unsigned char d;
+				#else
+					unsigned char d;
+					unsigned char e;
+				#endif
 			};
 			unsigned short de;
 		};
@@ -34,8 +51,13 @@ struct registers {
 	struct {
 		union {
 			struct {
-				unsigned char l;
-				unsigned char h;
+				#ifdef LITTLE_E
+					unsigned char l;
+					unsigned char h;
+				#else
+					unsigned char h;
+					unsigned char l;
+				#endif
 			};
 			unsigned short hl;
 		};

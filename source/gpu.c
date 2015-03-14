@@ -1,12 +1,12 @@
+#include <stddef.h>
+
 #ifdef WIN
 	#include <windows.h>
 	#include <LDFS.h>
 	#include "opengl.h"
-#else
-	#include "fakeWindows.h"
 #endif
 
-#include <stddef.h>
+#include "platform.h"
 
 #include "memory.h"
 #include "cpu.h"
@@ -107,18 +107,3 @@ void updateTile(unsigned short address, unsigned char value) {
 		tiles[tile][x][y] = ((vram[address] & bitIndex) ? 1 : 0) + ((vram[address + 1] & bitIndex) ? 2 : 0);
 	}
 }
-
-/*void updateOAM(unsigned short address, unsigned char value) {
-	address -= 0xfe00;
-	
-	unsigned char spriteNumber = address >> 2;
-	if(spriteNumber < 40) {
-		switch(address & (sizeof(struct sprite) - 1)) {
-			case offsetof(struct sprite, y):
-				break;
-			
-			case offsetof(struct sprite, x):
-				break;
-		}
-	}
-}*/

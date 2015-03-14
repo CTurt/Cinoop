@@ -1,5 +1,7 @@
 #pragma once
 
+#include "platform.h"
+
 #define GPU_CONTROL_BGENABLE (1 << 0)
 #define GPU_CONTROL_SPRITEENABLE (1 << 1)
 #define GPU_CONTROL_SPRITEVDOUBLE (1 << 2)
@@ -24,10 +26,17 @@ struct sprite {
 	unsigned char x;
 	unsigned char tile;
 	struct options {
-		unsigned char priority : 1;
-		unsigned char vFlip : 1;
-		unsigned char hFlip : 1;
-		unsigned char palette : 1;
+		#ifdef LITTLE_E
+			unsigned char priority : 1;
+			unsigned char vFlip : 1;
+			unsigned char hFlip : 1;
+			unsigned char palette : 1;
+		#else
+			unsigned char palette : 1;
+			unsigned char hFlip : 1;
+			unsigned char vFlip : 1;
+			unsigned char priority : 1;
+		#endif
 	}; struct options options;
 };
 

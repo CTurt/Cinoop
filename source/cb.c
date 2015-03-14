@@ -1,11 +1,7 @@
-#ifdef WIN
-	#include <windows.h>
-#else
-	#include "fakeWindows.h"
-#endif
-
 #include <stdio.h>
 #include <stdlib.h>
+
+#include "platform.h"
 
 #include "cpu.h"
 #include "registers.h"

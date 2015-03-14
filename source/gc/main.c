@@ -84,14 +84,6 @@ int main(void) {
 		gpuStep();
 		interruptStep();
 		
-		if(registers.pc == 0x282a) {
-			int x, y;
-			for(y = 0; y < 8; y++) {
-				for(x = 0; x < 8; x++) printf("%02x ", tiles[0][x][y]);
-				printf("\n");
-			}
-		}
-		
 		//VIDEO_WaitVSync();
 		PAD_ScanPads();
 		

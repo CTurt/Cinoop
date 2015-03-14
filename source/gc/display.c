@@ -15,20 +15,6 @@ const unsigned int palette[4] = {
 };
 
 void renderScanline(void) {
-	// tileset
-	/*{
-		int i;
-		for(i = 0; i < (144 / 8) * (160 / 8); i++) {
-			int x;
-			for(x = 0; x < 8; x++) {
-				int y;
-				for(y = 0; y < 8; y++) {
-					framebuffer[(i * 8 % 256) + x + (y + i * 8 / 256 * 8) * 256] = palette[tiles[i][x][y]];
-				}
-			}
-		}
-	}*/
-	
 	int mapOffset = (gpu.control & GPU_CONTROL_TILEMAP) ? 0x1c00 : 0x1800;
 	mapOffset += (((gpu.scanline + gpu.scrollY) & 255) >> 3) << 5;
 	
@@ -50,7 +36,8 @@ void renderScanline(void) {
 	for(i = 0; i < 160; i++) {
 		scanlineRow[i] = tiles[tile][x][y];
 		
-		framebuffer[(320 - 160) / 2 + (480 - 144) / 2 * 320 + (pixelOffset / 160) * 320 + pixelOffset % 160] = palette[tiles[tile][x][y]];
+		framebuffer[(320 - 160) / 2 + (240 - 144) / 2 * 640 + (pixelOffset / 160) * 640 + pixelOffset % 160] = palette[tiles[tile][x][y]];
+		framebuffer[(320 - 160) / 2 + (240 - 144) / 2 * 640 + (pixelOffset / 160) * 640 + pixelOffset % 160 + 320] = palette[tiles[tile][x][y]];
 		pixelOffset++;
 		
 		x++;
