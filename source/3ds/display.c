@@ -6,15 +6,15 @@
 
 #include "display.h"
 
-const unsigned short palette[4] = {
-	RGB(31, 31, 31),
-	RGB(24, 24, 24),
-	RGB(12, 12, 12),
-	RGB(0, 0, 0),
+const struct rgb palette[4] = {
+	{ 255, 255, 255 },
+	{ 192, 192, 192 },
+	{ 96, 96, 96 },
+	{ 0, 0, 0 },
 };
 
 void renderScanline(void) {
-	u16 *framebuffer = (u16 *)gfxGetFramebuffer(GFX_BOTTOM, GFX_LEFT, NULL, NULL);
+	u8 *framebuffer = gfxGetFramebuffer(GFX_TOP, GFX_LEFT, NULL, NULL);
 	
 	int mapOffset = (gpu.control & GPU_CONTROL_TILEMAP) ? 0x1c00 : 0x1800;
 	mapOffset += (((gpu.scanline + gpu.scrollY) & 255) >> 3) << 5;
@@ -37,7 +37,7 @@ void renderScanline(void) {
 	for(i = 0; i < 160; i++) {
 		scanlineRow[i] = tiles[tile][x][y];
 		
-		framebuffer[(400 - 160) / 2 + (240 - 144) / 2 * 400 + (pixelOffset / 160) * 400 + pixelOffset % 160] = palette[tiles[tile][x][y]];
+		drawPixelTopRGBFramebuffer(framebuffer, (400 - 160) / 2 + (pixelOffset % 160), (240 - 144) / 2 + (pixelOffset / 160), palette[tiles[tile][x][y]].r, palette[tiles[tile][x][y]].g, palette[tiles[tile][x][y]].b);
 		pixelOffset++;
 		
 		x++;

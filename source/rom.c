@@ -43,8 +43,15 @@ const char *romTypeString[256] = {
 };
 
 unsigned char loadROM(char *filename) {
+	char name[17];
+	enum romType type;
+	int romSize;
+	int ramSize;
+	
+	int i;
+	
 	#ifdef DS3
-	u64 size;
+	u64 length;
 	u32 bytesRead;
 	
 	FS_archive sdmcArchive = (FS_archive){ARCH_SDMC, (FS_path){PATH_EMPTY, 1, (u8*)""}};
@@ -53,16 +60,62 @@ unsigned char loadROM(char *filename) {
 	Result ret = FSUSER_OpenFileDirectly(NULL, &fileHandle, sdmcArchive, filePath, FS_OPEN_READ, FS_ATTRIBUTE_NONE);
 	if(ret) return false;
 	
-	ret = FSFILE_GetSize(fileHandle, &size);
+	ret = FSFILE_GetSize(fileHandle, &length);
 	if(ret) return false;
 	
-	ret = FSFILE_Read(fileHandle, &bytesRead, 0x0, cart, size);
-	if(ret || size != bytesRead) return false;
+	ret = FSFILE_Read(fileHandle, &bytesRead, 0x0, cart, length);
+	if(ret || length != bytesRead) return false;
+	
+	memset(name, '\0', 17);
+	for(i = 0; i < 16; i++) {
+		if(cart[i + ROM_OFFSET_NAME] == 0x80 || cart[i + ROM_OFFSET_NAME] == 0xc0) name[i] = '\0';
+		else name[i] = cart[i + ROM_OFFSET_NAME];
+	}
+	
+	printf("Internal ROM name: %s\n", name);
+	
+	if(strcmp(name, "TETRIS") == 0) tetrisPatch = 1;
+	
+	type = cart[ROM_OFFSET_TYPE];
+	
+	if(!romTypeString[type]) {
+		printf("Unknown ROM type: %#02x\n", type);
+		return false;
+	}
+	
+	printf("ROM type: %s\n", romTypeString[type]);
+	
+	if(type != ROM_PLAIN) {
+		printf("Only 32KB games with no mappers are supported!\n");
+		return false;
+	}
+	
+	romSize = cart[ROM_OFFSET_ROM_SIZE];
+	
+	if((romSize & 0xF0) == 0x50) romSize = (int)pow(2, ((0x52) & 0xF) + 1) + 64;
+	else romSize = (int)pow(2, romSize + 1);
+	
+	printf("ROM size: %dKB\n", romSize * 16);
+	
+	if(romSize * 16 != 32) {
+		printf("Only 32KB games with no mappers are supported!\n");
+		return false;
+	}
+	
+	if(length != romSize * 16 * 1024) {
+		printf("ROM filesize does not equal ROM size!\n");
+		return false;
+	}
+	
+	ramSize = cart[ROM_OFFSET_RAM_SIZE];
+	
+	ramSize = (int)pow(4, ramSize) / 2;
+	printf("RAM size: %dKB\n", ramSize);
+	
+	ramSize = ceil(ramSize / 8.0f);
 	
 	ret = FSFILE_Close(fileHandle);
 	if(ret) return false;
-	
-	tetrisPatch = 1;
 	
 	return 1;
 #else
@@ -70,12 +123,6 @@ unsigned char loadROM(char *filename) {
 	size_t length;
 	
 	unsigned char header[0x180];
-	char name[17];
-	enum romType type;
-	int romSize;
-	int ramSize;
-	
-	int i;
 	
 	f = fopen(filename, "rb");
 	if(!f) return 0;

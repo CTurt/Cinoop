@@ -21,7 +21,7 @@ A Game Boy emulator for Windows, DS, GameCube, and 3DS, written in C.
 
 ![GameCube emulator running Cinoop](gamecube.png)
 
-The 3DS port cannot currently load ROMs.
+The 3DS port does not currently support input.
 
 **Optimisations to do:** Currently the DS renders the Game Boy screen in framebuffer mode, this is slow. The DS supports hardware tile rendering, which will be much faster.
 

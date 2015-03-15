@@ -1,5 +1,7 @@
 #include <3ds.h>
 
+#include <stdio.h>
+
 #include "rom.h"
 #include "cpu.h"
 #include "gpu.h"
@@ -10,49 +12,53 @@
 
 #include "main.h"
 
+// To embed the ROM inside of the binary, place it as "data/tetris.bin"
+// and uncomment the define below
+// this is useful for running Cinoop in a GameCube emulator which doesn't support FS
+//#define NOFS
+#ifdef NOFS
+	#include "string.h"
+	
+	#include "memory.h"
+	
+	#include "tetris_bin.h"
+#endif
+
 void quit(void) {
 	while(1) gspWaitForVBlank();
 }
 
 int main(void) {
-	srvInit();
-	aptInit();
-	hidInit(NULL);
-	//irrstInit(NULL);
-	acInit();
-	gfxInit();
-	gfxSet3D(false);
+	gfxInitDefault();
 	
-	clearScreen();
+	gfxSetDoubleBuffering(GFX_TOP, false);
+	gfxSetDoubleBuffering(GFX_BOTTOM, false);
 	
-	clearScreen();
-	drawString(10, 10, "Initing FS...");
-	gfxFlushBuffers();
-	gfxSwapBuffers();
+	consoleInit(GFX_BOTTOM, NULL);
 	
-	fsInit();
-	
-	if(!loadROM("/tetris.gb")) {
-		clearScreen();
-		drawString(10, 10, "Failed to load ROM!");
-		gfxFlushBuffers();
-		gfxSwapBuffers();
+	#ifndef NOFS
+		printf("Initing FS...\n");
+		fsInit();
 		
-		quit();
-	}
+		printf("Loading ROM...\n");
+		
+		if(!loadROM("/tetris.gb")) {
+			printf("Failed to load ROM!\n");
+			
+			quit();
+		}
+	#else
+		printf("Loading ROM...\n");
+		
+		memcpy(cart, tetris_bin, tetris_bin_size);
+		tetrisPatch = 1;
+	#endif
 	
 	reset();
 	
 	while(aptMainLoop()) {
 		hidScanInput();
-		//irrstScanInput();
-		
 		u32 kHeld = hidKeysHeld();
-		circlePosition circlePad;
-		//hidCstickRead(&cstick);
-		hidCircleRead(&circlePad);
-		touchPosition touch;
-		touchRead(&touch);
 		
 		cpuStep();
 		gpuStep();
@@ -65,11 +71,6 @@ int main(void) {
 	fsExit();
 	
 	gfxExit();
-	acExit();
-	//irrstExit();
-	hidExit();
-	aptExit();
-	srvExit();
 	
 	return 0;
 }
