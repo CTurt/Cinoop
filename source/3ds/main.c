@@ -51,7 +51,6 @@ int main(void) {
 		printf("Loading ROM...\n");
 		
 		memcpy(cart, tetris_bin, tetris_bin_size);
-		tetrisPatch = 1;
 	#endif
 	
 	reset();
@@ -60,11 +59,13 @@ int main(void) {
 		hidScanInput();
 		u32 kHeld = hidKeysHeld();
 		
+		keys.c = (unsigned char)~kHeld;
+		
 		cpuStep();
 		gpuStep();
 		interruptStep();
 		
-		if((kHeld & KEY_START) && (kHeld & KEY_SELECT)) break;
+		if((kHeld & KEY_START) && (kHeld & KEY_SELECT) && (kHeld & KEY_L) && (kHeld & KEY_R)) break;
 	}
 	
 	svcCloseHandle(fileHandle);

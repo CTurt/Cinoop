@@ -71,4 +71,8 @@ To view the full debug log, you will need to redirect `stdout` to a file, like s
 - DPad: DPad
 
 ### 3DS Controls
-(not supported)
+- B: B
+- A: A
+- Start: Start
+- Select: Select
+- DPad: DPad
