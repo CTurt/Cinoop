@@ -2,7 +2,7 @@
 
 #ifdef WIN
 	#include <windows.h>
-	#define LITTLE_ENDIAN
+	#define LITTLE_E
 #endif
 
 #ifndef WIN
