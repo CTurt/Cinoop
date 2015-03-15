@@ -29,7 +29,7 @@ include $(DEVKITARM)/3ds_rules
 TARGET		:=	cinoop
 BUILD		:=	3build
 SOURCES		:=	source source/3ds
-DATA		:=	
+DATA		:=	data
 INCLUDES	:=	include
 
 APP_TITLE		:=	Cinoop
@@ -40,14 +40,14 @@ ICON			:=	cxi/icon48x48.png
 #---------------------------------------------------------------------------------
 # options for code generation
 #---------------------------------------------------------------------------------
-ARCH	:=	-march=armv6k -mtune=mpcore -mfloat-abi=softfp
+ARCH	:=	-march=armv6k -mtune=mpcore -mfloat-abi=hard
 
 CFLAGS	:=	-Wall -Ofast -mword-relocations \
 			-fomit-frame-pointer -ffast-math \
 			-fms-extensions -DDS3 \
 			$(ARCH)
 
-CFLAGS	+=	$(INCLUDE) -DARM11
+CFLAGS	+=	$(INCLUDE) -DARM11 -D_3DS
 
 CXXFLAGS	:= $(CFLAGS) -fno-rtti -fno-exceptions -std=gnu++11
 

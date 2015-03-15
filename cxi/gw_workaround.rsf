@@ -1,5 +1,5 @@
 BasicInfo:
-  Title                   : "3DS Controller"
+  Title                   : "Cinoop"
   CompanyCode             : "00"
   ProductCode             : "CTR-N-3DSC"
   ContentType             : Application
@@ -11,7 +11,7 @@ Rom:
 
 
 TitleInfo:
-  UniqueId                : 0xf0fc2
+  UniqueId                : 0xf0fc3
   Category                : Application
   
 CardInfo:
