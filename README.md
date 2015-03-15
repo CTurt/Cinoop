@@ -2,6 +2,8 @@ Cinoop
 ======
 A Game Boy emulator for Windows, DS, GameCube, and 3DS, written in C.
 
+Read my article about writing Cinoop [here](http://cturt.github.io/cinoop.html).
+
 ## Progress
 **CPU:** Around half of the CPU instructions are implemented,
 
