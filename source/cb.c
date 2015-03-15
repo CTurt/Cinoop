@@ -204,30 +204,30 @@ const struct extendedInstruction extendedInstructions[256] = {
 	{ "RES 7, L", res_7_l }, // 0xbd
 	{ "RES 7, (HL)", res_7_hlp }, // 0xbe
 	{ "RES 7, A", res_7_a }, // 0xbf
-	{ "SET 0, B", NULL },    // 0xc0
-	{ "SET 0, C", NULL },    // 0xc1
-	{ "SET 0, D", NULL },    // 0xc2
-	{ "SET 0, E", NULL },    // 0xc3
-	{ "SET 0, H", NULL },    // 0xc4
-	{ "SET 0, L", NULL },    // 0xc5
-	{ "SET 0, (HL)", NULL }, // 0xc6
-	{ "SET 0, A", NULL },    // 0xc7
-	{ "SET 1, B", NULL },    // 0xc8
-	{ "SET 1, C", NULL },    // 0xc9
-	{ "SET 1, D", NULL },    // 0xca
-	{ "SET 1, E", NULL },    // 0xcb
-	{ "SET 1, H", NULL },    // 0xcc
-	{ "SET 1, L", NULL },    // 0xcd
-	{ "SET 1, (HL)", NULL }, // 0xce
-	{ "SET 1, A", NULL },    // 0xcf
-	{ "SET 2, B", NULL },    // 0xd0
-	{ "SET 2, C", NULL },    // 0xd1
-	{ "SET 2, D", NULL },    // 0xd2
-	{ "SET 2, E", NULL },    // 0xd3
-	{ "SET 2, H", NULL },    // 0xd4
-	{ "SET 2, L", NULL },    // 0xd5
-	{ "SET 2, (HL)", NULL }, // 0xd6
-	{ "SET 2, A", NULL },    // 0xd7
+	{ "SET 0, B", set_0_b },    // 0xc0
+	{ "SET 0, C", set_0_c },    // 0xc1
+	{ "SET 0, D", set_0_d },    // 0xc2
+	{ "SET 0, E", set_0_e },    // 0xc3
+	{ "SET 0, H", set_0_h },    // 0xc4
+	{ "SET 0, L", set_0_l },    // 0xc5
+	{ "SET 0, (HL)", set_0_hlp }, // 0xc6
+	{ "SET 0, A", set_0_a },    // 0xc7
+	{ "SET 1, B", set_1_b },    // 0xc8
+	{ "SET 1, C", set_1_c },    // 0xc9
+	{ "SET 1, D", set_1_d },    // 0xca
+	{ "SET 1, E", set_1_e },    // 0xcb
+	{ "SET 1, H", set_1_h },    // 0xcc
+	{ "SET 1, L", set_1_l },    // 0xcd
+	{ "SET 1, (HL)", set_1_hlp }, // 0xce
+	{ "SET 1, A", set_1_a },    // 0xcf
+	{ "SET 2, B", set_2_b },    // 0xd0
+	{ "SET 2, C", set_2_c },    // 0xd1
+	{ "SET 2, D", set_2_d },    // 0xd2
+	{ "SET 2, E", set_2_e },    // 0xd3
+	{ "SET 2, H", set_2_h },    // 0xd4
+	{ "SET 2, L", set_2_l },    // 0xd5
+	{ "SET 2, (HL)", set_2_hlp }, // 0xd6
+	{ "SET 2, A", set_2_a },    // 0xd7
 	{ "SET 3, B", set_3_b }, // 0xd8
 	{ "SET 3, C", set_3_c }, // 0xd9
 	{ "SET 3, D", set_3_d }, // 0xda
@@ -236,30 +236,30 @@ const struct extendedInstruction extendedInstructions[256] = {
 	{ "SET 3, L", set_3_l }, // 0xdd
 	{ "SET 3, (HL)", set_3_hlp }, // 0xde
 	{ "SET 3, A", set_3_a }, // 0xdf
-	{ "SET 4, B", NULL },    // 0xe0
-	{ "SET 4, C", NULL },    // 0xe1
-	{ "SET 4, D", NULL },    // 0xe2
-	{ "SET 4, E", NULL },    // 0xe3
-	{ "SET 4, H", NULL },    // 0xe4
-	{ "SET 4, L", NULL },    // 0xe5
-	{ "SET 4, (HL)", NULL }, // 0xe6
-	{ "SET 4, A", NULL },    // 0xe7
-	{ "SET 5, B", NULL },    // 0xe8
-	{ "SET 5, C", NULL },    // 0xe9
-	{ "SET 5, D", NULL },    // 0xea
-	{ "SET 5, E", NULL },    // 0xeb
-	{ "SET 5, H", NULL },    // 0xec
-	{ "SET 5, L", NULL },    // 0xed
-	{ "SET 5, (HL)", NULL }, // 0xee
-	{ "SET 5, A", NULL },    // 0xef
-	{ "SET 6, B", NULL },    // 0xf0
-	{ "SET 6, C", NULL },    // 0xf1
-	{ "SET 6, D", NULL },    // 0xf2
-	{ "SET 6, E", NULL },    // 0xf3
-	{ "SET 6, H", NULL },    // 0xf4
-	{ "SET 6, L", NULL },    // 0xf5
-	{ "SET 6, (HL)", NULL }, // 0xf6
-	{ "SET 6, A", NULL },    // 0xf7
+	{ "SET 4, B", set_4_b },    // 0xe0
+	{ "SET 4, C", set_4_c },    // 0xe1
+	{ "SET 4, D", set_4_d },    // 0xe2
+	{ "SET 4, E", set_4_e },    // 0xe3
+	{ "SET 4, H", set_4_h },    // 0xe4
+	{ "SET 4, L", set_4_l },    // 0xe5
+	{ "SET 4, (HL)", set_4_hlp }, // 0xe6
+	{ "SET 4, A", set_4_a },    // 0xe7
+	{ "SET 5, B", set_5_b },    // 0xe8
+	{ "SET 5, C", set_5_c },    // 0xe9
+	{ "SET 5, D", set_5_d },    // 0xea
+	{ "SET 5, E", set_5_e },    // 0xeb
+	{ "SET 5, H", set_5_h },    // 0xec
+	{ "SET 5, L", set_5_l },    // 0xed
+	{ "SET 5, (HL)", set_5_hlp }, // 0xee
+	{ "SET 5, A", set_5_a },    // 0xef
+	{ "SET 6, B", set_6_b },    // 0xf0
+	{ "SET 6, C", set_6_c },    // 0xf1
+	{ "SET 6, D", set_6_d },    // 0xf2
+	{ "SET 6, E", set_6_e },    // 0xf3
+	{ "SET 6, H", set_6_h },    // 0xf4
+	{ "SET 6, L", set_6_l },    // 0xf5
+	{ "SET 6, (HL)", set_6_hlp }, // 0xf6
+	{ "SET 6, A", set_6_a },    // 0xf7
 	{ "SET 7, B", set_7_b }, // 0xf8
 	{ "SET 7, C", set_7_c }, // 0xf9
 	{ "SET 7, D", set_7_d }, // 0xfa
@@ -283,10 +283,10 @@ const unsigned char extendedInstructionTicks[256] = {
 	0, 0, 0, 0, 0,  0,  0, 0,  0, 0, 0, 0, 0, 0,  0, 0, // 0x9_
 	0, 0, 0, 0, 0,  0,  0, 0,  0, 0, 0, 0, 0, 0,  0, 0, // 0xa_
 	0, 0, 0, 0, 0,  0,  0, 0,  8, 8, 8, 8, 8, 8, 12, 8, // 0xb_
-	0, 0, 0, 0, 0,  0,  0, 0,  0, 0, 0, 0, 0, 0,  0, 0, // 0xc_
-	0, 0, 0, 0, 0,  0,  0, 0,  8, 8, 8, 8, 8, 8, 12, 8, // 0xd_
-	0, 0, 0, 0, 0,  0,  0, 0,  0, 0, 0, 0, 0, 0,  0, 0, // 0xe_
-	0, 0, 0, 0, 0,  0,  0, 0,  8, 8, 8, 8, 8, 8, 12, 8  // 0xf_
+	8, 8, 8, 8, 8,  8, 12, 8,  8, 8, 8, 8, 8, 8, 12, 8, // 0xc_
+	8, 8, 8, 8, 8,  8, 12, 8,  8, 8, 8, 8, 8, 8, 12, 8, // 0xd_
+	8, 8, 8, 8, 8,  8, 12, 8,  8, 8, 8, 8, 8, 8, 12, 8, // 0xe_
+	8, 8, 8, 8, 8,  8, 12, 8,  8, 8, 8, 8, 8, 8, 12, 8  // 0xf_
 };
 
 void cb_n(unsigned char instruction) {
@@ -747,6 +747,78 @@ void res_7_hlp(void) { writeByte(registers.hl, readByte(registers.hl) & ~(1 << 7
 // 0xbf
 void res_7_a(void) { registers.a &= ~(1 << 7); }
 
+// 0xc0
+void set_0_b(void) { registers.b = set(1 << 0, registers.b); }
+
+// 0xc1
+void set_0_c(void) { registers.c = set(1 << 0, registers.c); }
+
+// 0xc2
+void set_0_d(void) { registers.d = set(1 << 0, registers.d); }
+
+// 0xc3
+void set_0_e(void) { registers.e = set(1 << 0, registers.e); }
+
+// 0xc4
+void set_0_h(void) { registers.h = set(1 << 0, registers.h); }
+
+// 0xc5
+void set_0_l(void) { registers.l = set(1 << 0, registers.l); }
+
+// 0xc6
+void set_0_hlp(void) { writeByte(registers.hl, set(1 << 0, readByte(registers.hl))); }
+
+// 0xc7
+void set_0_a(void) { registers.a = set(1 << 0, registers.a); }
+
+// 0xc8
+void set_1_b(void) { registers.b = set(1 << 1, registers.b); }
+
+// 0xc9
+void set_1_c(void) { registers.c = set(1 << 1, registers.c); }
+
+// 0xca
+void set_1_d(void) { registers.d = set(1 << 1, registers.d); }
+
+// 0xcb
+void set_1_e(void) { registers.e = set(1 << 1, registers.e); }
+
+// 0xcc
+void set_1_h(void) { registers.h = set(1 << 1, registers.h); }
+
+// 0xcd
+void set_1_l(void) { registers.l = set(1 << 1, registers.l); }
+
+// 0xce
+void set_1_hlp(void) { writeByte(registers.hl, set(1 << 1, readByte(registers.hl))); }
+
+// 0xcf
+void set_1_a(void) { registers.a = set(1 << 1, registers.a); }
+
+// 0xd0
+void set_2_b(void) { registers.b = set(1 << 2, registers.b); }
+
+// 0xd1
+void set_2_c(void) { registers.c = set(1 << 2, registers.c); }
+
+// 0xd2
+void set_2_d(void) { registers.d = set(1 << 2, registers.d); }
+
+// 0xd3
+void set_2_e(void) { registers.e = set(1 << 2, registers.e); }
+
+// 0xd4
+void set_2_h(void) { registers.h = set(1 << 2, registers.h); }
+
+// 0xd5
+void set_2_l(void) { registers.l = set(1 << 2, registers.l); }
+
+// 0xd6
+void set_2_hlp(void) { writeByte(registers.hl, set(1 << 2, readByte(registers.hl))); }
+
+// 0xd7
+void set_2_a(void) { registers.a = set(1 << 2, registers.a); }
+
 // 0xd8
 void set_3_b(void) { registers.b = set(1 << 3, registers.b); }
 
@@ -770,6 +842,78 @@ void set_3_hlp(void) { writeByte(registers.hl, set(1 << 3, readByte(registers.hl
 
 // 0xdf
 void set_3_a(void) { registers.a = set(1 << 3, registers.a); }
+
+// 0xe0
+void set_4_b(void) { registers.b = set(1 << 4, registers.b); }
+
+// 0xe1
+void set_4_c(void) { registers.c = set(1 << 4, registers.c); }
+
+// 0xe2
+void set_4_d(void) { registers.d = set(1 << 4, registers.d); }
+
+// 0xe3
+void set_4_e(void) { registers.e = set(1 << 4, registers.e); }
+
+// 0xe4
+void set_4_h(void) { registers.h = set(1 << 4, registers.h); }
+
+// 0xe5
+void set_4_l(void) { registers.l = set(1 << 4, registers.l); }
+
+// 0xe6
+void set_4_hlp(void) { writeByte(registers.hl, set(1 << 4, readByte(registers.hl))); }
+
+// 0xe7
+void set_4_a(void) { registers.a = set(1 << 4, registers.a); }
+
+// 0xe8
+void set_5_b(void) { registers.b = set(1 << 5, registers.b); }
+
+// 0xe9
+void set_5_c(void) { registers.c = set(1 << 5, registers.c); }
+
+// 0xea
+void set_5_d(void) { registers.d = set(1 << 5, registers.d); }
+
+// 0xeb
+void set_5_e(void) { registers.e = set(1 << 5, registers.e); }
+
+// 0xec
+void set_5_h(void) { registers.h = set(1 << 5, registers.h); }
+
+// 0xed
+void set_5_l(void) { registers.l = set(1 << 5, registers.l); }
+
+// 0xee
+void set_5_hlp(void) { writeByte(registers.hl, set(1 << 5, readByte(registers.hl))); }
+
+// 0xef
+void set_5_a(void) { registers.a = set(1 << 5, registers.a); }
+
+// 0xf0
+void set_6_b(void) { registers.b = set(1 << 6, registers.b); }
+
+// 0xf1
+void set_6_c(void) { registers.c = set(1 << 6, registers.c); }
+
+// 0xf2
+void set_6_d(void) { registers.d = set(1 << 6, registers.d); }
+
+// 0xf3
+void set_6_e(void) { registers.e = set(1 << 6, registers.e); }
+
+// 0xf4
+void set_6_h(void) { registers.h = set(1 << 6, registers.h); }
+
+// 0xf5
+void set_6_l(void) { registers.l = set(1 << 6, registers.l); }
+
+// 0xf6
+void set_6_hlp(void) { writeByte(registers.hl, set(1 << 6, readByte(registers.hl))); }
+
+// 0xf7
+void set_6_a(void) { registers.a = set(1 << 6, registers.a); }
 
 // 0xf8
 void set_7_b(void) { registers.b = set(1 << 7, registers.b); }
