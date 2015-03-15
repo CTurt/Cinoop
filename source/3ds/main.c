@@ -25,7 +25,21 @@
 #endif
 
 void quit(void) {
-	while(1) gspWaitForVBlank();
+	while(aptMainLoop()) {
+		hidScanInput();
+		u32 kHeld = hidKeysHeld();
+		
+		gspWaitForVBlank();
+		
+		if((kHeld & KEY_START) && (kHeld & KEY_SELECT) && (kHeld & KEY_L) && (kHeld & KEY_R)) break;
+	}
+	
+	svcCloseHandle(fileHandle);
+	fsExit();
+	
+	gfxExit();
+	
+	exit(0);
 }
 
 int main(void) {
