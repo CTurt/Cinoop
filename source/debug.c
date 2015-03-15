@@ -10,7 +10,6 @@
 #include "debug.h"
 
 unsigned char realtimeDebugEnable = 0;
-unsigned char tetrisPatch = 0;
 
 #ifdef WIN
 void realtimeDebug(void) {

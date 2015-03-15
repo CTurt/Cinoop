@@ -6,7 +6,6 @@
 //#define DEBUG_SPEED // disables speed limiting
 
 extern unsigned char realtimeDebugEnable;
-extern unsigned char tetrisPatch;
 
 #ifdef WIN
 	void realtimeDebug(void);

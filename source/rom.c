@@ -74,8 +74,6 @@ unsigned char loadROM(char *filename) {
 	
 	printf("Internal ROM name: %s\n", name);
 	
-	if(strcmp(name, "TETRIS") == 0) tetrisPatch = 1;
-	
 	type = cart[ROM_OFFSET_TYPE];
 	
 	if(!romTypeString[type]) {
@@ -145,8 +143,6 @@ unsigned char loadROM(char *filename) {
 	}
 	
 	printf("Internal ROM name: %s\n", name);
-	
-	if(strcmp(name, "TETRIS") == 0) tetrisPatch = 1;
 	
 	type = header[ROM_OFFSET_TYPE];
 	

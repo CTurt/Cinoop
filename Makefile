@@ -22,6 +22,7 @@ cinoop.3ds:
 clean:
 	rm -f wbuild/*
 	rm -f dbuild/*
+	rm -f gbuild/*
 	rm -f 3build/*
 	rm -f cinoop.elf
 	rm -f cinoopstripped.elf

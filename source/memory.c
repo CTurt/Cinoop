@@ -116,9 +116,6 @@ void writeByte(unsigned short address, unsigned char value) {
 	//	realtimeDebugEnable = 1;
 	//}
 	
-	// Block writes to ff80
-	if(tetrisPatch && address == 0xff80) return;
-	
 	if(address >= 0xa000 && address <= 0xbfff)
 		sram[address - 0xa000] = value;
 	
