@@ -80,17 +80,21 @@ int main(void) {
 	reset();
 	
 	while(1) {
+		PAD_ScanPads();
+		int buttonsDown = PAD_ButtonsDown(0);
+		
+		keys.c = 0xff;
+		if(buttonsDown & PAD_BUTTON_A) keys.a = 0;
+		if(buttonsDown & PAD_BUTTON_B) keys.b = 0;
+		if(buttonsDown & PAD_TRIGGER_Z) keys.select = 0;
+		if(buttonsDown & PAD_BUTTON_START) keys.start = 0;
+		if(buttonsDown & PAD_BUTTON_LEFT) keys.left = 0;
+		if(buttonsDown & PAD_BUTTON_RIGHT) keys.right = 0;
+		if(buttonsDown & PAD_BUTTON_UP) keys.up = 0;
+		if(buttonsDown & PAD_BUTTON_DOWN) keys.down = 0;
+		
 		cpuStep();
 		gpuStep();
 		interruptStep();
-		
-		//VIDEO_WaitVSync();
-		PAD_ScanPads();
-		
-		int buttonsDown = PAD_ButtonsDown(0);
-		
-		if(buttonsDown & PAD_BUTTON_START) {
-			exit(0);
-		}
 	}
 }

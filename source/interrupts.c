@@ -2,6 +2,10 @@
 	#include "opengl.h"
 #endif
 
+#ifdef GC
+	#include <gccore.h>
+#endif
+
 #include "cpu.h"
 #include "memory.h"
 #include "registers.h"
@@ -44,6 +48,10 @@ void interruptStep(void) {
 void vblank(void) {
 	#ifdef WIN
 		drawFramebuffer();
+	#endif
+	
+	#ifdef GC
+		VIDEO_WaitVSync();
 	#endif
 	
 	#ifdef DS3
