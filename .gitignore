@@ -1,9 +1,15 @@
 dbuild/
 gbuild/
 wbuild/
+3build/
 cinoop.elf
+cinoopstripped.elf
 cinoop.nds
 cinoop.dol
+cinoop.3ds
+cinoop.cia
+cinoop.3dsx
+cinoop.smdh
 cinoop.exe
 data/
 *.gb

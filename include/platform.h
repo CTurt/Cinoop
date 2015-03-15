@@ -16,3 +16,7 @@
 #ifdef GC
 	#define BIG_E
 #endif
+
+#ifdef DS3
+	#define LITTLE_E
+#endif
