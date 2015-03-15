@@ -1,5 +1,11 @@
 #include <3ds.h>
 
+#include "rom.h"
+#include "cpu.h"
+#include "gpu.h"
+#include "interrupts.h"
+#include "debug.h"
+#include "keys.h"
 #include "drawing.h"
 
 #include "main.h"
@@ -19,12 +25,23 @@ int main(void) {
 	
 	clearScreen();
 	
-	drawString(10, 10, "Cinoop coming to 3DS!");
+	clearScreen();
+	drawString(10, 10, "Initing FS...");
 	gfxFlushBuffers();
 	gfxSwapBuffers();
-	drawString(10, 10, "Cinoop coming to 3DS!");
 	
 	fsInit();
+	
+	if(!loadROM("/tetris.gb")) {
+		clearScreen();
+		drawString(10, 10, "Failed to load ROM!");
+		gfxFlushBuffers();
+		gfxSwapBuffers();
+		
+		quit();
+	}
+	
+	reset();
 	
 	while(aptMainLoop()) {
 		hidScanInput();
@@ -37,16 +54,14 @@ int main(void) {
 		touchPosition touch;
 		touchRead(&touch);
 		
-		
+		cpuStep();
+		gpuStep();
+		interruptStep();
 		
 		if((kHeld & KEY_START) && (kHeld & KEY_SELECT)) break;
-		
-		gfxFlushBuffers();
-		gspWaitForVBlank();
-		gfxSwapBuffers();
 	}
 	
-	//svcCloseHandle(fileHandle);
+	svcCloseHandle(fileHandle);
 	fsExit();
 	
 	gfxExit();

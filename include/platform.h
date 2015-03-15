@@ -18,5 +18,6 @@
 #endif
 
 #ifdef DS3
+	#include <3ds.h>
 	#define LITTLE_E
 #endif

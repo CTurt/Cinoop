@@ -9,6 +9,10 @@
 
 #include "rom.h"
 
+#ifdef DS3
+	Handle fileHandle;
+#endif
+
 const char *romTypeString[256] = {
 	[ROM_PLAIN] = "ROM_PLAIN",
 	[ROM_MBC1] = "ROM_MBC1",
@@ -39,6 +43,29 @@ const char *romTypeString[256] = {
 };
 
 unsigned char loadROM(char *filename) {
+	#ifdef DS3
+	u64 size;
+	u32 bytesRead;
+	
+	FS_archive sdmcArchive = (FS_archive){ARCH_SDMC, (FS_path){PATH_EMPTY, 1, (u8*)""}};
+	FS_path filePath = FS_makePath(PATH_CHAR, filename); // /filename
+	
+	Result ret = FSUSER_OpenFileDirectly(NULL, &fileHandle, sdmcArchive, filePath, FS_OPEN_READ, FS_ATTRIBUTE_NONE);
+	if(ret) return false;
+	
+	ret = FSFILE_GetSize(fileHandle, &size);
+	if(ret) return false;
+	
+	ret = FSFILE_Read(fileHandle, &bytesRead, 0x0, cart, size);
+	if(ret || size != bytesRead) return false;
+	
+	ret = FSFILE_Close(fileHandle);
+	if(ret) return false;
+	
+	tetrisPatch = 1;
+	
+	return 1;
+#else
 	FILE *f;
 	size_t length;
 	
@@ -129,6 +156,7 @@ unsigned char loadROM(char *filename) {
 	fclose(f);
 	
 	return 1;
+	#endif
 }
 
 void unloadROM(void) {

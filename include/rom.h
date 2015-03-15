@@ -5,6 +5,10 @@
 #define ROM_OFFSET_ROM_SIZE 0x148
 #define ROM_OFFSET_RAM_SIZE 0x149
 
+#ifdef DS3
+	extern Handle fileHandle;
+#endif
+
 enum romType {
 	ROM_PLAIN = 0x00,
 	ROM_MBC1 = 0x01,

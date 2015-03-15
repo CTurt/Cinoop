@@ -1,5 +1,7 @@
 #pragma once
 
+#define RGB(r, g, b) (((b) >> 3) + (((g) & 0x1C) << 3) + (((((g) & 0xE0) >> 5) + ((r) & 0xF8)) << 8))
+
 inline void clearScreen(void);
 
 #define drawPixelRGB(x, y, r, g, b) drawPixelRGBFramebuffer(0, x, y, r, g, b)

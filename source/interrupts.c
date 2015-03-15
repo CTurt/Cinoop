@@ -46,6 +46,12 @@ void vblank(void) {
 		drawFramebuffer();
 	#endif
 	
+	#ifdef DS3
+		gfxFlushBuffers();
+		gspWaitForVBlank();
+		gfxSwapBuffers();
+	#endif
+	
 	interrupt.master = 0;
 	writeShortToStack(registers.pc);
 	registers.pc = 0x40;
