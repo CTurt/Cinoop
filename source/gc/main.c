@@ -15,7 +15,10 @@
 #include "keys.h"
 #include "display.h"
 
-#define NOFS
+// To embed the ROM inside of the binary, place it as "data/tetris.bin"
+// and uncomment the define below
+// this is useful for running Cinoop in a GameCube emulator which doesn't support FS
+//#define NOFS
 #ifdef NOFS
 	#include "string.h"
 	
