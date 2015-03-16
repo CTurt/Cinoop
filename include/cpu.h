@@ -219,6 +219,7 @@ void push_de(void);
 void sub_n(unsigned char operand);
 void ret_c(void);
 void jp_c_nn(unsigned short operand);
+void rst_18(void);
 void ld_ff_n_ap(unsigned char operand);
 void pop_hl(void);
 void ld_ff_c_a(void);

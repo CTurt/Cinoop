@@ -36,6 +36,8 @@ Building the DS version requires devkitARM and libnds, from [devkitPro](http://d
 
 Building the GameCube version requires devkitPPC and libogc, from [devkitPro](http://devkitPro.org).
 
+Building the 3DS version requires devkitARM and ctrulib from [devkitPro](http://devkitPro.org).
+
 ## Usage
 Pass the ROM you would like to run as the first argument. You can do this by either dragging the ROM onto Cinoop, or starting it from the command line:
 

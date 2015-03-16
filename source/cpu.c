@@ -261,7 +261,7 @@ const struct instruction instructions[256] = {
 	{ "CALL C, 0x%04X", 2, NULL },					        // 0xdc
 	{ "UNKNOWN", 0, NULL },							        // 0xdd
 	{ "SBC A, 0x%02X", 1, NULL },						    // 0xde
-	{ "RST 0x18", 0, NULL },							    // 0xdf
+	{ "RST 0x18", 0, rst_18 },							    // 0xdf
 	{ "LD (0xFF00 + 0x%02X), A", 1, ld_ff_n_ap },	        // 0xe0
 	{ "POP HL", 0, pop_hl },						        // 0xe1
 	{ "LD (0xFF00 + C), A", 0, ld_ff_c_a },	                // 0xe2
@@ -1301,6 +1301,9 @@ void jp_c_nn(unsigned short operand) {
 	}
 	else ticks += 12;
 }
+
+// 0xdf
+void rst_18(void) { writeShortToStack(registers.pc); registers.pc = 0x18; }
 
 // 0xe0
 void ld_ff_n_ap(unsigned char operand) { writeByte(0xff00 + operand, registers.a); }
