@@ -2,6 +2,10 @@
 	#include "opengl.h"
 #endif
 
+#ifdef DS
+	#include "display.h"
+#endif
+
 #ifdef GC
 	#include <gccore.h>
 #endif
@@ -48,6 +52,10 @@ void interruptStep(void) {
 void vblank(void) {
 	#ifdef WIN
 		drawFramebuffer();
+	#endif
+	
+	#ifdef DS
+		copyMap();
 	#endif
 	
 	#ifdef GC

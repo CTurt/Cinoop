@@ -15,7 +15,9 @@
 
 struct gpu gpu;
 
-unsigned char tiles[384][8][8];
+//#ifndef DS
+	unsigned char tiles[384][8][8];
+//#endif
 
 /* References:
 http://www.codeslinger.co.uk/pages/projects/gameboy/lcd.html
@@ -82,7 +84,9 @@ void gpuStep(void) {
 			if(gpu.tick >= 172) {
 				gpuMode = GPU_MODE_HBLANK;
 				
-				renderScanline();
+				#ifndef DS
+					renderScanline();
+				#endif
 				
 				gpu.tick -= 172;
 			}
@@ -98,12 +102,26 @@ void hblank(void) {
 void updateTile(unsigned short address, unsigned char value) {
 	address &= 0x1ffe;
 	
+	#ifdef DS
+		unsigned char tempTile[8][8];
+	#endif
+	
 	unsigned short tile = (address >> 4) & 511;
 	unsigned short y = (address >> 1) & 7;
 	
 	unsigned char x, bitIndex;
 	for(x = 0; x < 8; x++) {
 		bitIndex = 1 << (7 - x);
-		tiles[tile][x][y] = ((vram[address] & bitIndex) ? 1 : 0) + ((vram[address + 1] & bitIndex) ? 2 : 0);
+		
+		#ifdef DS
+			tempTile[y][x] = ((vram[address] & bitIndex) ? 1 : 0) + ((vram[address + 1] & bitIndex) ? 2 : 0);
+		#else
+			//((unsigned char (*)[8][8])tiles)[tile][x][y] = ((vram[address] & bitIndex) ? 1 : 0) + ((vram[address + 1] & bitIndex) ? 2 : 0);
+			tiles[tile][x][y] = ((vram[address] & bitIndex) ? 1 : 0) + ((vram[address + 1] & bitIndex) ? 2 : 0);
+		#endif
 	}
+	
+	#ifdef DS
+		memcpy(tile * 32 + bgGetGfxPtr(layer), tempTile, sizeof(tempTile));
+	#endif
 }

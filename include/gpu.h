@@ -1,5 +1,10 @@
 #pragma once
 
+#ifdef DS
+	#include <nds.h>
+	#include "display.h"
+#endif
+
 #include "platform.h"
 
 #define GPU_CONTROL_BGENABLE (1 << 0)
@@ -45,7 +50,12 @@ struct sprite {
 	#endif
 };
 
-extern unsigned char tiles[384][8][8];
+#ifdef DS
+	//#define tiles ((unsigned char (*)[8][8])bgGetGfxPtr(layer))
+	extern unsigned char tiles[384][8][8];
+#else
+	extern unsigned char tiles[384][8][8];
+#endif
 
 void gpuStep(void);
 

@@ -1,7 +1,9 @@
 #pragma once
 
 #ifdef DS
-	#define framebuffer VRAM_A
+	#define layer 3
+	extern const unsigned short palette[4];
+	void copyMap(void);
 #endif
 
 #ifdef GC
