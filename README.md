@@ -9,7 +9,7 @@ Read my article about writing Cinoop [here](http://cturt.github.io/cinoop.html).
 
 **GPU:** Can display tile maps, sprites are half supported in the Windows version,
 
-**Memory:** Support for 32KB ROMs, without mappers, only,
+**Memory:** Support for 32KB ROMs, without mappers, only (Tetris and Dr. Mario),
 
 **Input:** Supported,
 
@@ -25,7 +25,7 @@ Read my article about writing Cinoop [here](http://cturt.github.io/cinoop.html).
 
 The 3DS port does not currently support input.
 
-**Optimisations to do:** Currently the DS renders the Game Boy screen in framebuffer mode, this is slow. The DS supports hardware tile rendering, which will be much faster.
+The DS port has some minor graphical glitches at the moment, since writing to VRAM too frequently can cause some writes to be missed.
 
 ## Building
 Just run `make` on the directory to build all binaries. You can also run `make cinoop.exe` for just Windows, `make cinoop.nds` for just DS, `make cinoop.dol` for just GameCube, or `make cinoop.3ds` for just 3DS.

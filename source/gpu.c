@@ -122,6 +122,7 @@ void updateTile(unsigned short address, unsigned char value) {
 	}
 	
 	#ifdef DS
+		// while(memcmp(bgGetGfxPtr(layer) + tile * 32, tempTile, sizeof(tempTile))) memcpy(bgGetGfxPtr(layer) + tile * 32, tempTile, sizeof(tempTile));
 		memcpy(bgGetGfxPtr(layer) + tile * 32, tempTile, sizeof(tempTile));
 	#endif
 }
