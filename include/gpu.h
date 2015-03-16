@@ -22,22 +22,27 @@ struct gpu {
 } extern gpu;
 
 struct sprite {
-	unsigned char y;
-	unsigned char x;
-	unsigned char tile;
-	struct options {
-		#ifdef LITTLE_E
-			unsigned char priority : 1;
-			unsigned char vFlip : 1;
-			unsigned char hFlip : 1;
+	#ifdef LITTLE_E
+		unsigned char y;
+		unsigned char x;
+		unsigned char tile;
+		struct options {
+				unsigned char priority : 1;
+				unsigned char vFlip : 1;
+				unsigned char hFlip : 1;
+				unsigned char palette : 1;
+		}; struct options options;
+	#else
+		struct options {
 			unsigned char palette : 1;
-		#else
-			unsigned char palette : 1;
 			unsigned char hFlip : 1;
 			unsigned char vFlip : 1;
 			unsigned char priority : 1;
-		#endif
-	}; struct options options;
+		}; struct options options;
+		unsigned char tile;
+		unsigned char x;
+		unsigned char y;
+	#endif
 };
 
 extern unsigned char tiles[384][8][8];
@@ -49,4 +54,3 @@ void hblank(void);
 void renderScanline(void);
 
 void updateTile(unsigned short address, unsigned char value);
-//void updateOAM(unsigned short address, unsigned char value);
