@@ -16,8 +16,10 @@ void copyMap(void) {
 	int mapOffset = (gpu.control & GPU_CONTROL_TILEMAP) ? 0x1c00 : 0x1800;
 	mapOffset += ((gpu.scrollY & 255) >> 3) << 5;
 	
-	int i;
-	for(i = 0; i < 512 + 64; i++) {
-		bgGetMapPtr(layer)[i] = vram[mapOffset + i];
+	int x, y;
+	for(y = 0; y < 144 / 8; y++) {
+		for(x = 0; x < 160 / 8; x++) {
+			bgGetMapPtr(layer)[((256 - 160) / 2) / 8 + x + (y + ((192 - 144) / 2) / 8) * 256 / 8] = vram[mapOffset + x + y * 256 / 8];
+		}
 	}
 }
