@@ -25,15 +25,22 @@ int main(void) {
 	//videoSetMode(MODE_FB0);
 	//vramSetBankA(VRAM_A_LCD);
 	
-	// http://mtheall.com/vram.html#T0=1&NT0=384&MB0=12&TB0=0&S0=0
+	// http://mtheall.com/vram.html#T0=1&NT0=384&MB0=13&TB0=0&S0=0
 	videoSetMode(MODE_0_2D);
 	vramSetBankA(VRAM_A_MAIN_BG);
-	bgInit(layer, BgType_Text8bpp, BgSize_T_256x256, 12, 0);
+	bgInit(layer, BgType_Text8bpp, BgSize_T_256x256, 13, 0);
 	
 	BG_PALETTE[0] = palette[0];
 	BG_PALETTE[1] = palette[1];
 	BG_PALETTE[2] = palette[2];
 	BG_PALETTE[3] = palette[3];
+	
+	memset(bgGetGfxPtr(layer) + 384 * 32, 3, 64);
+	
+	int i;
+	for(i = 0; i < 256 / 8 * 192 / 8; i++) {
+		bgGetMapPtr(layer)[i] = 384;
+	}
 	
 	consoleDemoInit();
 	
