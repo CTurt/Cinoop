@@ -43,7 +43,7 @@ void renderScanline(void) {
 	
 	int pixelOffset = gpu.scanline * 160;
 	
-	unsigned char tile = vram[mapOffset + lineOffset];
+	unsigned short tile = (unsigned short)vram[mapOffset + lineOffset];
 	
 	if((gpu.control & GPU_CONTROL_TILESET) == 1 && tile < 128) tile += 256;
 	
