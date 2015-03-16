@@ -15,9 +15,7 @@
 
 struct gpu gpu;
 
-//#ifndef DS
-	unsigned char tiles[384][8][8];
-//#endif
+unsigned char tiles[384][8][8];
 
 /* References:
 http://www.codeslinger.co.uk/pages/projects/gameboy/lcd.html
@@ -102,10 +100,6 @@ void hblank(void) {
 void updateTile(unsigned short address, unsigned char value) {
 	address &= 0x1ffe;
 	
-	#ifdef DS
-		unsigned char tempTile[8][8];
-	#endif
-	
 	unsigned short tile = (address >> 4) & 511;
 	unsigned short y = (address >> 1) & 7;
 	
@@ -114,7 +108,7 @@ void updateTile(unsigned short address, unsigned char value) {
 		bitIndex = 1 << (7 - x);
 		
 		#ifdef DS
-			tempTile[y][x] = ((vram[address] & bitIndex) ? 1 : 0) + ((vram[address + 1] & bitIndex) ? 2 : 0);
+			tiles[tile][y][x] = ((vram[address] & bitIndex) ? 1 : 0) + ((vram[address + 1] & bitIndex) ? 2 : 0);
 		#else
 			//((unsigned char (*)[8][8])tiles)[tile][x][y] = ((vram[address] & bitIndex) ? 1 : 0) + ((vram[address + 1] & bitIndex) ? 2 : 0);
 			tiles[tile][x][y] = ((vram[address] & bitIndex) ? 1 : 0) + ((vram[address + 1] & bitIndex) ? 2 : 0);
@@ -122,7 +116,6 @@ void updateTile(unsigned short address, unsigned char value) {
 	}
 	
 	#ifdef DS
-		// while(memcmp(bgGetGfxPtr(layer) + tile * 32, tempTile, sizeof(tempTile))) memcpy(bgGetGfxPtr(layer) + tile * 32, tempTile, sizeof(tempTile));
-		memcpy(bgGetGfxPtr(layer) + tile * 32, tempTile, sizeof(tempTile));
+		dirtyMap = 1;
 	#endif
 }

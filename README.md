@@ -23,9 +23,7 @@ Read my article about writing Cinoop [here](http://cturt.github.io/cinoop.html).
 
 ![GameCube emulator running Cinoop](gamecube.png)
 
-The 3DS port does not currently support input.
-
-The DS port has some minor graphical glitches at the moment, since writing to VRAM too frequently can cause some writes to be missed.
+The DS and 3DS emulator do not run full speed.
 
 ## Building
 Just run `make` on the directory to build all binaries. You can also run `make cinoop.exe` for just Windows, `make cinoop.nds` for just DS, `make cinoop.dol` for just GameCube, or `make cinoop.3ds` for just 3DS.

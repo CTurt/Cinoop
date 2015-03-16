@@ -55,6 +55,7 @@ void vblank(void) {
 	#endif
 	
 	#ifdef DS
+		// Support scrolling
 		copyMap();
 	#endif
 	

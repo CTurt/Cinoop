@@ -12,6 +12,8 @@ const unsigned short palette[4] = {
 	RGB15(0, 0, 0),
 };
 
+unsigned char dirtyMap = 0;
+
 void copyMap(void) {
 	int mapOffset = (gpu.control & GPU_CONTROL_TILEMAP) ? 0x1c00 : 0x1800;
 	mapOffset += ((gpu.scrollY & 255) >> 3) << 5;

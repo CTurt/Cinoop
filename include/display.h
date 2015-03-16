@@ -2,7 +2,10 @@
 
 #ifdef DS
 	#define layer 3
+	
 	extern const unsigned short palette[4];
+	extern unsigned char dirtyMap;
+	
 	void copyMap(void);
 #endif
 

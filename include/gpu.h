@@ -50,12 +50,7 @@ struct sprite {
 	#endif
 };
 
-#ifdef DS
-	//#define tiles ((unsigned char (*)[8][8])bgGetGfxPtr(layer))
-	extern unsigned char tiles[384][8][8];
-#else
-	extern unsigned char tiles[384][8][8];
-#endif
+extern unsigned char tiles[384][8][8];
 
 void gpuStep(void);
 

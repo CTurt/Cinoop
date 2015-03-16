@@ -16,7 +16,16 @@
 
 #include "main.h"
 
+void dsVblank(void) {
+	if(dirtyMap) {
+		memcpy(bgGetGfxPtr(layer), tiles, 160 / 8 * 144 / 8 * 32);
+		dirtyMap = 0;
+	}
+}
+
 void quit(void) {
+	void irqDummy(void);
+	irqSet(IRQ_VBLANK, irqDummy);
 	while(1) swiWaitForVBlank();
 }
 
@@ -41,6 +50,8 @@ int main(void) {
 	for(i = 0; i < 256 / 8 * 192 / 8; i++) {
 		bgGetMapPtr(layer)[i] = 384;
 	}
+	
+	irqSet(IRQ_VBLANK, dsVblank);
 	
 	consoleDemoInit();
 	
