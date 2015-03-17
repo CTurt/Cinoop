@@ -52,14 +52,14 @@ const struct extendedInstruction extendedInstructions[256] = {
 	{ "SLA L", sla_l },      // 0x25
 	{ "SLA (HL)", sla_hlp }, // 0x26
 	{ "SLA A", sla_a },      // 0x27
-	{ "SRA B", NULL },       // 0x28
-	{ "SRA C", NULL },       // 0x29
-	{ "SRA D", NULL },       // 0x2a
-	{ "SRA E", NULL },       // 0x2b
-	{ "SRA H", NULL },       // 0x2c
-	{ "SRA L", NULL },       // 0x2d
-	{ "SRA (HL)", NULL },    // 0x2e
-	{ "SRA A", NULL },       // 0x2f
+	{ "SRA B", sra_b },      // 0x28
+	{ "SRA C", sra_c },      // 0x29
+	{ "SRA D", sra_d },      // 0x2a
+	{ "SRA E", sra_e },      // 0x2b
+	{ "SRA H", sra_h },      // 0x2c
+	{ "SRA L", sra_l },      // 0x2d
+	{ "SRA (HL)", sra_hlp }, // 0x2e
+	{ "SRA A", sra_a },      // 0x2f
 	{ "SWAP B", swap_b },    // 0x30
 	{ "SWAP C", swap_c },    // 0x31
 	{ "SWAP D", swap_d },    // 0x32
@@ -273,7 +273,7 @@ const struct extendedInstruction extendedInstructions[256] = {
 const unsigned char extendedInstructionTicks[256] = {
 	8, 8, 8, 8, 8,  8, 16, 8,  8, 8, 8, 8, 8, 8, 16, 8, // 0x0_
 	8, 8, 8, 8, 8,  8, 16, 8,  8, 8, 8, 8, 8, 8, 16, 8, // 0x1_
-	8, 8, 8, 8, 8,  8, 16, 8,  0, 0, 0, 0, 0, 0,  0, 0, // 0x2_
+	8, 8, 8, 8, 8,  8, 16, 8,  8, 8, 8, 8, 8, 8, 16, 8, // 0x2_
 	8, 8, 8, 8, 8,  8, 16, 8,  0, 0, 0, 0, 0, 0,  0, 8, // 0x3_
 	8, 8, 8, 8, 8,  8, 12, 0,  8, 0, 0, 0, 0, 0,  0, 0, // 0x4_
 	8, 8, 8, 8, 8,  8, 12, 8,  8, 8, 8, 8, 8, 8, 12, 8, // 0x5_
@@ -380,6 +380,20 @@ static unsigned char sla(unsigned char value) {
 	else FLAGS_CLEAR(FLAGS_CARRY);
 	
 	value <<= 1;
+	
+	if(value) FLAGS_CLEAR(FLAGS_ZERO);
+	else FLAGS_SET(FLAGS_ZERO);
+	
+	FLAGS_CLEAR(FLAGS_NEGATIVE | FLAGS_HALFCARRY);
+	
+	return value;
+}
+
+static unsigned char sra(unsigned char value) {
+	if(value & 0x01) FLAGS_SET(FLAGS_CARRY);
+	else FLAGS_CLEAR(FLAGS_CARRY);
+	
+	value = (value & 0x80) | (value >> 1);
 	
 	if(value) FLAGS_CLEAR(FLAGS_ZERO);
 	else FLAGS_SET(FLAGS_ZERO);
@@ -532,6 +546,30 @@ void sla_hlp(void) { writeByte(registers.hl, sla(readByte(registers.hl))); }
 
 // 0x27
 void sla_a(void) { registers.a = sla(registers.a); }
+
+// 0x28
+void sra_b(void) { registers.b = sra(registers.b); }
+
+// 0x29
+void sra_c(void) { registers.c = sra(registers.c); }
+
+// 0x2a
+void sra_d(void) { registers.d = sra(registers.d); }
+
+// 0x2b
+void sra_e(void) { registers.e = sra(registers.e); }
+
+// 0x2c
+void sra_h(void) { registers.h = sra(registers.h); }
+
+// 0x2d
+void sra_l(void) { registers.l = sra(registers.l); }
+
+// 0x2e
+void sra_hlp(void) { writeByte(registers.hl, sra(registers.hl)); }
+
+// 0x2f
+void sra_a(void) { registers.a = sra(registers.a); }
 
 // 0x30
 void swap_b(void) { registers.b = swap(registers.b); }
