@@ -2,6 +2,7 @@
 
 #ifdef WIN
 	#include <windows.h>
+	#include <gl/gl.h>
 	#define LITTLE_E
 #endif
 
@@ -23,5 +24,8 @@
 #endif
 
 #ifdef LIN
+	#include <GL/gl.h>
+	#include <GL/glx.h>
+	#include <GL/glu.h>
 	#define LITTLE_E
 #endif

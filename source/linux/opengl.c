@@ -1,6 +1,6 @@
-#include <windows.h>
-#include <LDFS.h>
+#include "platform.h"
 
+#include "main.h"
 #include "memory.h"
 #include "gpu.h"
 #include "debug.h"
@@ -17,22 +17,6 @@ const struct rgb palette[4] = {
 };
 
 void renderScanline(void) {
-	// draw tileset to framebuffer as a test
-	/*{
-		int i;
-		for(i = 0; i < (144 / 8) * (160 / 8); i++) {
-			int x;
-			for(x = 0; x < 8; x++) {
-				int y;
-				for(y = 0; y < 8; y++) {
-					framebuffer[(i * 8 % 160) + x + (y + i * 8 / 160 * 8) * 160].r = palette[tiles[i][x][y]].r;
-					framebuffer[(i * 8 % 160) + x + (y + i * 8 / 160 * 8) * 160].g = palette[tiles[i][x][y]].g;
-					framebuffer[(i * 8 % 160) + x + (y + i * 8 / 160 * 8) * 160].b = palette[tiles[i][x][y]].b;
-				}
-			}
-		}
-	}*/
-	
 	int mapOffset = (gpu.control & GPU_CONTROL_TILEMAP) ? 0x1c00 : 0x1800;
 	mapOffset += (((gpu.scanline + gpu.scrollY) & 255) >> 3) << 5;
 	
@@ -44,7 +28,7 @@ void renderScanline(void) {
 	int pixelOffset = gpu.scanline * 160;
 	
 	unsigned short tile = (unsigned short)vram[mapOffset + lineOffset];
-	if((gpu.control & GPU_CONTROL_TILESET) != 0 && tile < 128) tile += 256;
+	//if((gpu.control & GPU_CONTROL_TILESET) && tile < 128) tile += 256;
 	
 	unsigned char scanlineRow[160];
 	
@@ -63,7 +47,7 @@ void renderScanline(void) {
 			x = 0;
 			lineOffset = (lineOffset + 1) & 31;
 			tile = vram[mapOffset + lineOffset];
-			if((gpu.control & GPU_CONTROL_TILESET) != 0 && tile < 128) tile += 256;
+			//if((gpu.control & GPU_CONTROL_TILESET) && tile < 128) tile += 256;
 		}
 	}
 	
@@ -71,7 +55,7 @@ void renderScanline(void) {
 	for(i = 0; i < 40; i++) {
 		struct sprite sprite = ((struct sprite *)oam)[i];
 		
-		if(sprite.tile) {
+		/*if(sprite.tile) {
 			int x, y;
 			for(y = 0; y < 8; y++) {
 				for(x = 0; x < 8; x++) {
@@ -83,8 +67,8 @@ void renderScanline(void) {
 					}
 				}
 			}
-		}
-		/*
+		}*/
+		
 		sprite.x -= 8;
 		sprite.y -= 16;
 		
@@ -112,7 +96,7 @@ void renderScanline(void) {
 					}
 				}
 			}
-		}*/
+		}
 	}
 }
 
@@ -127,9 +111,5 @@ void drawFramebuffer(void) {
 	glRasterPos2f(-1, 1);
 	glPixelZoom(1, -1);
 	glDrawPixels(160, 144, GL_RGB, GL_UNSIGNED_BYTE, framebuffer);
-	LDFS_SwapBuffers();
-	
-	#ifndef DEBUG_SPEED
-		LDFS_MaintainFramerate();
-	#endif
+	glXSwapBuffers(dpy, win);
 }

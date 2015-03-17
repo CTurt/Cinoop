@@ -69,6 +69,10 @@ void vblank(void) {
 		gfxSwapBuffers();
 	#endif
 	
+	#ifdef LIN
+		drawFramebuffer();
+	#endif
+	
 	interrupt.master = 0;
 	writeShortToStack(registers.pc);
 	registers.pc = 0x40;
