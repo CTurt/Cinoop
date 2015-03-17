@@ -21,3 +21,7 @@
 	#include <3ds.h>
 	#define LITTLE_E
 #endif
+
+#ifdef LIN
+	#define LITTLE_E
+#endif

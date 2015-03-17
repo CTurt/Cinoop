@@ -1,7 +1,7 @@
 .PHONY: all
 .PHONY: clean
 
-all: cinoop.exe cinoop.nds cinoop.dol cinoop.3ds
+all: cinoop.exe cinoop.nds cinoop.dol cinoop.3ds cinoop
 
 .PHONY: cinoop.exe
 cinoop.exe:
@@ -19,11 +19,16 @@ cinoop.dol:
 cinoop.3ds:
 	make -f Makefile.3d
 
+.PHONY: cinoop
+cinoop:
+	make -f Makefile.lin
+
 clean:
 	rm -f wbuild/*
 	rm -f dbuild/*
 	rm -f gbuild/*
 	rm -f 3build/*
+	rm -f lbuild/*
 	rm -f cinoop.elf
 	rm -f cinoopstripped.elf
 	rm -f cinoop.nds
@@ -33,7 +38,9 @@ clean:
 	rm -f cinoop.cia
 	rm -f cinoop.smdh
 	rm -f cinoop.exe
+	rm -f cinoop
 	rmdir wbuild
 	rmdir dbuild
 	rmdir gbuild
 	rmdir 3build
+	rmdir lbuild

@@ -1,0 +1,22 @@
+CC		:=	gcc
+SDIR	:=	source
+IDIR	:=	-Iinclude
+CFLAGS	:=	$(IDIR) -Wall -fms-extensions -Ofast -DLIN
+LFLAGS	:=	-lX11 -lGL -lGLU
+ODIR	:=	lbuild
+CFILES	:=	$(wildcard $(SDIR)/*.c)
+CFILES	:=	$(CFILES) $(wildcard $(SDIR)/linux/*.c)
+OBJS	:=	$(patsubst $(SDIR)/linux/%.c, $(ODIR)/%.o, $(CFILES))
+OBJS	:=	$(patsubst $(SDIR)/%.c, $(ODIR)/%.o, $(OBJS))
+
+cinoop: $(ODIR) $(OBJS)
+	$(CC) $(ODIR)/*.o -o $@ $(LFLAGS)
+
+$(ODIR)/%.o: $(SDIR)/%.c
+	$(CC) -c -o $@ $< $(CFLAGS)
+
+$(ODIR)/%.o: $(SDIR)/linux/%.c
+	$(CC) -c -o $@ $< $(CFLAGS)
+
+$(ODIR):
+	@mkdir $@

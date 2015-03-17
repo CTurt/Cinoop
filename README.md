@@ -1,6 +1,6 @@
 Cinoop
 ======
-A Game Boy emulator for Windows, DS, GameCube, and 3DS, written in C.
+A Game Boy emulator for Windows, DS, GameCube, 3DS, and Linux based OSes, written in C.
 
 Read my article about writing Cinoop [here](http://cturt.github.io/cinoop.html).
 
@@ -26,7 +26,7 @@ Read my article about writing Cinoop [here](http://cturt.github.io/cinoop.html).
 The DS and 3DS emulator do not run full speed.
 
 ## Building
-Just run `make` on the directory to build all binaries. You can also run `make cinoop.exe` for just Windows, `make cinoop.nds` for just DS, `make cinoop.dol` for just GameCube, or `make cinoop.3ds` for just 3DS.
+Just run `make` on the directory to build all binaries. You can also run `make cinoop.exe` for just Windows, `make cinoop.nds` for just DS, `make cinoop.dol` for just GameCube, `make cinoop.3ds` for just 3DS, or `make cinoop` for just Linux.
 
 Building the Windows version requires [LDFS](https://github.com/CTurt/LDFS), and has been tested with [MinGW](http://www.mingw.org/), using another compiler may require some tweaking.
 
@@ -35,6 +35,8 @@ Building the DS version requires devkitARM and libnds, from [devkitPro](http://d
 Building the GameCube version requires devkitPPC and libogc, from [devkitPro](http://devkitPro.org).
 
 Building the 3DS version requires devkitARM and ctrulib from [devkitPro](http://devkitPro.org).
+
+Building the Linux version requires [X11](http://en.wikipedia.org/wiki/X_Window_System), and the OpenGL development files. It has been tested with [Ubuntu](http://www.ubuntu.com/).
 
 ## Usage
 Pass the ROM you would like to run as the first argument. You can do this by either dragging the ROM onto Cinoop, or starting it from the command line:
