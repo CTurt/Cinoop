@@ -44,7 +44,7 @@ void renderScanline(void) {
 	int pixelOffset = gpu.scanline * 160;
 	
 	unsigned short tile = (unsigned short)vram[mapOffset + lineOffset];
-	if((gpu.control & GPU_CONTROL_TILESET) != 0 && tile < 128) tile += 256;
+	//if((gpu.control & GPU_CONTROL_TILESET) && tile < 128) tile += 256;
 	
 	unsigned char scanlineRow[160];
 	
@@ -63,13 +63,13 @@ void renderScanline(void) {
 			x = 0;
 			lineOffset = (lineOffset + 1) & 31;
 			tile = vram[mapOffset + lineOffset];
-			if((gpu.control & GPU_CONTROL_TILESET) != 0 && tile < 128) tile += 256;
+			//if((gpu.control & GPU_CONTROL_TILESET) && tile < 128) tile += 256;
 		}
 	}
 	
 	// if sprites enabled
 	for(i = 0; i < 40; i++) {
-		struct sprite sprite = ((struct sprite *)oam)[i];
+		/*struct sprite sprite = ((struct sprite *)oam)[i];
 		
 		if(sprite.tile) {
 			int x, y;
@@ -84,7 +84,8 @@ void renderScanline(void) {
 				}
 			}
 		}
-		/*
+		*/
+		
 		sprite.x -= 8;
 		sprite.y -= 16;
 		
@@ -112,7 +113,7 @@ void renderScanline(void) {
 					}
 				}
 			}
-		}*/
+		}
 	}
 }
 

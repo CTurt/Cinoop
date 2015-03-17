@@ -17,13 +17,15 @@ Read my article about writing Cinoop [here](http://cturt.github.io/cinoop.html).
 
 **Games:** Cinoop can almost play Tetris; sprites are not displayed, so you can only see a piece once it has reached the bottom, and there is no random number generator, so the same piece is always given, and there are many unimplemented instructions. It is unlikely that any games are playable yet.
 
-![Running Tetris](tetris.png)
+![Windows version running Tetris](tetris.png)
 
 ![DS emulator running Cinoop](ds.png)
 
 ![GameCube emulator running Cinoop](gamecube.png)
 
-The DS and 3DS emulator do not run full speed.
+![Ubuntu version running Tetris](ubuntu.png)
+
+The DS and 3DS emulator do not run full speed. The Linux port does not yet support input.
 
 ## Building
 Just run `make` on the directory to build all binaries. You can also run `make cinoop.exe` for just Windows, `make cinoop.nds` for just DS, `make cinoop.dol` for just GameCube, `make cinoop.3ds` for just 3DS, or `make cinoop` for just Linux.
@@ -78,3 +80,6 @@ To view the full debug log, you will need to redirect `stdout` to a file, like s
 - Start: Start
 - Select: Select
 - DPad: DPad
+
+### Linux Controls
+(not supported)
