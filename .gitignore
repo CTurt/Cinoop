@@ -13,4 +13,5 @@ cinoop.smdh
 cinoop.exe
 data/
 *.gb
+*.bat
 debug.txt
