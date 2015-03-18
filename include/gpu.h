@@ -42,7 +42,7 @@ struct sprite {
 		unsigned char x;
 		unsigned char tile;
 		struct options {
-			unsigned char dummy : 4;
+			//unsigned char dummy : 4;
 			unsigned char palette : 1;
 			unsigned char hFlip : 1;
 			unsigned char vFlip : 1;

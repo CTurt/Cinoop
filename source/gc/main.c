@@ -83,9 +83,11 @@ int main(void) {
 	
 	while(1) {
 		PAD_ScanPads();
-		int buttonsDown = PAD_ButtonsDown(0);
+		int buttonsDown = PAD_ButtonsHeld(0);
 		
-		keys.c = 0xff;
+		//keys.c = 0xff;
+		keys.keys1 = 0xf;
+		keys.keys2 = 0xf;
 		if(buttonsDown & PAD_BUTTON_A) keys.a = 0;
 		if(buttonsDown & PAD_BUTTON_B) keys.b = 0;
 		if(buttonsDown & PAD_TRIGGER_Z) keys.select = 0;
