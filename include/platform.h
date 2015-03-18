@@ -3,6 +3,7 @@
 #ifdef WIN
 	#include <windows.h>
 	#include <gl/gl.h>
+	#include <LDFS.h>
 	#define LITTLE_E
 #endif
 
@@ -11,10 +12,12 @@
 #endif
 
 #ifdef DS
+	#include <nds.h>
 	#define LITTLE_E
 #endif
 
 #ifdef GC
+	#include <gccore.h>
 	#define BIG_E
 #endif
 

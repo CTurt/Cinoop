@@ -1,16 +1,11 @@
 #include <stddef.h>
 
-#ifdef WIN
-	#include <windows.h>
-	#include <LDFS.h>
-	#include "opengl.h"
-#endif
-
 #include "platform.h"
-
+#include "display.h"
 #include "memory.h"
 #include "cpu.h"
 #include "interrupts.h"
+
 #include "gpu.h"
 
 struct gpu gpu;

@@ -1,18 +1,8 @@
-#ifdef WIN
-	#include "opengl.h"
-#endif
-
-#ifdef DS
-	#include "display.h"
-#endif
-
-#ifdef GC
-	#include <gccore.h>
-#endif
-
+#include "platform.h"
 #include "cpu.h"
 #include "memory.h"
 #include "registers.h"
+#include "display.h"
 
 #include "interrupts.h"
 

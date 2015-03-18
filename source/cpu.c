@@ -2,10 +2,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-#ifdef WIN
-	#include "opengl.h"
-#endif
-
 #include "platform.h"
 
 #include "debug.h"
@@ -15,6 +11,7 @@
 #include "keys.h"
 #include "gpu.h"
 #include "cb.h"
+#include "display.h"
 #include "main.h"
 
 #include "cpu.h"

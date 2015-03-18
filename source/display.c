@@ -1,25 +1,12 @@
-#ifdef WIN
-	#include <windows.h>
-	#include <LDFS.h>
-#endif
-
-#ifdef LIN
-	#include "platform.h"
-	
-	#include "main.h"
-#endif
-
-#ifdef DS
-	#include <nds.h>
-#endif
-
 #ifdef DS3
 	#include "drawing.h"
 #endif
 
+#include "platform.h"
 #include "memory.h"
 #include "gpu.h"
 #include "debug.h"
+#include "main.h"
 
 #include "display.h"
 
