@@ -69,48 +69,34 @@ void renderScanline(void) {
 	
 	// if sprites enabled
 	for(i = 0; i < 40; i++) {
-		/*struct sprite sprite = ((struct sprite *)oam)[i];
+		struct sprite sprite = ((struct sprite *)oam)[i];
 		
-		if(sprite.tile) {
-			int x, y;
-			for(y = 0; y < 8; y++) {
-				for(x = 0; x < 8; x++) {
-					int p = sprite.x - 8 + x + (sprite.y - 16 + y) * 160;
-					if(p >= 0 && p < 144 * 160) {
-						framebuffer[p].r = palette[tiles[sprite.tile][x][y]].r;
-						framebuffer[p].g = palette[tiles[sprite.tile][x][y]].g;
-						framebuffer[p].b = palette[tiles[sprite.tile][x][y]].b;
-					}
-				}
-			}
-		}
-		*/
+		int sx = sprite.x - 8;
+		int sy = sprite.y - 16;
 		
-		sprite.x -= 8;
-		sprite.y -= 16;
-		
-		if(sprite.y <= gpu.scanline && (sprite.y + 8) > gpu.scanline) {
+		if(sy <= gpu.scanline && (sy + 8) > gpu.scanline) {
 			//unsigned char paletteNumber = gpu.spritePalette[sprite->palette];
-			int pixelOffset = (gpu.scanline * 160 + sprite.x);
+			int pixelOffset = gpu.scanline * 160 + sx;
 			
 			unsigned char tileRow;
-			if(sprite.vFlip) tileRow = 7 - gpu.scanline - sprite.y;
-			else tileRow = gpu.scanline - sprite.y;
+			if(sprite.vFlip) tileRow = 7 - (gpu.scanline - sy);
+			else tileRow = gpu.scanline - sy;
 			
 			int x;
 			for(x = 0; x < 8; x++) {
-				if(sprite.x + x >= 0 && sprite.x + x < 160 && (sprite.priority || !scanlineRow[sprite.x + x])) {
+				if(sx + x >= 0 && sx + x < 160 && (sprite.priority || !scanlineRow[sx + x])) {
 					unsigned char colour;
 					
 					if(sprite.hFlip) colour = tiles[sprite.tile][7 - x][tileRow];
 					else colour = tiles[sprite.tile][x][tileRow];
 					
-					if(colour && pixelOffset >= 0 && pixelOffset < 160 * 144) {
+					if(colour) {
 						framebuffer[pixelOffset].r = palette[colour].r;
 						framebuffer[pixelOffset].g = palette[colour].g;
 						framebuffer[pixelOffset].b = palette[colour].b;
-						pixelOffset++;
 					}
+					
+					pixelOffset++;
 				}
 			}
 		}

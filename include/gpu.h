@@ -36,14 +36,14 @@ struct sprite {
 				unsigned char vFlip : 1;
 				unsigned char hFlip : 1;
 				unsigned char palette : 1;
-		}; struct options options;
+		};
 	#else
 		struct options {
 			unsigned char palette : 1;
 			unsigned char hFlip : 1;
 			unsigned char vFlip : 1;
 			unsigned char priority : 1;
-		}; struct options options;
+		};
 		unsigned char tile;
 		unsigned char x;
 		unsigned char y;
