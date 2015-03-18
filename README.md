@@ -7,7 +7,7 @@ Read my article about writing Cinoop [here](http://cturt.github.io/cinoop.html).
 ## Progress
 **CPU:** Around half of the CPU instructions are implemented,
 
-**GPU:** Can display tile maps, sprites are half supported in the Windows version,
+**GPU:** Can display tile maps, and sprites. Palettes are constant, which means some colours as displayed incorrectly.
 
 **Memory:** Support for 32KB ROMs, without mappers, only (Tetris and Dr. Mario),
 
