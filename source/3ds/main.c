@@ -1,6 +1,7 @@
 #include <3ds.h>
 
 #include <stdio.h>
+#include <stdlib.h>
 
 #include "rom.h"
 #include "cpu.h"

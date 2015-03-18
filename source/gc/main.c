@@ -75,7 +75,6 @@ int main(void) {
 		}
 	#else
 		memcpy(cart, tetris_bin, tetris_bin_size);
-		tetrisPatch = 1;
 	#endif
 	
 	printf("ROM load passed!\n");
