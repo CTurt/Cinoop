@@ -94,7 +94,7 @@ const struct instruction instructions[256] = {
 	{ "JR C, 0x%02X", 1, jr_c_n },					        // 0x38
 	{ "ADD HL, SP", 0, add_hl_sp },					        // 0x39
 	{ "LDD A, (HL)", 0, ldd_a_hlp },	                    // 0x3a
-	{ "DEC SP", 0, NULL },							        // 0x3b
+	{ "DEC SP", 0, dec_sp },						        // 0x3b
 	{ "INC A", 0, inc_a },								    // 0x3c
 	{ "DEC A", 0, dec_a },								    // 0x3d
 	{ "LD A, 0x%02X", 1, ld_a_n },						    // 0x3e
@@ -813,7 +813,7 @@ void inc_l(void) { registers.l = inc(registers.l); }
 void dec_l(void) { registers.l = dec(registers.l); }
 
 // 0x2e
-void ld_l_n(unsigned char operand) registers.l = operand;
+void ld_l_n(unsigned char operand) { registers.l = operand };
 
 // 0x2f
 void cpl(void) { registers.a = ~registers.a; FLAGS_SET(FLAGS_NEGATIVE | FLAGS_HALFCARRY); }
@@ -863,6 +863,9 @@ void add_hl_sp(void) { add2(&registers.hl, registers.sp); }
 
 // 0x3a
 void ldd_a_hlp(void) { registers.a = readByte(registers.hl--); }
+
+// 0x3b
+void dec_sp(void) { registers.sp--; }
 
 // 0x3c
 void inc_a(void) { registers.a = inc(registers.a); }

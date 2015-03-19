@@ -88,6 +88,7 @@ void scf(void);
 void jr_c_n(char operand);
 void add_hl_sp(void);
 void ldd_a_hlp(void);
+void dec_sp(void);
 void inc_a(void);
 void dec_a(void);
 void ld_a_n(unsigned char operand);
