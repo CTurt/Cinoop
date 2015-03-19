@@ -187,14 +187,14 @@ const struct instruction instructions[256] = {
 	{ "SUB L", 0, sub_l },								    // 0x95
 	{ "SUB (HL)", 0, sub_hlp },					            // 0x96
 	{ "SUB A", 0, sub_a },								    // 0x97
-	{ "SBC A, B", 0, sbc_a_b },							    // 0x98
-	{ "SBC A, C", 0, sbc_a_c },							    // 0x99
-	{ "SBC A, D", 0, sbc_a_d },							    // 0x9a
-	{ "SBC A, E", 0, sbc_a_e },							    // 0x9b
-	{ "SBC A, H", 0, sbc_a_h },							    // 0x9c
-	{ "SBC A, L", 0, sbc_a_l },							    // 0x9d
-	{ "SBC A, (HL)", 0, sbc_a_hlp },    		            // 0x9e
-	{ "SBC A, A", 0, sbc_a_a },							    // 0x9f
+	{ "SBC B", 0, sbc_b },								    // 0x98
+	{ "SBC C", 0, sbc_c },								    // 0x99
+	{ "SBC D", 0, sbc_d },								    // 0x9a
+	{ "SBC E", 0, sbc_e },								    // 0x9b
+	{ "SBC H", 0, sbc_h },								    // 0x9c
+	{ "SBC L", 0, sbc_l },								    // 0x9d
+	{ "SBC (HL)", 0, sbc_hlp },    			    	        // 0x9e
+	{ "SBC A", 0, sbc_a },								    // 0x9f
 	{ "AND B", 0, and_b },								    // 0xa0
 	{ "AND C", 0, and_c },								    // 0xa1
 	{ "AND D", 0, and_d },								    // 0xa2
@@ -1150,28 +1150,28 @@ void sub_hlp(void) { sub(readByte(registers.hl)); }
 void sub_a(void) { sub(registers.a); }
 
 // 0x98
-void sbc_a_b(void) { sbc(registers.b); }
+void sbc_b(void) { sbc(registers.b); }
 
 // 0x99
-void sbc_a_c(void) { sbc(registers.c); }
+void sbc_c(void) { sbc(registers.c); }
 
 // 0x9a
-void sbc_a_d(void) { sbc(registers.d); }
+void sbc_d(void) { sbc(registers.d); }
 
 // 0x9b
-void sbc_a_e(void) { sbc(registers.e); }
+void sbc_e(void) { sbc(registers.e); }
 
 // 0x9c
-void sbc_a_h(void) { sbc(registers.h); }
+void sbc_h(void) { sbc(registers.h); }
 
 // 0x9d
-void sbc_a_l(void) { sbc(registers.l); }
+void sbc_l(void) { sbc(registers.l); }
 
 // 0x9e
-void sbc_a_hlp(void) { sbc(readByte(registers.hl)); }
+void sbc_hlp(void) { sbc(readByte(registers.hl)); }
 
 // 0x9f
-void sbc_a_a(void) { sbc(registers.a); }
+void sbc_a(void) { sbc(registers.a); }
 
 // 0xa0
 void and_b(void) { and(registers.b); }
