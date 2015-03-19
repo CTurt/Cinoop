@@ -274,7 +274,7 @@ const unsigned char extendedInstructionTicks[256] = {
 	8, 8, 8, 8, 8,  8, 16, 8,  8, 8, 8, 8, 8, 8, 16, 8, // 0x0_
 	8, 8, 8, 8, 8,  8, 16, 8,  8, 8, 8, 8, 8, 8, 16, 8, // 0x1_
 	8, 8, 8, 8, 8,  8, 16, 8,  8, 8, 8, 8, 8, 8, 16, 8, // 0x2_
-	8, 8, 8, 8, 8,  8, 16, 8,  0, 0, 0, 0, 0, 0,  0, 8, // 0x3_
+	8, 8, 8, 8, 8,  8, 16, 8,  8, 8, 8, 8, 8, 8, 16, 8, // 0x3_
 	8, 8, 8, 8, 8,  8, 12, 0,  8, 0, 0, 0, 0, 0,  0, 0, // 0x4_
 	8, 8, 8, 8, 8,  8, 12, 8,  8, 8, 8, 8, 8, 8, 12, 8, // 0x5_
 	8, 8, 8, 8, 8,  0,  0, 0,  8, 8, 8, 8, 8, 8,  8, 8, // 0x6_
@@ -410,6 +410,20 @@ static unsigned char swap(unsigned char value) {
 	else FLAGS_SET(FLAGS_ZERO);
 	
 	FLAGS_CLEAR(FLAGS_NEGATIVE | FLAGS_HALFCARRY | FLAGS_CARRY);
+	
+	return value;
+}
+
+static unsigned char srl(unsigned char value) {
+	if(value & 0x01) FLAGS_SET(FLAGS_CARRY);
+	else FLAGS_CLEAR(FLAGS_CARRY);
+	
+	value >>= 1;
+	
+	if(value) FLAGS_CLEAR(FLAGS_ZERO);
+	else FLAGS_SET(FLAGS_ZERO);
+		
+	FLAGS_CLEAR(FLAGS_NEGATIVE | FLAGS_HALFCARRY);
 	
 	return value;
 }
@@ -594,6 +608,27 @@ void swap_hlp(void) { writeByte(registers.hl, swap(readByte(registers.hl))); }
 
 // 0x37
 void swap_a(void) { registers.a = swap(registers.a); }
+
+// 0x38
+void srl_b(void) { registers.b = srl(registers.b); }
+
+// 0x39
+void srl_c(void) { registers.c = srl(registers.c); }
+
+// 0x3a
+void srl_d(void) { registers.d = srl(registers.d); }
+
+// 0x3b
+void srl_e(void) { registers.e = srl(registers.e); }
+
+// 0x3c
+void srl_h(void) { registers.h = srl(registers.h); }
+
+// 0x3d
+void srl_l(void) { registers.l = srl(registers.l); }
+
+// 0x3e
+void srl_hlp(void) { writeByte(registers.hl, srl(readByte(registers.hl))); }
 
 // 0x3f
 void srl_a(void) {
