@@ -68,13 +68,13 @@ const struct extendedInstruction extendedInstructions[256] = {
 	{ "SWAP L", swap_l },    // 0x35
 	{ "SWAP (HL)", swap_hlp },// 0x36
 	{ "SWAP A", swap_a },    // 0x37
-	{ "SRL B", NULL },       // 0x38
-	{ "SRL C", NULL },       // 0x39
-	{ "SRL D", NULL },       // 0x3a
-	{ "SRL E", NULL },       // 0x3b
-	{ "SRL H", NULL },       // 0x3c
-	{ "SRL L", NULL },       // 0x3d
-	{ "SRL (HL)", NULL },    // 0x3e
+	{ "SRL B", srl_b },      // 0x38
+	{ "SRL C", srl_c },      // 0x39
+	{ "SRL D", srl_d },      // 0x3a
+	{ "SRL E", srl_e },      // 0x3b
+	{ "SRL H", srl_h },      // 0x3c
+	{ "SRL L", srl_l },      // 0x3d
+	{ "SRL (HL)", srl_hlp }, // 0x3e
 	{ "SRL A", srl_a },      // 0x3f
 	{ "BIT 0, B", bit_0_b }, // 0x40
 	{ "BIT 0, C", bit_0_c }, // 0x41
