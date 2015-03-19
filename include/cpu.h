@@ -92,6 +92,7 @@ void dec_sp(void);
 void inc_a(void);
 void dec_a(void);
 void ld_a_n(unsigned char operand);
+void ccf(void);
 void ld_b_c(void);
 void ld_b_d(void);
 void ld_b_e(void);

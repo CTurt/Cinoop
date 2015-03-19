@@ -98,7 +98,7 @@ const struct instruction instructions[256] = {
 	{ "INC A", 0, inc_a },								    // 0x3c
 	{ "DEC A", 0, dec_a },								    // 0x3d
 	{ "LD A, 0x%02X", 1, ld_a_n },						    // 0x3e
-	{ "CCF", 0, NULL },									    // 0x3f
+	{ "CCF", 0, ccf },									    // 0x3f
 	{ "LD B, B", 0, nop },								    // 0x40
 	{ "LD B, C", 0, ld_b_c },						        // 0x41
 	{ "LD B, D", 0, ld_b_d },						        // 0x42
@@ -813,7 +813,7 @@ void inc_l(void) { registers.l = inc(registers.l); }
 void dec_l(void) { registers.l = dec(registers.l); }
 
 // 0x2e
-void ld_l_n(unsigned char operand) { registers.l = operand };
+void ld_l_n(unsigned char operand) { registers.l = operand; }
 
 // 0x2f
 void cpl(void) { registers.a = ~registers.a; FLAGS_SET(FLAGS_NEGATIVE | FLAGS_HALFCARRY); }
@@ -875,6 +875,14 @@ void dec_a(void) { registers.a = dec(registers.a); }
 
 // 0x3e
 void ld_a_n(unsigned char operand) { registers.a = operand; }
+
+// 0x3f
+void ccf(void) {
+	if(FLAGS_ISCARRY) FLAGS_CLEAR(FLAGS_CARRY);
+	else FLAGS_SET(FLAGS_CARRY);
+	
+	FLAGS_CLEAR(FLAGS_NEGATIVE | FLAGS_HALFCARRY);
+}
 
 // 0x41
 void ld_b_c(void) { registers.b = registers.c; }
