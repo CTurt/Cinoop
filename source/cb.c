@@ -140,12 +140,12 @@ const struct extendedInstruction extendedInstructions[256] = {
 	{ "BIT 7, L", bit_7_l }, // 0x7d
 	{ "BIT 7, (HL)", bit_7_hlp }, // 0x7e
 	{ "BIT 7, A", bit_7_a }, // 0x7f
-	{ "RES 0, B", NULL },    // 0x80
-	{ "RES 0, C", NULL },    // 0x81
-	{ "RES 0, D", NULL },    // 0x82
-	{ "RES 0, E", NULL },    // 0x83
-	{ "RES 0, H", NULL },    // 0x84
-	{ "RES 0, L", NULL },    // 0x85
+	{ "RES 0, B", res_0_b }, // 0x80
+	{ "RES 0, C", res_0_c }, // 0x81
+	{ "RES 0, D", res_0_d }, // 0x82
+	{ "RES 0, E", res_0_e }, // 0x83
+	{ "RES 0, H", res_0_h }, // 0x84
+	{ "RES 0, L", res_0_l }, // 0x85
 	{ "RES 0, (HL)", res_0_hlp }, // 0x86
 	{ "RES 0, A", res_0_a }, // 0x87
 	{ "RES 1, B", NULL },    // 0x88
@@ -279,7 +279,7 @@ const unsigned char extendedInstructionTicks[256] = {
 	8, 8, 8, 8, 8,  8, 12, 8,  8, 8, 8, 8, 8, 8, 12, 8, // 0x5_
 	8, 8, 8, 8, 8,  8, 12, 8,  8, 8, 8, 8, 8, 8, 12, 8, // 0x6_
 	8, 8, 8, 8, 8,  8, 12, 8,  8, 8, 8, 8, 8, 8, 12, 8, // 0x7_
-	0, 0, 0, 0, 0,  0, 12, 8,  0, 0, 0, 0, 0, 0,  0, 0, // 0x8_
+	8, 8, 8, 8, 8,  8, 12, 8,  0, 0, 0, 0, 0, 0,  0, 0, // 0x8_
 	0, 0, 0, 0, 0,  0,  0, 0,  0, 0, 0, 0, 0, 0,  0, 0, // 0x9_
 	0, 0, 0, 0, 0,  0,  0, 0,  0, 0, 0, 0, 0, 0,  0, 0, // 0xa_
 	0, 0, 0, 0, 0,  0,  0, 0,  8, 8, 8, 8, 8, 8, 12, 8, // 0xb_
@@ -834,6 +834,24 @@ void bit_7_hlp(void) { bit(1 << 7, readByte(registers.hl)); }
 
 // 0x7f
 void bit_7_a(void) { bit(1 << 7, registers.a); }
+
+// 0x80
+void res_0_b(void) { registers.b &= ~(1 << 0); }
+
+// 0x81
+void res_0_c(void) { registers.c &= ~(1 << 0); }
+
+// 0x82
+void res_0_d(void) { registers.d &= ~(1 << 0); }
+
+// 0x83
+void res_0_e(void) { registers.e &= ~(1 << 0); }
+
+// 0x84
+void res_0_h(void) { registers.h &= ~(1 << 0); }
+
+// 0x85
+void res_0_l(void) { registers.l &= ~(1 << 0); }
 
 // 0x86
 void res_0_hlp(void) { writeByte(registers.hl, readByte(registers.hl) & ~0x01); }
