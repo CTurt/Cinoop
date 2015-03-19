@@ -5,7 +5,7 @@ A Game Boy emulator for Windows, DS, GameCube, 3DS, and Linux based OSes, writte
 Read my article about writing Cinoop [here](http://cturt.github.io/cinoop.html).
 
 ## Progress
-**CPU:** Around half of the CPU instructions are implemented,
+**CPU:** All extended instructions are implemented, and most regular instructions are implemented,
 
 **GPU:** Can display tile maps, and sprites. Palettes are constant, which means some colours as displayed incorrectly.
 
