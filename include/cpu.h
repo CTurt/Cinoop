@@ -75,6 +75,7 @@ void ldi_a_hlp(void);
 void dec_hl(void);
 void inc_l(void);
 void dec_l(void);
+void ld_l_n(unsigned char operand);
 void cpl(void);
 void jr_nc_n(char operand);
 void ld_sp_nn(unsigned short operand);
