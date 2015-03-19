@@ -221,6 +221,7 @@ void jp_nn(unsigned short operand);
 void call_nz_nn(unsigned short operand);
 void push_bc(void);
 void add_a_n(unsigned char operand);
+void rst_0(void);
 void ret_z(void);
 void ret(void);
 void jp_z_nn(unsigned short operand);

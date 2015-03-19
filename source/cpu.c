@@ -234,7 +234,7 @@ const struct instruction instructions[256] = {
 	{ "CALL NZ, 0x%04X", 2, call_nz_nn },			        // 0xc4
 	{ "PUSH BC", 0, push_bc },						        // 0xc5
 	{ "ADD A, 0x%02X", 1, add_a_n },					    // 0xc6
-	{ "RST 0x00", 0, NULL },							    // 0xc7
+	{ "RST 0x00", 0, rst_0 },							    // 0xc7
 	{ "RET Z", 0, ret_z },								    // 0xc8
 	{ "RET", 0, ret },									    // 0xc9
 	{ "JP Z, 0x%04X", 2, jp_z_nn },					        // 0xca
@@ -1315,6 +1315,9 @@ void push_bc(void) { writeShortToStack(registers.bc); }
 // 0xc6
 void add_a_n(unsigned char operand) { add(&registers.a, operand); }
 
+// 0xc7
+void rst_0(void) { writeShortToStack(registers.pc); registers.pc = 0x0000; }
+
 // 0xc8
 void ret_z(void) {
 	if(FLAGS_ISZERO) {
@@ -1341,7 +1344,7 @@ void jp_z_nn(unsigned short operand) {
 void call_nn(unsigned short operand) { writeShortToStack(registers.pc); registers.pc = operand; }
 
 // 0xcf
-void rst_08(void) { writeShortToStack(registers.pc); registers.pc = 0x08; }
+void rst_08(void) { writeShortToStack(registers.pc); registers.pc = 0x0008; }
 
 // 0xd0
 void ret_nc(void) {
@@ -1381,7 +1384,7 @@ void jp_c_nn(unsigned short operand) {
 }
 
 // 0xdf
-void rst_18(void) { writeShortToStack(registers.pc); registers.pc = 0x18; }
+void rst_18(void) { writeShortToStack(registers.pc); registers.pc = 0x0018; }
 
 // 0xe0
 void ld_ff_n_ap(unsigned char operand) { writeByte(0xff00 + operand, registers.a); }
@@ -1434,7 +1437,7 @@ void ld_nnp_a(unsigned short operand) { writeByte(operand, registers.a); }
 void xor_n(unsigned char operand) { xor(operand); }
 
 //0xef
-void rst_28(void) { writeShortToStack(registers.pc); registers.pc = 0x28; }
+void rst_28(void) { writeShortToStack(registers.pc); registers.pc = 0x0028; }
 
 // 0xf0
 void ld_ff_ap_n(unsigned char operand) { registers.a = readByte(0xff00 + operand); }
@@ -1472,4 +1475,4 @@ void cp_n(unsigned char operand) {
 }
 
 //0xff
-void rst_38(void) { writeShortToStack(registers.pc); registers.pc = 0x38; }
+void rst_38(void) { writeShortToStack(registers.pc); registers.pc = 0x0038; }
