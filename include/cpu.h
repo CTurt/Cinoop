@@ -1,18 +1,18 @@
 #pragma once
 
-#define FLAGS_ZERO 0x80 // 1 << 7
-#define FLAGS_NEGATIVE 0x40 // 1 << 6
-#define FLAGS_HALFCARRY 0x20 // 1 << 5
-#define FLAGS_CARRY 0x10 // 1 << 4
+#define FLAGS_ZERO (1 << 7)
+#define FLAGS_NEGATIVE (1 << 6)
+#define FLAGS_HALFCARRY (1 << 5)
+#define FLAGS_CARRY (1 << 4)
 
-#define FLAGS_ISZERO		(registers.f & FLAGS_ZERO)
-#define FLAGS_ISNEGATIVE	(registers.f & FLAGS_NEGATIVE)
-#define FLAGS_ISCARRY		(registers.f & FLAGS_CARRY)
-#define FLAGS_ISHALFCARRY	(registers.f & FLAGS_HALFCARRY)
+#define FLAGS_ISZERO (registers.f & FLAGS_ZERO)
+#define FLAGS_ISNEGATIVE (registers.f & FLAGS_NEGATIVE)
+#define FLAGS_ISCARRY (registers.f & FLAGS_CARRY)
+#define FLAGS_ISHALFCARRY (registers.f & FLAGS_HALFCARRY)
 
-#define FLAGS_ISSET(x)	(registers.f & (x))
-#define FLAGS_SET(x)	(registers.f |= (x))
-#define FLAGS_CLEAR(x)	(registers.f &= ~(x))
+#define FLAGS_ISSET(x) (registers.f & (x))
+#define FLAGS_SET(x) (registers.f |= (x))
+#define FLAGS_CLEAR(x) (registers.f &= ~(x))
 
 struct instruction {
 	char *disassembly;
@@ -52,6 +52,7 @@ void inc_de(void);
 void inc_d(void);
 void dec_d(void);
 void ld_d_n(unsigned char operand);
+void rla(void);
 void jr_n(unsigned char operand);
 void add_hl_de(void);
 void ld_a_dep(void);
@@ -59,6 +60,7 @@ void dec_de(void);
 void inc_e(void);
 void dec_e(void);
 void ld_e_n(unsigned char operand);
+void rra(void);
 void jr_nz_n(unsigned char operand);
 void ld_hl_nn(unsigned short operand);
 void ldi_hlp_a(void);

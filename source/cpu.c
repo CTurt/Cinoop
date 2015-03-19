@@ -58,7 +58,7 @@ const struct instruction instructions[256] = {
 	{ "INC D", 0, inc_d },								    // 0x14
 	{ "DEC D", 0, dec_d },								    // 0x15
 	{ "LD D, 0x%02X", 1, ld_d_n },						    // 0x16
-	{ "RLA", 0, NULL },									    // 0x17
+	{ "RLA", 0, rla },									    // 0x17
 	{ "JR 0x%02X", 1, jr_n },							    // 0x18
 	{ "ADD HL, DE", 0, add_hl_de },					        // 0x19
 	{ "LD A, (DE)", 0, ld_a_dep },			                // 0x1a
@@ -66,7 +66,7 @@ const struct instruction instructions[256] = {
 	{ "INC E", 0, inc_e },								    // 0x1c
 	{ "DEC E", 0, dec_e },								    // 0x1d
 	{ "LD E, 0x%02X", 1, ld_e_n },						    // 0x1e
-	{ "RRA", 0, NULL },									    // 0x1f
+	{ "RRA", 0, rra },									    // 0x1f
 	{ "JR NZ, 0x%02X", 1, jr_nz_n },					    // 0x20
 	{ "LD HL, 0x%04X", 2, ld_hl_nn },				        // 0x21
 	{ "LDI (HL), A", 0, ldi_hlp_a },						// 0x22
@@ -685,6 +685,19 @@ void dec_d(void) { registers.d = dec(registers.d); }
 // 0x16
 void ld_d_n(unsigned char operand) { registers.d = operand; }
 
+// 0x17
+void rla(void) {
+	int carry = FLAGS_ISSET(FLAGS_CARRY) ? 1 : 0;
+	
+	if(registers.a & 0x80) FLAGS_SET(FLAGS_CARRY);
+	else FLAGS_CLEAR(FLAGS_CARRY);
+	
+	registers.a <<= 1;
+	registers.a += carry;
+	
+	FLAGS_CLEAR(FLAGS_NEGATIVE | FLAGS_ZERO | FLAGS_HALFCARRY);
+}
+
 // 0x18
 void jr_n(unsigned char operand) {
 	registers.pc += (signed char)operand;
@@ -708,6 +721,19 @@ void dec_e(void) { registers.e = dec(registers.e); }
 
 // 0x1e
 void ld_e_n(unsigned char operand) { registers.e = operand; }
+
+// 0x1f
+void rra(void) {
+	int carry = (FLAGS_ISSET(FLAGS_CARRY) ? 1 : 0) << 7;
+	
+	if(registers.a & 0x01) FLAGS_SET(FLAGS_CARRY);
+	else FLAGS_CLEAR(FLAGS_CARRY);
+	
+	registers.a >>= 1;
+	registers.a += carry;
+	
+	FLAGS_CLEAR(FLAGS_NEGATIVE | FLAGS_ZERO | FLAGS_HALFCARRY);
+}
 
 // 0x20
 void jr_nz_n(unsigned char operand) {
