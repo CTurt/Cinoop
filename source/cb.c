@@ -85,13 +85,13 @@ const struct extendedInstruction extendedInstructions[256] = {
 	{ "BIT 0, (HL)", bit_0_hlp },// 0x46
 	{ "BIT 0, A", bit_0_a }, // 0x47
 	{ "BIT 1, B", bit_1_b }, // 0x48
-	{ "BIT 1, C", NULL },    // 0x49
-	{ "BIT 1, D", NULL },    // 0x4a
-	{ "BIT 1, E", NULL },    // 0x4b
-	{ "BIT 1, H", NULL },    // 0x4c
-	{ "BIT 1, L", NULL },    // 0x4d
-	{ "BIT 1, (HL)", NULL }, // 0x4e
-	{ "BIT 1, A", NULL },    // 0x4f
+	{ "BIT 1, C", bit_1_c }, // 0x49
+	{ "BIT 1, D", bit_1_d }, // 0x4a
+	{ "BIT 1, E", bit_1_e }, // 0x4b
+	{ "BIT 1, H", bit_1_h }, // 0x4c
+	{ "BIT 1, L", bit_1_l }, // 0x4d
+	{ "BIT 1, (HL)", bit_1_hlp },// 0x4e
+	{ "BIT 1, A", bit_1_a }, // 0x4f
 	{ "BIT 2, B", bit_2_b }, // 0x50
 	{ "BIT 2, C", bit_2_c }, // 0x51
 	{ "BIT 2, D", bit_2_d }, // 0x52
@@ -275,7 +275,7 @@ const unsigned char extendedInstructionTicks[256] = {
 	8, 8, 8, 8, 8,  8, 16, 8,  8, 8, 8, 8, 8, 8, 16, 8, // 0x1_
 	8, 8, 8, 8, 8,  8, 16, 8,  8, 8, 8, 8, 8, 8, 16, 8, // 0x2_
 	8, 8, 8, 8, 8,  8, 16, 8,  8, 8, 8, 8, 8, 8, 16, 8, // 0x3_
-	8, 8, 8, 8, 8,  8, 12, 0,  8, 0, 0, 0, 0, 0,  0, 0, // 0x4_
+	8, 8, 8, 8, 8,  8, 12, 8,  8, 8, 8, 8, 8, 8, 12, 8, // 0x4_
 	8, 8, 8, 8, 8,  8, 12, 8,  8, 8, 8, 8, 8, 8, 12, 8, // 0x5_
 	8, 8, 8, 8, 8,  0,  0, 0,  8, 8, 8, 8, 8, 8,  8, 8, // 0x6_
 	8, 0, 0, 0, 0,  0,  0, 8,  8, 8, 8, 8, 8, 8, 12, 8, // 0x7_
@@ -669,6 +669,27 @@ void bit_0_a(void) { bit(1 << 0, registers.a); }
 
 // 0x48
 void bit_1_b(void) { bit(1 << 1, registers.b); }
+
+// 0x49
+void bit_1_c(void) { bit(1 << 1, registers.c); }
+
+// 0x4a
+void bit_1_d(void) { bit(1 << 1, registers.d); }
+
+// 0x4b
+void bit_1_e(void) { bit(1 << 1, registers.e); }
+
+// 0x4c
+void bit_1_h(void) { bit(1 << 1, registers.h); }
+
+// 0x4d
+void bit_1_l(void) { bit(1 << 1, registers.l); }
+
+// 0x4e
+void bit_1_hlp(void) { bit(1 << 1, readByte(registers.hl)); }
+
+// 0x4f
+void bit_1_a(void) { bit(1 << 1, registers.a); }
 
 // 0x50
 void bit_2_b(void) { bit(1 << 2, registers.b); }
