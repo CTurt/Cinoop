@@ -112,6 +112,8 @@ void bit_4_d(void);
 void bit_4_e(void);
 void bit_4_h(void);
 void bit_4_l(void);
+void bit_4_hlp(void);
+void bit_4_a(void);
 void bit_5_b(void);
 void bit_5_c(void);
 void bit_5_d(void);
