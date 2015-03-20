@@ -282,7 +282,7 @@ const struct instruction instructions[256] = {
 	{ "UNKNOWN", 0, NULL },							        // 0xf4
 	{ "PUSH AF", 0, push_af },						        // 0xf5
 	{ "OR 0x%02X", 1, or_n },							    // 0xf6
-	{ "RST 0x30", 0, NULL },							    // 0xf7
+	{ "RST 0x30", 0, rst_30 },							    // 0xf7
 	{ "LD HL, SP+0x%02X", 1, NULL },				        // 0xf8
 	{ "LD SP, HL", 0, NULL },						        // 0xf9
 	{ "LD A, (0x%04X)", 2, ld_a_nnp },		                // 0xfa
@@ -1513,6 +1513,9 @@ void push_af(void) { writeShortToStack(registers.af); }
 
 // 0xf6
 void or_n(unsigned char operand) { or(operand); }
+
+// 0xf7
+void rst_30(void) { writeShortToStack(registers.pc); registers.pc = 0x0030; }
 
 // 0xfa
 void ld_a_nnp(unsigned short operand) { registers.a = readByte(operand); }
