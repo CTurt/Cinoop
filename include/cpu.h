@@ -254,6 +254,7 @@ void xor_n(unsigned char operand);
 void rst_28(void);
 void ld_ff_ap_n(unsigned char operand);
 void pop_af(void);
+void ld_a_ff_c(void);
 void di(void);
 void push_af(void);
 void or_n(unsigned char operand);
