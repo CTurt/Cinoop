@@ -231,6 +231,7 @@ void adc_n(unsigned char operand);
 void rst_08(void);
 void ret_nc(void);
 void pop_de(void);
+void jp_nc_nn(unsigned short operand);
 void push_de(void);
 void sub_n(unsigned char operand);
 void ret_c(void);
