@@ -1,3 +1,8 @@
+#ifdef LIN
+	#include <time.h>
+	#include <unistd.h>
+#endif
+
 #include "platform.h"
 #include "memory.h"
 #include "gpu.h"
@@ -213,6 +218,23 @@ void drawFramebuffer(void) {
 	
 	#ifdef LIN
 		glXSwapBuffers(dpy, win);
+		
+		#ifndef DEBUG_SPEED
+			static struct timespec frameStart;
+			struct timespec frameEnd;
+			
+			long mtime, seconds, useconds;
+			
+			do {
+				clock_gettime(CLOCK_MONOTONIC, &frameEnd);
+				seconds = frameEnd.tv_sec - frameStart.tv_sec;
+				useconds = frameEnd.tv_nsec - frameStart.tv_nsec;
+				
+				mtime = (seconds * 1000 + useconds / (1000.0 * 1000.0));
+			} while(mtime < 1 / 60.0);
+			
+			clock_gettime(CLOCK_MONOTONIC, &frameStart);
+		#endif
 	#endif
 }
 #endif

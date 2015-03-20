@@ -25,7 +25,7 @@ Read my article about writing Cinoop [here](http://cturt.github.io/cinoop.html).
 
 ![Ubuntu version running Tetris](ubuntu.png)
 
-The DS and 3DS emulator do not run full speed. The Linux port does not yet support input or timing.
+The DS and 3DS emulator do not run full speed. The Linux port does not yet support input.
 
 ## Building
 Just run `make` on the directory to build all binaries. You can also run `make cinoop.exe` for just Windows, `make cinoop.nds` for just DS, `make cinoop.dol` for just GameCube, `make cinoop.3ds` for just 3DS, or `make cinoop` for just Linux.
