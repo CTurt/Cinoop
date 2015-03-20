@@ -171,14 +171,14 @@ const struct instruction instructions[256] = {
 	{ "ADD A, L", 0, add_a_l },							    // 0x85
 	{ "ADD A, (HL)", 0, add_a_hlp },		                // 0x86
 	{ "ADD A", 0, add_a_a },						        // 0x87
-	{ "ADC A, B", 0, adc_a_b },							    // 0x88
-	{ "ADC A, C", 0, adc_a_c },							    // 0x89
-	{ "ADC A, D", 0, adc_a_d },							    // 0x8a
-	{ "ADC A, E", 0, adc_a_e },							    // 0x8b
-	{ "ADC A, H", 0, adc_a_h },							    // 0x8c
-	{ "ADC A, L", 0, adc_a_l },							    // 0x8d
-	{ "ADC A, (HL)", 0, adc_a_hlp },	                    // 0x8e
-	{ "ADC A, A", 0, adc_a_a },							    // 0x8f
+	{ "ADC B", 0, adc_b },								    // 0x88
+	{ "ADC C", 0, adc_c },								    // 0x89
+	{ "ADC D", 0, adc_d },								    // 0x8a
+	{ "ADC E", 0, adc_e },								    // 0x8b
+	{ "ADC H", 0, adc_h },								    // 0x8c
+	{ "ADC L", 0, adc_l },								    // 0x8d
+	{ "ADC (HL)", 0, adc_hlp },	                		    // 0x8e
+	{ "ADC A", 0, adc_a },								    // 0x8f
 	{ "SUB B", 0, sub_b },								    // 0x90
 	{ "SUB C", 0, sub_c },								    // 0x91
 	{ "SUB D", 0, sub_d },								    // 0x92
@@ -241,7 +241,7 @@ const struct instruction instructions[256] = {
 	{ "CB %02X", 1, cb_n },								    // 0xcb
 	{ "CALL Z, 0x%04X", 2, call_z_nn },				        // 0xcc
 	{ "CALL 0x%04X", 2, call_nn },					        // 0xcd
-	{ "ADC A, 0x%02X", 1, NULL },						    // 0xce
+	{ "ADC 0x%02X", 1, adc_n },							    // 0xce
 	{ "RST 0x08", 0, rst_08 },							    // 0xcf
 	{ "RET NC", 0, ret_nc },						        // 0xd0
 	{ "POP DE", 0, pop_de },						        // 0xd1
@@ -523,23 +523,23 @@ static void add2(unsigned short *destination, unsigned short value) {
 	FLAGS_CLEAR(FLAGS_NEGATIVE);
 }
 
-static void adc(unsigned char *destination, unsigned char value) {
+static void adc(unsigned char value) {
 	value += FLAGS_ISCARRY ? 1 : 0;
 	
-	int result = *destination + value;
-	
-	FLAGS_SET(FLAGS_NEGATIVE);
+	int result = registers.a + value;
 	
 	if(result & 0xff00) FLAGS_SET(FLAGS_CARRY);
 	else FLAGS_CLEAR(FLAGS_CARRY);
 	
-	if(value == *destination) FLAGS_SET(FLAGS_ZERO);
+	if(value == registers.a) FLAGS_SET(FLAGS_ZERO);
 	else FLAGS_CLEAR(FLAGS_ZERO);
 	
 	if(((value & 0x0f) + (registers.a & 0x0f)) > 0x0f) FLAGS_SET(FLAGS_HALFCARRY);
 	else FLAGS_CLEAR(FLAGS_HALFCARRY);
 	
-	*destination = (unsigned char)(result & 0xff);
+	FLAGS_SET(FLAGS_NEGATIVE);
+	
+	registers.a = (unsigned char)(result & 0xff);
 }
 
 static void sbc(unsigned char value) {
@@ -1102,28 +1102,28 @@ void add_a_hlp(void) { add(&registers.a, readByte(registers.hl)); }
 void add_a_a(void) { add(&registers.a, registers.a); }
 
 // 0x88
-void adc_a_b(void) { adc(&registers.a, registers.b); }
+void adc_b(void) { adc(registers.b); }
 
 // 0x89
-void adc_a_c(void) { adc(&registers.a, registers.c); }
+void adc_c(void) { adc(registers.c); }
 
 // 0x8a
-void adc_a_d(void) { adc(&registers.a, registers.d); }
+void adc_d(void) { adc(registers.d); }
 
 // 0x8b
-void adc_a_e(void) { adc(&registers.a, registers.e); }
+void adc_e(void) { adc(registers.e); }
 
 // 0x8c
-void adc_a_h(void) { adc(&registers.a, registers.h); }
+void adc_h(void) { adc(registers.h); }
 
 // 0x8d
-void adc_a_l(void) { adc(&registers.a, registers.l); }
+void adc_l(void) { adc(registers.l); }
 
 // 0x8e
-void adc_a_hlp(void) { adc(&registers.a, readByte(registers.hl)); }
+void adc_hlp(void) { adc(readByte(registers.hl)); }
 
 // 0x8f
-void adc_a_a(void) { adc(&registers.a, registers.a); }
+void adc_a(void) { adc(registers.a); }
 
 // 0x90
 void sub_b(void) { sub(registers.b); }
@@ -1355,6 +1355,9 @@ void call_z_nn(unsigned short operand) {
 
 // 0xcd
 void call_nn(unsigned short operand) { writeShortToStack(registers.pc); registers.pc = operand; }
+
+// 0xce
+void adc_n(unsigned char operand) { adc(operand); }
 
 // 0xcf
 void rst_08(void) { writeShortToStack(registers.pc); registers.pc = 0x0008; }
