@@ -30,6 +30,11 @@ XWindowAttributes gwa;
 XEvent xev;
 
 void quit(void) {
+	glXMakeCurrent(dpy, None, NULL);
+	glXDestroyContext(dpy, glc);
+	XDestroyWindow(dpy, win);
+	XCloseDisplay(dpy);
+	exit(0);
 }
 
 int main(int argc, char **argv) {
@@ -97,37 +102,45 @@ int main(int argc, char **argv) {
 			XNextEvent(dpy, &xev);
 			
 			if(xev.type == KeyPress || xev.type == KeyRelease) {
-				//printf("%c\n", xev.xkey);
+				//printf("%d\n", xev.xkey.keycode);
 				switch(xev.xkey.keycode) {
-					case XK_BackSpace:
+					//case XK_BackSpace:
+					case 22:
 						keys.select = (xev.type == KeyPress);
 						break;
 					
-					case XK_Return:
+					//case XK_Return:
+					case 36:
 						keys.start = (xev.type == KeyPress);
 						break;
 					
-					case XK_z:
+					//case XK_z:
+					case 52:
 						keys.b = (xev.type == KeyPress);
 						break;
 					
-					case XK_x:
+					//case XK_x:
+					case 53:
 						keys.a = (xev.type == KeyPress);
 						break;
 					
-					case XK_Left:
+					//case XK_Left:
+					case 113:
 						keys.left = (xev.type == KeyPress);
 						break;
 					
-					case XK_Right:
+					//case XK_Right:
+					case 114:
 						keys.right = (xev.type == KeyPress);
 						break;
 					
-					case XK_Up:
+					//case XK_Up:
+					case 111:
 						keys.up = (xev.type == KeyPress);
 						break;
 					
-					case XK_Down:
+					//case XK_Down:
+					case 116:
 						keys.down = (xev.type == KeyPress);
 						break;
 				}
@@ -139,11 +152,7 @@ int main(int argc, char **argv) {
 		interruptStep();
 	}
 	
-	glXMakeCurrent(dpy, None, NULL);
-	glXDestroyContext(dpy, glc);
-	XDestroyWindow(dpy, win);
-	XCloseDisplay(dpy);
-	exit(0);
+	quit();
 	
 	return 0;
 }
