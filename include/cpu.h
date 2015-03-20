@@ -225,6 +225,7 @@ void rst_0(void);
 void ret_z(void);
 void ret(void);
 void jp_z_nn(unsigned short operand);
+void call_z_nn(unsigned short operand);
 void call_nn(unsigned short operand);
 void rst_08(void);
 void ret_nc(void);

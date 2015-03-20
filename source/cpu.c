@@ -239,7 +239,7 @@ const struct instruction instructions[256] = {
 	{ "RET", 0, ret },									    // 0xc9
 	{ "JP Z, 0x%04X", 2, jp_z_nn },					        // 0xca
 	{ "CB %02X", 1, cb_n },								    // 0xcb
-	{ "CALL Z, 0x%04X", 2, NULL },					        // 0xcc
+	{ "CALL Z, 0x%04X", 2, call_z_nn },				        // 0xcc
 	{ "CALL 0x%04X", 2, call_nn },					        // 0xcd
 	{ "ADC A, 0x%02X", 1, NULL },						    // 0xce
 	{ "RST 0x08", 0, rst_08 },							    // 0xcf
@@ -306,7 +306,7 @@ const unsigned char instructionTicks[256] = {
 	2, 2, 2, 2, 2, 2, 4, 2,  2, 2, 2, 2, 2, 2, 4, 2, // 0x9_
 	2, 2, 2, 2, 2, 2, 4, 2,  2, 2, 2, 2, 2, 2, 4, 2, // 0xa_
 	2, 2, 2, 2, 2, 2, 4, 2,  2, 2, 2, 2, 2, 2, 4, 2, // 0xb_
-	0, 6, 0, 6, 0, 8, 4, 8,  0, 2, 0, 0, 6, 6, 4, 8, // 0xc_
+	0, 6, 0, 6, 0, 8, 4, 8,  0, 2, 0, 0, 0, 6, 4, 8, // 0xc_
 	0, 6, 6, 0, 6, 8, 4, 8,  0, 8, 0, 0, 6, 0, 4, 8, // 0xd_
 	6, 6, 4, 0, 0, 8, 4, 8,  8, 2, 8, 0, 0, 0, 4, 8, // 0xe_
 	6, 6, 4, 2, 0, 8, 4, 8,  6, 4, 8, 2, 0, 0, 4, 8  // 0xf_
@@ -1336,6 +1336,19 @@ void jp_z_nn(unsigned short operand) {
 		registers.pc = operand;
 		debugJump();
 		ticks += 16;
+	}
+	else ticks += 12;
+}
+
+// 0xcb
+// cb.c
+
+// 0xcc
+void call_z_nn(unsigned short operand) {
+	if(FLAGS_ISZERO) {
+		writeShortToStack(registers.pc);
+		registers.pc = operand;
+		ticks += 24;
 	}
 	else ticks += 12;
 }
