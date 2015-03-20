@@ -284,7 +284,7 @@ const struct instruction instructions[256] = {
 	{ "OR 0x%02X", 1, or_n },							    // 0xf6
 	{ "RST 0x30", 0, rst_30 },							    // 0xf7
 	{ "LD HL, SP+0x%02X", 1, ld_hl_sp_n },			        // 0xf8
-	{ "LD SP, HL", 0, NULL },						        // 0xf9
+	{ "LD SP, HL", 0, ld_sp_hl },					        // 0xf9
 	{ "LD A, (0x%04X)", 2, ld_a_nnp },		                // 0xfa
 	{ "EI", 0, ei },									    // 0xfb
 	{ "UNKNOWN", 0, NULL },							        // 0xfc
@@ -1531,6 +1531,9 @@ void ld_hl_sp_n(unsigned char operand) {
 	
 	registers.hl = (unsigned short)(result & 0xffff);
 }
+
+// 0xf9
+void ld_sp_hl(void) { registers.sp = registers.hl; }
 
 // 0xfa
 void ld_a_nnp(unsigned short operand) { registers.a = readByte(operand); }
