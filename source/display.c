@@ -65,11 +65,11 @@ void renderScanline(void) {
 	#endif
 	
 	#ifdef DS3
-		pixelOffset = gpu.scanline * 160;
+		pixelOffset = (((400 - 160) / 2) * 240 + (239 - ((240 - 144) / 2 + gpu.scanline))) * 3;
 	#endif
 	
 	#ifdef GC
-		pixelOffset = gpu.scanline * 640;
+		pixelOffset = (320 - 160) / 2 + ((240 - 144) / 2 + gpu.scanline) * 640;
 	#endif
 	
 	unsigned short tile = (unsigned short)vram[mapOffset + lineOffset];
@@ -89,15 +89,21 @@ void renderScanline(void) {
 		#endif
 		
 		#ifdef DS3
-			drawPixelTopRGBFramebuffer(framebuffer, (400 - 160) / 2 + (pixelOffset % 160), (240 - 144) / 2 + (pixelOffset / 160), palette[tiles[tile][x][y]].r, palette[tiles[tile][x][y]].g, palette[tiles[tile][x][y]].b);
+			framebuffer[pixelOffset] = palette[tiles[tile][x][y]].r;
+			framebuffer[pixelOffset + 1] = palette[tiles[tile][x][y]].g;
+			framebuffer[pixelOffset + 2] = palette[tiles[tile][x][y]].b;
 		#endif
 		
 		#ifdef GC
-			framebuffer[(320 - 160) / 2 + (240 - 144) / 2 * 640 + pixelOffset] = palette[tiles[tile][x][y]];
-			framebuffer[(320 - 160) / 2 + (240 - 144) / 2 * 640 + pixelOffset + 320] = palette[tiles[tile][x][y]];
+			framebuffer[pixelOffset] = palette[tiles[tile][x][y]];
+			framebuffer[pixelOffset + 320] = palette[tiles[tile][x][y]];
 		#endif
 		
-		pixelOffset++;
+		#ifdef DS3
+			pixelOffset += 240 * 3;
+		#else
+			pixelOffset++;
+		#endif
 		
 		x++;
 		if(x == 8) {
@@ -120,17 +126,16 @@ void renderScanline(void) {
 			
 			int pixelOffset;
 			#if defined WIN || defined LIN
-				pixelOffset = gpu.scanline * 160;
+				pixelOffset = gpu.scanline * 160 + sx;
 			#endif
 			
 			#ifdef DS3
-				pixelOffset = gpu.scanline * 160;
+				pixelOffset = ((((400 - 160) / 2) + sx) * 240 + (239 - ((240 - 144) / 2 + gpu.scanline))) * 3;
 			#endif
 			
 			#ifdef GC
-				pixelOffset = gpu.scanline * 640;
+				pixelOffset = (320 - 160) / 2 + sx + ((240 - 144) / 2 + gpu.scanline) * 640;
 			#endif
-			pixelOffset += sx;
 			
 			unsigned char tileRow;
 			if(sprite.vFlip) tileRow = 7 - (gpu.scanline - sy);
@@ -152,16 +157,22 @@ void renderScanline(void) {
 						#endif
 						
 						#ifdef DS3
-							drawPixelTopRGBFramebuffer(framebuffer, (400 - 160) / 2 + (pixelOffset % 160), (240 - 144) / 2 + (pixelOffset / 160), palette[colour].r, palette[colour].g, palette[colour].b);
+							framebuffer[pixelOffset] = palette[colour].r;
+							framebuffer[pixelOffset + 1] = palette[colour].g;
+							framebuffer[pixelOffset + 2] = palette[colour].b;
 						#endif
 						
 						#ifdef GC
-							framebuffer[(320 - 160) / 2 + (240 - 144) / 2 * 640 + pixelOffset] = palette[colour];
-							framebuffer[(320 - 160) / 2 + (240 - 144) / 2 * 640 + pixelOffset + 320] = palette[colour];
+							framebuffer[pixelOffset] = palette[colour];
+							framebuffer[pixelOffset + 320] = palette[colour];
 						#endif
 					}
 					
-					pixelOffset++;
+					#ifdef DS3
+						pixelOffset += 240 * 3;
+					#else
+						pixelOffset++;
+					#endif
 				}
 			}
 		}
