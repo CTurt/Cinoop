@@ -29,6 +29,8 @@ extern unsigned char stopped;
 void reset(void);
 void cpuStep(void);
 
+void undefined(void);
+
 void nop(void);
 void ld_bc_nn(unsigned short operand);
 void ld_bcp_a(void);
