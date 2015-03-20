@@ -238,6 +238,7 @@ void sub_n(unsigned char operand);
 void rst_10(void);
 void ret_c(void);
 void jp_c_nn(unsigned short operand);
+void call_c_nn(unsigned short operand);
 void rst_18(void);
 void ld_ff_n_ap(unsigned char operand);
 void pop_hl(void);

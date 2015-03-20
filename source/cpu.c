@@ -255,7 +255,7 @@ const struct instruction instructions[256] = {
 	{ "RETI", 0, returnFromInterrupt },					    // 0xd9
 	{ "JP C, 0x%04X", 2, jp_c_nn },						    // 0xda
 	{ "UNKNOWN", 0, NULL },							        // 0xdb
-	{ "CALL C, 0x%04X", 2, NULL },					        // 0xdc
+	{ "CALL C, 0x%04X", 2, call_c_nn },				        // 0xdc
 	{ "UNKNOWN", 0, NULL },							        // 0xdd
 	{ "SBC A, 0x%02X", 1, NULL },						    // 0xde
 	{ "RST 0x18", 0, rst_18 },							    // 0xdf
@@ -307,7 +307,7 @@ const unsigned char instructionTicks[256] = {
 	2, 2, 2, 2, 2, 2, 4, 2,  2, 2, 2, 2, 2, 2, 4, 2, // 0xa_
 	2, 2, 2, 2, 2, 2, 4, 2,  2, 2, 2, 2, 2, 2, 4, 2, // 0xb_
 	0, 6, 0, 6, 0, 8, 4, 8,  0, 2, 0, 0, 0, 6, 4, 8, // 0xc_
-	0, 6, 0, 0, 0, 8, 4, 8,  0, 8, 0, 0, 6, 0, 4, 8, // 0xd_
+	0, 6, 0, 0, 0, 8, 4, 8,  0, 8, 0, 0, 0, 0, 4, 8, // 0xd_
 	6, 6, 4, 0, 0, 8, 4, 8,  8, 2, 8, 0, 0, 0, 4, 8, // 0xe_
 	6, 6, 4, 2, 0, 8, 4, 8,  6, 4, 8, 2, 0, 0, 4, 8  // 0xf_
 };
@@ -1417,6 +1417,16 @@ void jp_c_nn(unsigned short operand) {
 		registers.pc = operand;
 		debugJump();
 		ticks += 16;
+	}
+	else ticks += 12;
+}
+
+// 0xdc
+void call_c_nn(unsigned short operand) {
+	if(FLAGS_ISCARRY) {
+		writeShortToStack(registers.pc);
+		registers.pc = operand;
+		ticks += 24;
 	}
 	else ticks += 12;
 }
