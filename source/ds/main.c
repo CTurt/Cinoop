@@ -1,3 +1,6 @@
+// Experimental! Scales the background to fill the screen. Sprites will be displayed at incorrect positions.
+//#define SCALE
+
 #include <nds.h>
 #include <fat.h>
 
@@ -24,15 +27,17 @@ void dsVblank(void) {
 		dirtyTileset = 0;
 	}
 	
-	// Check that sprites are rendering with correct priority
+	// Render sprites with correct priority!
 	int i;
 	for(i = 0; i < 40; i++) {
 		struct sprite sprite = ((struct sprite *)oam)[i];
 		
-		int sx = sprite.x - 8 + (256 - 160) / 2;
-		int sy = sprite.y - 16 + (192 - 144) / 2;
-		
-		oamSet(&oamMain, i, sx, sy, sprite.priority * layer, 0, SpriteSize_8x8, SpriteColorFormat_256Color, SPRITE_GFX + sprite.tile * 32, 0, false, false, false, false, false);
+		//if(sprite.priority) {
+			int sx = sprite.x - 8 + (256 - 160) / 2;
+			int sy = sprite.y - 16 + (192 - 144) / 2;
+			
+			oamSet(&oamMain, i, sx, sy, 0, 0, SpriteSize_8x8, SpriteColorFormat_256Color, SPRITE_GFX + sprite.tile * 32, 0, false, false, false, false, false);
+		//}
 	}
 	
 	oamUpdate(&oamMain);
@@ -46,10 +51,22 @@ void quit(void) {
 
 int main(void) {
 	// http://mtheall.com/vram.html#T0=1&NT0=384&MB0=13&TB0=0&S0=0
-	videoSetMode(MODE_0_2D);
+	#ifdef SCALE
+		videoSetMode(MODE_3_2D);
+	#else
+		videoSetMode(MODE_0_2D);
+	#endif
 	
 	vramSetBankA(VRAM_A_MAIN_BG);
-	bgInit(layer, BgType_Text8bpp, BgSize_T_256x256, 13, 0);
+	
+	#ifdef SCALE
+		bgInit(layer, BgType_ExRotation, BgSize_ER_256x256, 13, 0);
+		bgSetCenter(layer, 256 / 2, 192 / 2);
+		bgSetScroll(layer, 256 / 2, 192 / 2);
+		bgSetScale(layer, 256 - (192 - 144), 256 - (192 - 144));
+	#else
+		bgInit(layer, BgType_Text8bpp, BgSize_T_256x256, 13, 0);
+	#endif
 	
 	vramSetBankB(VRAM_B_MAIN_SPRITE);
 	oamInit(&oamMain, SpriteMapping_1D_32, false);
