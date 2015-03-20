@@ -111,6 +111,6 @@ void updateTile(unsigned short address, unsigned char value) {
 	}
 	
 	#ifdef DS
-		dirtyMap = 1;
+		dirtyTileset = 1;
 	#endif
 }

@@ -31,7 +31,7 @@
 		RGB15(0, 0, 0),
 	};
 	
-	unsigned char dirtyMap = 0;
+	unsigned char dirtyTileset = 0;
 #endif
 
 #ifdef GC

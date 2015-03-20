@@ -17,10 +17,25 @@
 #include "main.h"
 
 void dsVblank(void) {
-	if(dirtyMap) {
+	if(dirtyTileset) {
+		// No way for backgrounds and sprites to share tileset on DS
 		memcpy(bgGetGfxPtr(layer), tiles, 160 / 8 * 144 / 8 * 32);
-		dirtyMap = 0;
+		memcpy(SPRITE_GFX, tiles, 160 / 8 * 144 / 8 * 32);
+		dirtyTileset = 0;
 	}
+	
+	// Check that sprites are rendering with correct priority
+	int i;
+	for(i = 0; i < 40; i++) {
+		struct sprite sprite = ((struct sprite *)oam)[i];
+		
+		int sx = sprite.x - 8 + (256 - 160) / 2;
+		int sy = sprite.y - 16 + (192 - 144) / 2;
+		
+		oamSet(&oamMain, i, sx, sy, sprite.priority * layer, 0, SpriteSize_8x8, SpriteColorFormat_256Color, SPRITE_GFX + sprite.tile * 32, 0, false, false, false, false, false);
+	}
+	
+	oamUpdate(&oamMain);
 }
 
 void quit(void) {
@@ -30,19 +45,24 @@ void quit(void) {
 }
 
 int main(void) {
-	// Framebuffer mode
-	//videoSetMode(MODE_FB0);
-	//vramSetBankA(VRAM_A_LCD);
-	
 	// http://mtheall.com/vram.html#T0=1&NT0=384&MB0=13&TB0=0&S0=0
 	videoSetMode(MODE_0_2D);
+	
 	vramSetBankA(VRAM_A_MAIN_BG);
 	bgInit(layer, BgType_Text8bpp, BgSize_T_256x256, 13, 0);
+	
+	vramSetBankB(VRAM_B_MAIN_SPRITE);
+	oamInit(&oamMain, SpriteMapping_1D_32, false);
 	
 	BG_PALETTE[0] = palette[0];
 	BG_PALETTE[1] = palette[1];
 	BG_PALETTE[2] = palette[2];
 	BG_PALETTE[3] = palette[3];
+	
+	SPRITE_PALETTE[0] = palette[0];
+	SPRITE_PALETTE[1] = palette[1];
+	SPRITE_PALETTE[2] = palette[2];
+	SPRITE_PALETTE[3] = palette[3];
 	
 	memset(bgGetGfxPtr(layer) + 384 * 32, 3, 64);
 	

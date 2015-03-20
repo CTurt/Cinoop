@@ -19,7 +19,7 @@
 	
 	typedef unsigned short COLOUR;
 	
-	extern unsigned char dirtyMap;
+	extern unsigned char dirtyTileset;
 	
 	void copyMap(void);
 #endif
