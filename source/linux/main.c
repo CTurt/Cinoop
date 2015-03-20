@@ -3,6 +3,8 @@
 
 #include <X11/X.h>
 #include <X11/Xlib.h>
+#include <X11/keysym.h>
+
 #include <GL/gl.h>
 #include <GL/glx.h>
 #include <GL/glu.h>
@@ -92,22 +94,50 @@ int main(int argc, char **argv) {
 	reset();
 	
 	while(1) {
-		//XNextEvent(dpy, &xev);
+		if(XPending(dpy)) {
+			XNextEvent(dpy, &xev);
+			
+			if(xev.type == KeyPress || xev.type == KeyRelease) {
+				//printf("%c\n", xev.xkey);
+				switch(xev.xkey) {
+					case XK_BackSpace:
+						keys.select = (xev.type == KeyPress);
+						break;
+					
+					case XK_Return:
+						keys.start = (xev.type == KeyPress);
+						break;
+					
+					case XK_z:
+						keys.b = (xev.type == KeyPress);
+						break;
+					
+					case XK_x:
+						keys.a = (xev.type == KeyPress);
+						break;
+					
+					case XK_Left:
+						keys.left = (xev.type == KeyPress);
+						break;
+					
+					case XK_Right:
+						keys.right = (xev.type == KeyPress);
+						break;
+					
+					case XK_Up:
+						keys.up = (xev.type == KeyPress);
+						break;
+					
+					case XK_Down:
+						keys.down = (xev.type == KeyPress);
+						break;
+				}
+			}
+		}
 		
 		cpuStep();
 		gpuStep();
 		interruptStep();
-		
-		/*if(xev.type == Expose) {
-				XGetWindowAttributes(dpy, win, &gwa);
-				glViewport(0, 0, gwa.width, gwa.height);
-				glXSwapBuffers(dpy, win);
-		}*/
-		
-		//else 
-		if(xev.type == KeyPress) {
-			break;	
-		}
 	}
 	
 	glXMakeCurrent(dpy, None, NULL);
