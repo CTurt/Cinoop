@@ -246,6 +246,7 @@ void pop_hl(void);
 void ld_ff_c_a(void);
 void push_hl(void);
 void and_n(unsigned char operand);
+void rst_20(void);
 void add_sp_n(char operand);
 void jp_hl(void);
 void ld_nnp_a(unsigned short operand);
