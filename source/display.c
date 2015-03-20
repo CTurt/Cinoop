@@ -59,7 +59,18 @@ void renderScanline(void) {
 	int x = gpu.scrollX & 7;
 	int y = (gpu.scanline + gpu.scrollY) & 7;
 	
-	int pixelOffset = gpu.scanline * 160;
+	int pixelOffset;
+	#if defined WIN || defined LIN
+		pixelOffset = gpu.scanline * 160;
+	#endif
+	
+	#ifdef DS3
+		pixelOffset = gpu.scanline * 160;
+	#endif
+	
+	#ifdef GC
+		pixelOffset = gpu.scanline * 640;
+	#endif
 	
 	unsigned short tile = (unsigned short)vram[mapOffset + lineOffset];
 	//if((gpu.control & GPU_CONTROL_TILESET) && tile < 128) tile += 256;
@@ -82,8 +93,8 @@ void renderScanline(void) {
 		#endif
 		
 		#ifdef GC
-			framebuffer[(320 - 160) / 2 + (240 - 144) / 2 * 640 + (pixelOffset / 160) * 640 + pixelOffset % 160] = palette[tiles[tile][x][y]];
-			framebuffer[(320 - 160) / 2 + (240 - 144) / 2 * 640 + (pixelOffset / 160) * 640 + pixelOffset % 160 + 320] = palette[tiles[tile][x][y]];
+			framebuffer[(320 - 160) / 2 + (240 - 144) / 2 * 640 + pixelOffset] = palette[tiles[tile][x][y]];
+			framebuffer[(320 - 160) / 2 + (240 - 144) / 2 * 640 + pixelOffset + 320] = palette[tiles[tile][x][y]];
 		#endif
 		
 		pixelOffset++;
@@ -106,7 +117,20 @@ void renderScanline(void) {
 		
 		if(sy <= gpu.scanline && (sy + 8) > gpu.scanline) {
 			//unsigned char paletteNumber = gpu.spritePalette[sprite->palette];
-			int pixelOffset = gpu.scanline * 160 + sx;
+			
+			int pixelOffset;
+			#if defined WIN || defined LIN
+				pixelOffset = gpu.scanline * 160;
+			#endif
+			
+			#ifdef DS3
+				pixelOffset = gpu.scanline * 160;
+			#endif
+			
+			#ifdef GC
+				pixelOffset = gpu.scanline * 640;
+			#endif
+			pixelOffset += sx;
 			
 			unsigned char tileRow;
 			if(sprite.vFlip) tileRow = 7 - (gpu.scanline - sy);
@@ -132,8 +156,8 @@ void renderScanline(void) {
 						#endif
 						
 						#ifdef GC
-							framebuffer[(320 - 160) / 2 + (240 - 144) / 2 * 640 + (pixelOffset / 160) * 640 + pixelOffset % 160] = palette[colour];
-							framebuffer[(320 - 160) / 2 + (240 - 144) / 2 * 640 + (pixelOffset / 160) * 640 + pixelOffset % 160 + 320] = palette[colour];
+							framebuffer[(320 - 160) / 2 + (240 - 144) / 2 * 640 + pixelOffset] = palette[colour];
+							framebuffer[(320 - 160) / 2 + (240 - 144) / 2 * 640 + pixelOffset + 320] = palette[colour];
 						#endif
 					}
 					
