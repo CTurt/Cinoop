@@ -235,6 +235,7 @@ void jp_nc_nn(unsigned short operand);
 void call_nc_nn(unsigned short operand);
 void push_de(void);
 void sub_n(unsigned char operand);
+void rst_10(void);
 void ret_c(void);
 void jp_c_nn(unsigned short operand);
 void rst_18(void);
