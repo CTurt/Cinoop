@@ -13,7 +13,6 @@
 #include "cpu.h"
 #include "gpu.h"
 #include "interrupts.h"
-#include "opengl.h"
 #include "debug.h"
 #include "keys.h"
 
@@ -99,7 +98,7 @@ int main(int argc, char **argv) {
 			
 			if(xev.type == KeyPress || xev.type == KeyRelease) {
 				//printf("%c\n", xev.xkey);
-				switch(xev.xkey) {
+				switch(xev.xkey.keycode) {
 					case XK_BackSpace:
 						keys.select = (xev.type == KeyPress);
 						break;

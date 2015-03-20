@@ -202,10 +202,17 @@ void drawFramebuffer(void) {
 	glRasterPos2f(-1, 1);
 	glPixelZoom(1, -1);
 	glDrawPixels(160, 144, GL_RGB, GL_UNSIGNED_BYTE, framebuffer);
-	LDFS_SwapBuffers();
 	
-	#ifndef DEBUG_SPEED
-		LDFS_MaintainFramerate();
+	#ifdef WIN
+		LDFS_SwapBuffers();
+		
+		#ifndef DEBUG_SPEED
+			LDFS_MaintainFramerate();
+		#endif
+	#endif
+	
+	#ifdef LIN
+		glXSwapBuffers(dpy, win);
 	#endif
 }
 #endif
