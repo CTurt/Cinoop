@@ -9,7 +9,6 @@
 #include "interrupts.h"
 #include "debug.h"
 #include "keys.h"
-#include "drawing.h"
 
 #include "main.h"
 

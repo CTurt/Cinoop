@@ -1,7 +1,3 @@
-#ifdef DS3
-	#include "drawing.h"
-#endif
-
 #include "platform.h"
 #include "memory.h"
 #include "gpu.h"
