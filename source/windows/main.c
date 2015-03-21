@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <windows.h>
+#include <direct.h>
 #include <gl/gl.h>
 #include <LDFS.h>
 
@@ -146,7 +147,22 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) 
 					break;
 				
 				case VK_MULTIPLY:
-					if(!(lParam & 0x40000000)) reset();
+					if(!(lParam & 0x40000000)) {
+						//reset();
+						
+						char *path = malloc(1024);
+						char *exe = malloc(1024);
+						if(!path) break;
+						if(!exe) break;
+						memset(path, 0, 1024);
+						memset(exe, 0, 1024);
+						GetModuleFileName(0, exe, 1023);
+						_getcwd(path, 1023);
+						ShellExecute(NULL, NULL, exe, "tetris.gb", path, SW_SHOWDEFAULT);
+						free(path);
+						free(exe);
+						exit(0);
+					}
 					break;
 				
 				case VK_SPACE:
