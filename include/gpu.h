@@ -2,10 +2,10 @@
 
 #ifdef DS
 	#include <nds.h>
-	#include "display.h"
 #endif
 
 #include "platform.h"
+#include "display.h"
 
 #define GPU_CONTROL_BGENABLE (1 << 0)
 #define GPU_CONTROL_SPRITEENABLE (1 << 1)
@@ -21,8 +21,6 @@ struct gpu {
 	unsigned char scrollX;
 	unsigned char scrollY;
 	unsigned char scanline;
-	unsigned char bgPalette;
-	unsigned char spritePalette[2];
 	unsigned long tick;
 } extern gpu;
 
@@ -52,6 +50,9 @@ struct sprite {
 };
 
 extern unsigned char tiles[384][8][8];
+
+extern COLOUR backgroundPalette[4];
+extern COLOUR spritePalette[2][4];
 
 void gpuStep(void);
 

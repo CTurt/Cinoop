@@ -130,11 +130,8 @@ void writeByte(unsigned short address, unsigned char value) {
 	else if(address >= 0xe000 && address <= 0xfdff)
 		wram[address - 0xe000] = value;
 	
-	else if(address >= 0xfe00 && address <= 0xfeff) {
+	else if(address >= 0xfe00 && address <= 0xfeff)
 		oam[address - 0xfe00] = value;
-		//printf("wrote 0x%04x\n", address);
-		//updateOAM(address, value);
-	}
 	
 	else if(address >= 0xff80 && address <= 0xfffe)
 		hram[address - 0xff80] = value;
@@ -143,9 +140,21 @@ void writeByte(unsigned short address, unsigned char value) {
 	else if(address == 0xff42) gpu.scrollY = value;
 	else if(address == 0xff43) gpu.scrollX = value;
 	else if(address == 0xff46) copy(0xfe00, value << 8, 160); // OAM DMA
-	else if(address == 0xff47) gpu.bgPalette = value; // write only
-	else if(address == 0xff48) gpu.spritePalette[0] = value; // write only
-	else if(address == 0xff49) gpu.spritePalette[1] = value; // write only
+	
+	else if(address == 0xff47) { // write only
+		int i;
+		for(i = 0; i < 4; i++) backgroundPalette[i] = palette[(value >> (i * 2)) & 3];
+	}
+	
+	else if(address == 0xff48) { // write only
+		int i;
+		for(i = 0; i < 4; i++) spritePalette[0][i] = palette[(value >> (i * 2)) & 3];
+	}
+	
+	else if(address == 0xff49) { // write only
+		int i;
+		for(i = 0; i < 4; i++) spritePalette[1][i] = palette[(value >> (i * 2)) & 3];
+	}
 	
 	else if(address >= 0xff00 && address <= 0xff7f)
 		io[address - 0xff00] = value;

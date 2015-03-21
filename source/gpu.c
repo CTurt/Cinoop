@@ -12,6 +12,9 @@ struct gpu gpu;
 
 unsigned char tiles[384][8][8];
 
+COLOUR backgroundPalette[4];
+COLOUR spritePalette[2][4];
+
 /* References:
 http://www.codeslinger.co.uk/pages/projects/gameboy/lcd.html
 http://www.codeslinger.co.uk/pages/projects/gameboy/graphics.html

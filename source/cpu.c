@@ -349,13 +349,25 @@ void reset(void) {
 	
 	memset(tiles, 0, sizeof(tiles));
 	
+	backgroundPalette[0] = palette[0];
+	backgroundPalette[1] = palette[1];
+	backgroundPalette[2] = palette[2];
+	backgroundPalette[3] = palette[3];
+	
+	spritePalette[0][0] = palette[0];
+	spritePalette[0][1] = palette[1];
+	spritePalette[0][2] = palette[2];
+	spritePalette[0][3] = palette[3];
+	
+	spritePalette[1][0] = palette[0];
+	spritePalette[1][1] = palette[1];
+	spritePalette[1][2] = palette[2];
+	spritePalette[1][3] = palette[3];
+	
 	gpu.control = 0;
 	gpu.scrollX = 0;
 	gpu.scrollY = 0;
 	gpu.scanline = 0;
-	gpu.bgPalette = 0;
-	gpu.spritePalette[0] = 0;
-	gpu.spritePalette[1] = 0;
 	gpu.tick = 0;
 	
 	ticks = 0;

@@ -84,20 +84,20 @@ void renderScanline(void) {
 		scanlineRow[i] = tiles[tile][x][y];
 		
 		#if defined WIN || defined LIN
-			framebuffer[pixelOffset].r = palette[tiles[tile][x][y]].r;
-			framebuffer[pixelOffset].g = palette[tiles[tile][x][y]].g;
-			framebuffer[pixelOffset].b = palette[tiles[tile][x][y]].b;
+			framebuffer[pixelOffset].r = backgroundPalette[tiles[tile][x][y]].r;
+			framebuffer[pixelOffset].g = backgroundPalette[tiles[tile][x][y]].g;
+			framebuffer[pixelOffset].b = backgroundPalette[tiles[tile][x][y]].b;
 		#endif
 		
 		#ifdef DS3
-			framebuffer[pixelOffset] = palette[tiles[tile][x][y]].r;
-			framebuffer[pixelOffset + 1] = palette[tiles[tile][x][y]].g;
-			framebuffer[pixelOffset + 2] = palette[tiles[tile][x][y]].b;
+			framebuffer[pixelOffset] = backgroundPalette[tiles[tile][x][y]].r;
+			framebuffer[pixelOffset + 1] = backgroundPalette[tiles[tile][x][y]].g;
+			framebuffer[pixelOffset + 2] = backgroundPalette[tiles[tile][x][y]].b;
 		#endif
 		
 		#ifdef GC
-			framebuffer[pixelOffset] = palette[tiles[tile][x][y]];
-			framebuffer[pixelOffset + 320] = palette[tiles[tile][x][y]];
+			framebuffer[pixelOffset] = backgroundPalette[tiles[tile][x][y]];
+			framebuffer[pixelOffset + 320] = backgroundPalette[tiles[tile][x][y]];
 		#endif
 		
 		#ifdef DS3
@@ -123,7 +123,7 @@ void renderScanline(void) {
 		int sy = sprite.y - 16;
 		
 		if(sy <= gpu.scanline && (sy + 8) > gpu.scanline) {
-			//unsigned char paletteNumber = gpu.spritePalette[sprite->palette];
+			COLOUR *pal = spritePalette[sprite.palette];
 			
 			int pixelOffset;
 			#if defined WIN || defined LIN
@@ -144,28 +144,31 @@ void renderScanline(void) {
 			
 			int x;
 			for(x = 0; x < 8; x++) {
-				if(sx + x >= 0 && sx + x < 160 && (sprite.priority || !scanlineRow[sx + x])) {
+				//if(sx + x >= 0 && sx + x < 160 && (sprite.priority || !scanlineRow[sx + x])) {
+				if(sx + x >= 0 && sx + x < 160) {
 					unsigned char colour;
 					
 					if(sprite.hFlip) colour = tiles[sprite.tile][7 - x][tileRow];
 					else colour = tiles[sprite.tile][x][tileRow];
 					
+					//colour = 3;
+					
 					if(colour) {
 						#if defined WIN || defined LIN
-							framebuffer[pixelOffset].r = palette[colour].r;
-							framebuffer[pixelOffset].g = palette[colour].g;
-							framebuffer[pixelOffset].b = palette[colour].b;
+							framebuffer[pixelOffset].r = pal[colour].r;
+							framebuffer[pixelOffset].g = pal[colour].g;
+							framebuffer[pixelOffset].b = pal[colour].b;
 						#endif
 						
 						#ifdef DS3
-							framebuffer[pixelOffset] = palette[colour].r;
-							framebuffer[pixelOffset + 1] = palette[colour].g;
-							framebuffer[pixelOffset + 2] = palette[colour].b;
+							framebuffer[pixelOffset] = pal[colour].r;
+							framebuffer[pixelOffset + 1] = pal[colour].g;
+							framebuffer[pixelOffset + 2] = pal[colour].b;
 						#endif
 						
 						#ifdef GC
-							framebuffer[pixelOffset] = palette[colour];
-							framebuffer[pixelOffset + 320] = palette[colour];
+							framebuffer[pixelOffset] = pal[colour];
+							framebuffer[pixelOffset + 320] = pal[colour];
 						#endif
 					}
 					
