@@ -144,8 +144,7 @@ void renderScanline(void) {
 			
 			int x;
 			for(x = 0; x < 8; x++) {
-				//if(sx + x >= 0 && sx + x < 160 && (sprite.priority || !scanlineRow[sx + x])) {
-				if(sx + x >= 0 && sx + x < 160) {
+				if(sx + x >= 0 && sx + x < 160 && (~sprite.priority || !scanlineRow[sx + x])) {
 					unsigned char colour;
 					
 					if(sprite.hFlip) colour = tiles[sprite.tile][7 - x][tileRow];
