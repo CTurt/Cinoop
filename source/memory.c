@@ -65,8 +65,8 @@ unsigned char readByte(unsigned short address) {
 	else if(address >= 0xfe00 && address <= 0xfeff)
 		return oam[address - 0xfe00];
 	
-	else if(address >= 0xff80 && address <= 0xfffe)
-		return hram[address - 0xff80];
+	// Should return a div timer, but a random number works just as well for Tetris
+	else if(address == 0xff04) return (unsigned char)rand();
 	
 	else if(address == 0xff40) return gpu.control;
 	else if(address == 0xff42) return gpu.scrollY;
@@ -86,11 +86,14 @@ unsigned char readByte(unsigned short address) {
 		else return 0;
 	}
 	
-	else if(address >= 0xff00 && address <= 0xff7f)
-		return io[address - 0xff00];
-	
 	else if(address == 0xff0f) return interrupt.flags;
 	else if(address == 0xffff) return interrupt.enable;
+	
+	else if(address >= 0xff80 && address <= 0xfffe)
+		return hram[address - 0xff80];
+	
+	else if(address >= 0xff00 && address <= 0xff7f)
+		return io[address - 0xff00];
 	
 	return 0;
 }
