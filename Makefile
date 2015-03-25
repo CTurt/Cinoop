@@ -1,7 +1,7 @@
 .PHONY: all
 .PHONY: clean
 
-all: cinoop.exe cinoop.nds cinoop.dol cinoop.3ds cinoop
+all: cinoop.exe cinoop.nds cinoop.dol cinoop.3ds cinoop cinoop.elf
 
 .PHONY: cinoop.exe
 cinoop.exe:
@@ -22,6 +22,10 @@ cinoop.3ds:
 .PHONY: cinoop
 cinoop:
 	make -f Makefile.lin
+
+.PHONY: cinoop.elf
+cinoop.elf:
+	make -f Makefile.ps2
 
 clean:
 	rm -f wbuild/*

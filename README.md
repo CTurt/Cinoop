@@ -1,6 +1,6 @@
 Cinoop
 ======
-A Game Boy emulator for Windows, DS, GameCube, 3DS, and Linux based OSes, written in C.
+A Game Boy emulator for Windows, DS, GameCube, 3DS, and Linux based OSes, written in C. PS2 and OS X ports are planned.
 
 Read my article about writing Cinoop [here](http://cturt.github.io/cinoop.html).
 
@@ -41,13 +41,15 @@ Building the 3DS version requires devkitARM and ctrulib from [devkitPro](http://
 Building the Linux version requires [X11](http://en.wikipedia.org/wiki/X_Window_System), and the OpenGL development files. It has been tested with [Ubuntu](http://www.ubuntu.com/).
 
 ## Usage
-Pass the ROM you would like to run as the first argument. You can do this by either dragging the ROM onto Cinoop, or starting it from the command line:
+For Windows or Linux, pass the ROM you would like to run as the first argument. You can do this by either dragging the ROM onto Cinoop, or starting it from the command line:
 
     cinoop tetris.gb
 
 To view the full debug log, you will need to redirect `stdout` to a file, like so:
 
     cinoop tetris.gb 1>debug.txt
+
+For other ports, the filename is harded as "tetris.gb".
 
 ### Windows Controls
 - B: Z
@@ -57,7 +59,7 @@ To view the full debug log, you will need to redirect `stdout` to a file, like s
 - DPad: Arrow keys
 
 - Debug: Space
-- Reset (not finished yet): *
+- Reset: *
 - Quit: Escape
 
 ### DS Controls

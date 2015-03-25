@@ -1,0 +1,25 @@
+EE_BIN = cinoop.elf
+
+SDIR	:=	source
+ODIR	:=	pbuild
+CFILES	:=	$(wildcard $(SDIR)/*.c)
+CFILES	:=	$(CFILES) $(wildcard $(SDIR)/ps2/*.c)
+EE_OBJS	:=	$(patsubst $(SDIR)/ps2/%.c, $(ODIR)/%.o, $(CFILES))
+EE_OBJS	:=	$(patsubst $(SDIR)/%.c, $(ODIR)/%.o, $(EE_OBJS))
+
+EE_CFLAGS := -Iinclude -DPS2 -fms-extensions -Ofast
+
+EE_LIBS = -lgraph -ldma -lc -lpacket
+
+.PHONY: all
+all: $(EE_BIN)
+	ee-strip --strip-all $(EE_BIN)
+
+include $(PS2SDK)/samples/Makefile.pref
+include $(PS2SDK)/samples/Makefile.eeglobal
+
+$(ODIR)/%.o: $(SDIR)/%.c
+	ee-gcc -c -o $@ $< $(CFLAGS)
+
+$(ODIR)/%.o: $(SDIR)/ps2/%.c
+	ee-gcc -c -o $@ $< $(CFLAGS)
