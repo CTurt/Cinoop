@@ -3,7 +3,6 @@
 struct extendedInstruction {
 	char *disassembly;
 	void (*execute)(void);
-	//unsigned char ticks;
 } extern const extendedInstructions[256];
 
 extern const unsigned char extendedInstructionTicks[256];

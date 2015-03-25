@@ -42,11 +42,12 @@ const char *romTypeString[256] = {
 	[ROM_HUDSON_HUC1] = "ROM_HUDSON_HUC1",
 };
 
+enum romType type;
+int romSize;
+int ramSize;
+
 unsigned char loadROM(char *filename) {
 	char name[17];
-	enum romType type;
-	int romSize;
-	int ramSize;
 	
 	int i;
 	
@@ -154,8 +155,8 @@ unsigned char loadROM(char *filename) {
 	
 	printf("ROM type: %s\n", romTypeString[type]);
 	
-	if(type != ROM_PLAIN) {
-		printf("Only 32KB games with no mappers are supported!\n");
+	if(type != ROM_PLAIN && type != ROM_MBC1) {
+		printf("Only games with MBC1 or no mapper are supported!\n");
 		fclose(f);
 		return 0;
 	}
@@ -167,8 +168,8 @@ unsigned char loadROM(char *filename) {
 	
 	printf("ROM size: %dKB\n", romSize * 16);
 	
-	if(romSize * 16 != 32) {
-		printf("Only 32KB games with no mappers are supported!\n");
+	if(romSize * 16 != 32 && romSize * 16 != 64) {
+		printf("Only games with MBC1 or no mapper are supported!\n");
 		fclose(f);
 		return 0;
 	}
@@ -186,12 +187,12 @@ unsigned char loadROM(char *filename) {
 	
 	ramSize = ceil(ramSize / 8.0f);
 	
-	/*cart = malloc(length);
+	cart = malloc(length);
 	if(!cart) {
 		printf("Could not allocate memory!\n");
 		fclose(f);
 		return 0;
-	}*/
+	}
 	
 	rewind(f);
 	fread(cart, length, 1, f);
@@ -203,5 +204,5 @@ unsigned char loadROM(char *filename) {
 }
 
 void unloadROM(void) {
-	//free(cart);
+	free(cart);
 }

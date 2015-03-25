@@ -40,5 +40,9 @@ enum romType {
 
 extern const char *romTypeString[256];
 
+extern enum romType type;
+extern int romSize;
+extern int ramSize;
+
 unsigned char loadROM(char *filename);
 void unloadROM(void);

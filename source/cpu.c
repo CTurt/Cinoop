@@ -312,6 +312,7 @@ const unsigned char instructionTicks[256] = {
 	6, 6, 4, 2, 0, 8, 4, 8,  6, 4, 8, 2, 0, 0, 4, 8  // 0xf_
 };
 
+unsigned char inBIOS;
 unsigned long ticks;
 unsigned char stopped;
 
@@ -322,6 +323,12 @@ void reset(void) {
 	memset(oam, 0, sizeof(oam));
 	memset(wram, 0, sizeof(wram));
 	memset(hram, 0, sizeof(hram));
+	
+	inBIOS = 0;
+	romBank = 0;
+	ramBank = 0;
+	ramEnable = 0;
+	expansionMode = 0;
 	
 	registers.a = 0x01;
 	registers.f = 0xb0;
@@ -425,9 +432,9 @@ void cpuStep(void) {
 	//if(registers.pc == 0x036c) { // loop
 	//if(registers.pc == 0x0040) { // vblank
 	
-	//if(registers.pc == 0x29fa) { // input
-	//	realtimeDebugEnable = 1;
-	//}
+	if(registers.pc == 0x0100) { // boot
+		realtimeDebugEnable = 1;
+	}
 	
 	if(realtimeDebugEnable) realtimeDebug();
 	

@@ -18,7 +18,6 @@ struct instruction {
 	char *disassembly;
 	unsigned char operandLength;
 	void *execute;
-	//unsigned char ticks;
 } extern const instructions[256];
 
 extern const unsigned char instructionTicks[256];
