@@ -5,6 +5,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <malloc.h>
+#include <time.h>
 
 #include "rom.h"
 #include "registers.h"
@@ -79,6 +80,7 @@ int main(void) {
 	
 	printf("ROM load passed!\n");
 	
+	srand(time(NULL));
 	reset();
 	
 	while(1) {

@@ -1,4 +1,6 @@
 #include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
 #include <windows.h>
 #include <direct.h>
 #include <gl/gl.h>
@@ -53,6 +55,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	
 	printf("Passed!\n");
 	
+	srand(time(NULL));
 	reset();
 	
 	while(1) {

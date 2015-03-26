@@ -5,6 +5,8 @@
 #include <fat.h>
 
 #include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
 
 #include "rom.h"
 #include "cpu.h"
@@ -106,6 +108,7 @@ int main(void) {
 	
 	printf("ROM load passed!\n");
 	
+	srand(time(NULL));
 	reset();
 	
 	while(1) {

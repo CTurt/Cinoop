@@ -2,6 +2,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 
 #include "rom.h"
 #include "cpu.h"
@@ -67,6 +68,7 @@ int main(void) {
 		memcpy(cart, tetris_bin, tetris_bin_size);
 	#endif
 	
+	srand(time(NULL));
 	reset();
 	
 	while(aptMainLoop()) {
