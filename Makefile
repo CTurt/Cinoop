@@ -1,7 +1,7 @@
 .PHONY: all
 .PHONY: clean
 
-all: windows ds gamecube 3ds linux
+all: windows ds gamecube 3ds linux osx
 
 .PHONY: windows
 windows:
@@ -23,12 +23,17 @@ gamecube:
 linux:
 	make -f Makefile.lin
 
+.PHONY: osx
+osx:
+	make -f Makefile.osx
+
 clean:
 	rm -f wbuild/*
 	rm -f dbuild/*
 	rm -f gbuild/*
 	rm -f 3build/*
 	rm -f lbuild/*
+	rm -f obuild/*
 	rm -f cinoop.elf
 	rm -f cinoopstripped.elf
 	rm -f cinoop.nds
@@ -44,3 +49,4 @@ clean:
 	rmdir gbuild
 	rmdir 3build
 	rmdir lbuild
+	rmdir obuild
