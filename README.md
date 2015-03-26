@@ -28,7 +28,7 @@ Read my article about writing Cinoop [here](http://cturt.github.io/cinoop.html).
 The DS and 3DS emulator do not run full speed. The Linux port does not yet support input.
 
 ## Building
-Just run `make` on the directory to build all binaries. You can also run `make cinoop.exe` for just Windows, `make cinoop.nds` for just DS, `make cinoop.dol` for just GameCube, `make cinoop.3ds` for just 3DS, or `make cinoop` for just Linux.
+Just run `make` on the directory to build all binaries. You can also run `make windows` for just Windows, `make ds` for just DS, `make gamecube` for just GameCube, `make 3ds` for just 3DS, or `make linux` for just Linux.
 
 Building the Windows version requires [LDFS](https://github.com/CTurt/LDFS), and has been tested with [MinGW](http://www.mingw.org/), using another compiler may require some tweaking.
 

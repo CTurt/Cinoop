@@ -1,26 +1,26 @@
 .PHONY: all
 .PHONY: clean
 
-all: cinoop.exe cinoop.nds cinoop.dol cinoop.3ds cinoop
+all: windows ds gamecube 3ds linux
 
-.PHONY: cinoop.exe
-cinoop.exe:
+.PHONY: windows
+windows:
 	make -f Makefile.win
 
-.PHONY: cinoop.nds
-cinoop.nds:
+.PHONY: ds
+ds:
 	make -f Makefile.ds
 
-.PHONY: cinoop.dol
-cinoop.dol:
+.PHONY: gamecube
+gamecube:
 	make -f Makefile.gc
 
-.PHONY: cinoop.3ds
-cinoop.3ds:
+.PHONY: 3ds
+3ds:
 	make -f Makefile.3d
 
-.PHONY: cinoop
-cinoop:
+.PHONY: linux
+linux:
 	make -f Makefile.lin
 
 clean:
