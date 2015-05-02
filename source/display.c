@@ -81,23 +81,25 @@ void renderScanline(void) {
 	// if bg enabled
 	int i;
 	for(i = 0; i < 160; i++) {
-		scanlineRow[i] = tiles[tile][x][y];
+		unsigned char colour = tiles[tile][y][x];
+		
+		scanlineRow[i] = colour;
 		
 		#if defined WIN || defined LIN
-			framebuffer[pixelOffset].r = backgroundPalette[tiles[tile][x][y]].r;
-			framebuffer[pixelOffset].g = backgroundPalette[tiles[tile][x][y]].g;
-			framebuffer[pixelOffset].b = backgroundPalette[tiles[tile][x][y]].b;
+			framebuffer[pixelOffset].r = backgroundPalette[colour].r;
+			framebuffer[pixelOffset].g = backgroundPalette[colour].g;
+			framebuffer[pixelOffset].b = backgroundPalette[colour].b;
 		#endif
 		
 		#ifdef DS3
-			framebuffer[pixelOffset] = backgroundPalette[tiles[tile][x][y]].r;
-			framebuffer[pixelOffset + 1] = backgroundPalette[tiles[tile][x][y]].g;
-			framebuffer[pixelOffset + 2] = backgroundPalette[tiles[tile][x][y]].b;
+			framebuffer[pixelOffset] = backgroundPalette[colour].r;
+			framebuffer[pixelOffset + 1] = backgroundPalette[colour].g;
+			framebuffer[pixelOffset + 2] = backgroundPalette[colour].b;
 		#endif
 		
 		#ifdef GC
-			framebuffer[pixelOffset] = backgroundPalette[tiles[tile][x][y]];
-			framebuffer[pixelOffset + 320] = backgroundPalette[tiles[tile][x][y]];
+			framebuffer[pixelOffset] = backgroundPalette[colour];
+			framebuffer[pixelOffset + 320] = backgroundPalette[colour];
 		#endif
 		
 		#ifdef DS3
@@ -147,10 +149,8 @@ void renderScanline(void) {
 				if(sx + x >= 0 && sx + x < 160 && (~sprite.priority || !scanlineRow[sx + x])) {
 					unsigned char colour;
 					
-					if(sprite.hFlip) colour = tiles[sprite.tile][7 - x][tileRow];
-					else colour = tiles[sprite.tile][x][tileRow];
-					
-					//colour = 3;
+					if(sprite.hFlip) colour = tiles[sprite.tile][tileRow][7 - x];
+					else colour = tiles[sprite.tile][tileRow][x];
 					
 					if(colour) {
 						#if defined WIN || defined LIN

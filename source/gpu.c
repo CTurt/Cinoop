@@ -105,12 +105,8 @@ void updateTile(unsigned short address, unsigned char value) {
 	for(x = 0; x < 8; x++) {
 		bitIndex = 1 << (7 - x);
 		
-		#ifdef DS
-			tiles[tile][y][x] = ((vram[address] & bitIndex) ? 1 : 0) + ((vram[address + 1] & bitIndex) ? 2 : 0);
-		#else
-			//((unsigned char (*)[8][8])tiles)[tile][x][y] = ((vram[address] & bitIndex) ? 1 : 0) + ((vram[address + 1] & bitIndex) ? 2 : 0);
-			tiles[tile][x][y] = ((vram[address] & bitIndex) ? 1 : 0) + ((vram[address + 1] & bitIndex) ? 2 : 0);
-		#endif
+		//((unsigned char (*)[8][8])tiles)[tile][y][x] = ((vram[address] & bitIndex) ? 1 : 0) + ((vram[address + 1] & bitIndex) ? 2 : 0);
+		tiles[tile][y][x] = ((vram[address] & bitIndex) ? 1 : 0) + ((vram[address + 1] & bitIndex) ? 2 : 0);
 	}
 	
 	#ifdef DS
