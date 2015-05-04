@@ -227,13 +227,13 @@ void drawFramebuffer(void) {
 			
 			long mtime, seconds, useconds;
 			
-			do {
-				clock_gettime(CLOCK_MONOTONIC, &frameEnd);
-				seconds = frameEnd.tv_sec - frameStart.tv_sec;
-				useconds = frameEnd.tv_nsec - frameStart.tv_nsec;
-				
-				mtime = (seconds * 1000 + useconds / (1000.0 * 1000.0));
-			} while(mtime < 1 / 60.0);
+			clock_gettime(CLOCK_MONOTONIC, &frameEnd);
+			seconds = frameEnd.tv_sec - frameStart.tv_sec;
+			useconds = frameEnd.tv_nsec - frameStart.tv_nsec;
+			
+			mtime = (seconds * 1000 + useconds / (1000.0 * 1000.0));
+			
+			if(mtime < 1.0 / 60.0) Sleep(1 / 60.0 - mtime);
 			
 			clock_gettime(CLOCK_MONOTONIC, &frameStart);
 		#endif
