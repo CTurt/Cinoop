@@ -89,3 +89,10 @@ For other versions, the ROM name is hard coded as `tetris.gb`.
 
 ### Linux Controls
 (not supported)
+
+### PSP Controls
+- B: Square
+- A: Cross
+- Start: Start
+- Select: Select
+- DPad: DPad
