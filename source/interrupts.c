@@ -58,9 +58,18 @@ void vblank(void) {
 	#endif
 	
 	#ifdef DS3
+		aptMainLoop();
+		
+		hidScanInput();
+		u32 kHeld = hidKeysHeld();
+		
+		keys.c = (unsigned char)~kHeld;
+		
 		gfxFlushBuffers();
 		gspWaitForVBlank();
 		gfxSwapBuffers();
+		
+		if((kHeld & KEY_START) && (kHeld & KEY_SELECT) && (kHeld & KEY_L) && (kHeld & KEY_R)) quit();
 	#endif
 	
 	#ifdef LIN

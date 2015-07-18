@@ -71,23 +71,13 @@ int main(void) {
 	srand(time(NULL));
 	reset();
 	
-	while(aptMainLoop()) {
-		hidScanInput();
-		u32 kHeld = hidKeysHeld();
-		
-		keys.c = (unsigned char)~kHeld;
-		
+	while(1) {
 		cpuStep();
 		gpuStep();
 		interruptStep();
-		
-		if((kHeld & KEY_START) && (kHeld & KEY_SELECT) && (kHeld & KEY_L) && (kHeld & KEY_R)) break;
 	}
 	
-	svcCloseHandle(fileHandle);
-	fsExit();
-	
-	gfxExit();
+	quit();
 	
 	return 0;
 }
