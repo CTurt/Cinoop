@@ -32,3 +32,10 @@
 	#include <GL/glu.h>
 	#define LITTLE_E
 #endif
+
+#ifdef PSP
+	#include <pspkernel.h>
+	#include <pspdebug.h>
+	#define printf pspDebugScreenPrintf
+	#define LITTLE_E
+#endif

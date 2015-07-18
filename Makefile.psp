@@ -1,0 +1,20 @@
+TARGET = cinoop
+
+CFILES	:=	$(wildcard source/*.c)
+CFILES	:=	$(CFILES) $(wildcard source/psp/*.c)
+OBJS	:=	$(patsubst source/psp/%.c, source/psp/%.o, $(CFILES))
+OBJS	:=	$(patsubst source/%.c, source/%.o, $(OBJS))
+
+INCDIR = include
+CFLAGS = -O3 -G0 -Wall -fms-extensions -DPSP
+CXXFLAGS = $(CFLAGS) -fno-exceptions -fno-rtti
+ASFLAGS = $(CFLAGS)
+
+LIBDIR =
+LDFLAGS = -lm
+
+EXTRA_TARGETS = EBOOT.PBP
+PSP_EBOOT_TITLE = Cinoop
+
+PSPSDK=$(shell psp-config --pspsdk-path)
+include $(PSPSDK)/lib/build.mak

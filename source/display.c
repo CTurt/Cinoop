@@ -12,11 +12,11 @@
 #include "display.h"
 
 #if defined WIN || defined LIN
-	struct rgb framebuffer[160 * 144];
+	COLOUR framebuffer[160 * 144];
 #endif
 
 #if defined WIN || defined LIN || defined DS3
-	const struct rgb palette[4] = {
+	const COLOUR palette[4] = {
 		{ 255, 255, 255 },
 		{ 192, 192, 192 },
 		{ 96, 96, 96 },
@@ -25,7 +25,7 @@
 #endif
 
 #ifdef DS
-	const unsigned short palette[4] = {
+	const COLOUR palette[4] = {
 		RGB15(31, 31, 31),
 		RGB15(24, 24, 24),
 		RGB15(12, 12, 12),
@@ -38,7 +38,16 @@
 #ifdef GC
 	unsigned int *framebuffer = NULL;
 	
-	const unsigned int palette[4] = {
+	const COLOUR palette[4] = {
+		0xFF80FF80,
+		0xC080C080,
+		0x60806080,
+		0x00800080,
+	};
+#endif
+
+#ifdef PSP
+	const COLOUR palette[4] = {
 		0xFF80FF80,
 		0xC080C080,
 		0x60806080,

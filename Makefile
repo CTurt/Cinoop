@@ -1,7 +1,7 @@
 .PHONY: all
 .PHONY: clean
 
-all: windows ds gamecube 3ds linux
+all: windows ds gamecube 3ds linux psp
 
 .PHONY: windows
 windows:
@@ -23,6 +23,10 @@ gamecube:
 linux:
 	make -f Makefile.lin
 
+.PHONY: psp
+psp:
+	make -f Makefile.psp
+
 clean:
 	rm -f wbuild/*
 	rm -f dbuild/*
@@ -39,6 +43,8 @@ clean:
 	rm -f cinoop.smdh
 	rm -f cinoop.exe
 	rm -f cinoop
+	rm -f PARAM.SFO
+	rm -f EBOOT.PBP
 	rmdir wbuild
 	rmdir dbuild
 	rmdir gbuild
