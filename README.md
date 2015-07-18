@@ -7,7 +7,7 @@ Read my article about writing Cinoop [here](http://cturt.github.io/cinoop.html).
 ## Progress
 **CPU:** All instructions are implemented,
 
-**GPU:** Can display tile maps, and sprites. Palette swapping is not implemented yet some colours as displayed incorrectly.
+**GPU:** Can display tile maps, and sprites. Palette swapping is not implemented yet, so some colours may be displayed incorrectly.
 
 **Memory:** Support for 32KB ROMs, without mappers, only (Tetris and Dr. Mario),
 
@@ -15,7 +15,7 @@ Read my article about writing Cinoop [here](http://cturt.github.io/cinoop.html).
 
 **Sound:** None,
 
-**Games:** Cinoop can almost play Tetris: some menu sprites are displayed incorrectly due to palette swapping not being implemented, and there is no random number generator, so the same piece is always given. It is unlikely that any games are fully playable yet.
+**Games:** Tetris is most likely the only playable game,
 
 ![Windows version running Tetris](tetris.png)
 
