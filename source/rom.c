@@ -90,8 +90,8 @@ unsigned char loadROM(char *filename) {
 	
 	romSize = cart[ROM_OFFSET_ROM_SIZE];
 	
-	if((romSize & 0xF0) == 0x50) romSize = (int)pow(2, ((0x52) & 0xF) + 1) + 64;
-	else romSize = (int)pow(2, romSize + 1);
+	if((romSize & 0xF0) == 0x50) romSize = (int)pow(2.0, (double)(((0x52) & 0xF) + 1)) + 64;
+	else romSize = (int)pow(2.0, (double)(romSize + 1));
 	
 	printf("ROM size: %dKB\n", romSize * 16);
 	
@@ -107,7 +107,7 @@ unsigned char loadROM(char *filename) {
 	
 	ramSize = cart[ROM_OFFSET_RAM_SIZE];
 	
-	ramSize = (int)pow(4, ramSize) / 2;
+	ramSize = (int)pow(4.0, (double)ramSize) / 2;
 	printf("RAM size: %dKB\n", ramSize);
 	
 	ramSize = ceil(ramSize / 8.0f);
@@ -162,8 +162,13 @@ unsigned char loadROM(char *filename) {
 	
 	romSize = header[ROM_OFFSET_ROM_SIZE];
 	
-	if((romSize & 0xF0) == 0x50) romSize = (int)pow(2, ((0x52) & 0xF) + 1) + 64;
-	else romSize = (int)pow(2, romSize + 1);
+	#ifndef PSP
+		if((romSize & 0xF0) == 0x50) romSize = (int)pow(2.0, (double)(((0x52) & 0xF) + 1)) + 64;
+		else romSize = (int)pow(2.0, (double)(romSize + 1));
+	#else
+		// PSP doesn't support pow...
+		romSize = 2;
+	#endif
 	
 	printf("ROM size: %dKB\n", romSize * 16);
 	
@@ -181,7 +186,13 @@ unsigned char loadROM(char *filename) {
 	
 	ramSize = header[ROM_OFFSET_RAM_SIZE];
 	
-	ramSize = (int)pow(4, ramSize) / 2;
+	#ifndef PSP
+		ramSize = (int)pow(4.0, (double)(ramSize)) / 2;
+	#else
+		// PSP doesn't support pow...
+		ramSize = 0;
+	#endif
+	
 	printf("RAM size: %dKB\n", ramSize);
 	
 	ramSize = ceil(ramSize / 8.0f);

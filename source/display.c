@@ -12,11 +12,11 @@
 #include "display.h"
 
 #if defined WIN || defined LIN
-	struct rgb framebuffer[160 * 144];
+	COLOUR framebuffer[160 * 144];
 #endif
 
 #if defined WIN || defined LIN || defined DS3
-	const struct rgb palette[4] = {
+	const COLOUR palette[4] = {
 		{ 255, 255, 255 },
 		{ 192, 192, 192 },
 		{ 96, 96, 96 },
@@ -25,7 +25,7 @@
 #endif
 
 #ifdef DS
-	const unsigned short palette[4] = {
+	const COLOUR palette[4] = {
 		RGB15(31, 31, 31),
 		RGB15(24, 24, 24),
 		RGB15(12, 12, 12),
@@ -38,11 +38,20 @@
 #ifdef GC
 	unsigned int *framebuffer = NULL;
 	
-	const unsigned int palette[4] = {
+	const COLOUR palette[4] = {
 		0xFF80FF80,
 		0xC080C080,
 		0x60806080,
 		0x00800080,
+	};
+#endif
+
+#ifdef PSP
+	const COLOUR palette[4] = {
+		255 + (255 << 8) + (255 << 16),
+		192 + (192 << 8) + (192 << 16),
+		96 + (96 << 8) + (96 << 16),
+		0 + (0 << 8) + (0 << 16),
 	};
 #endif
 
@@ -73,6 +82,10 @@ void renderScanline(void) {
 		pixelOffset = (320 - 160) / 2 + ((240 - 144) / 2 + gpu.scanline) * 640;
 	#endif
 	
+	#ifdef PSP
+		pixelOffset = (480 - 160) / 2 + ((272 - 144) / 2 + gpu.scanline) * 512;
+	#endif
+	
 	unsigned short tile = (unsigned short)vram[mapOffset + lineOffset];
 	//if((gpu.control & GPU_CONTROL_TILESET) && tile < 128) tile += 256;
 	
@@ -100,6 +113,10 @@ void renderScanline(void) {
 		#ifdef GC
 			framebuffer[pixelOffset] = backgroundPalette[colour];
 			framebuffer[pixelOffset + 320] = backgroundPalette[colour];
+		#endif
+		
+		#ifdef PSP
+			framebuffer[pixelOffset] = backgroundPalette[colour];
 		#endif
 		
 		#ifdef DS3
@@ -140,6 +157,10 @@ void renderScanline(void) {
 				pixelOffset = (320 - 160) / 2 + sx + ((240 - 144) / 2 + gpu.scanline) * 640;
 			#endif
 			
+			#ifdef PSP
+				pixelOffset = (480 - 160) / 2 + sx + ((272 - 144) / 2 + gpu.scanline) * 512;
+			#endif
+			
 			unsigned char tileRow;
 			if(sprite.vFlip) tileRow = 7 - (gpu.scanline - sy);
 			else tileRow = gpu.scanline - sy;
@@ -168,6 +189,10 @@ void renderScanline(void) {
 						#ifdef GC
 							framebuffer[pixelOffset] = pal[colour];
 							framebuffer[pixelOffset + 320] = pal[colour];
+						#endif
+						
+						#ifdef PSP
+							framebuffer[pixelOffset] = pal[colour];
 						#endif
 					}
 					

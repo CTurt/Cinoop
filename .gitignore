@@ -2,6 +2,8 @@ dbuild/
 gbuild/
 wbuild/
 3build/
+source/*.o
+source/psp/*.o
 cinoop.elf
 cinoopstripped.elf
 cinoop.nds
@@ -11,6 +13,8 @@ cinoop.cia
 cinoop.3dsx
 cinoop.smdh
 cinoop.exe
+PARAM.SFO
+EBOOT.PBP
 data/
 *.gb
 *.bat
