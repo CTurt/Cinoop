@@ -190,7 +190,7 @@ unsigned char loadROM(char *filename) {
 		ramSize = (int)pow(4.0, (double)(ramSize)) / 2;
 	#else
 		// PSP doesn't support pow...
-		ramSize = 134217728;
+		ramSize = 0;
 	#endif
 	
 	printf("RAM size: %dKB\n", ramSize);

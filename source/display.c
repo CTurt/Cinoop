@@ -82,6 +82,10 @@ void renderScanline(void) {
 		pixelOffset = (320 - 160) / 2 + ((240 - 144) / 2 + gpu.scanline) * 640;
 	#endif
 	
+	#ifdef PSP
+		pixelOffset = (480 - 160) / 2 + ((272 - 144) / 2 + gpu.scanline) * 512;
+	#endif
+	
 	unsigned short tile = (unsigned short)vram[mapOffset + lineOffset];
 	//if((gpu.control & GPU_CONTROL_TILESET) && tile < 128) tile += 256;
 	
@@ -109,6 +113,10 @@ void renderScanline(void) {
 		#ifdef GC
 			framebuffer[pixelOffset] = backgroundPalette[colour];
 			framebuffer[pixelOffset + 320] = backgroundPalette[colour];
+		#endif
+		
+		#ifdef PSP
+			framebuffer[pixelOffset] = backgroundPalette[colour];
 		#endif
 		
 		#ifdef DS3
@@ -149,6 +157,10 @@ void renderScanline(void) {
 				pixelOffset = (320 - 160) / 2 + sx + ((240 - 144) / 2 + gpu.scanline) * 640;
 			#endif
 			
+			#ifdef PSP
+				pixelOffset = (480 - 160) / 2 + sx + ((272 - 144) / 2 + gpu.scanline) * 512;
+			#endif
+			
 			unsigned char tileRow;
 			if(sprite.vFlip) tileRow = 7 - (gpu.scanline - sy);
 			else tileRow = gpu.scanline - sy;
@@ -177,6 +189,10 @@ void renderScanline(void) {
 						#ifdef GC
 							framebuffer[pixelOffset] = pal[colour];
 							framebuffer[pixelOffset + 320] = pal[colour];
+						#endif
+						
+						#ifdef PSP
+							framebuffer[pixelOffset] = pal[colour];
 						#endif
 					}
 					

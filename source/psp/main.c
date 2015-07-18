@@ -16,6 +16,7 @@ PSP_MODULE_INFO("cinoop", 0, 1, 1);
 PSP_MAIN_THREAD_ATTR(THREAD_ATTR_USER | THREAD_ATTR_VFPU);
 
 void quit(void) {
+	sceKernelExitGame();
 	exit(0);
 }
 
@@ -23,12 +24,27 @@ int main(int argc, char **argv) {
 	pspDebugScreenInit();
 	sceDisplaySetFrameBuf((void *)framebuffer, 512, 1, 0);
 	
-	printf("Cinoop");
+	printf("Starting...\n");
 	
-	framebuffer[100 + 100 * 512] = palette[0];
-	framebuffer[100 + 101 * 512] = palette[1];
-	framebuffer[100 + 102 * 512] = palette[2];
-	framebuffer[100 + 103 * 512] = palette[3];
+	printf("Loading file \"%s\"...\n", "tetris.gb");
+	
+	if(!loadROM("tetris.gb")) {
+		printf("Failed!\n");
+		return 1;
+	}
+	
+	printf("Passed!\n");
+	
+	srand(time(NULL));
+	reset();
+	
+	while(1) {
+		cpuStep();
+		gpuStep();
+		interruptStep();
+	}
+	
+	quit();
 	
 	return 0;
 }
