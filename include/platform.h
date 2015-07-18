@@ -36,6 +36,7 @@
 #ifdef PSP
 	#include <pspkernel.h>
 	#include <pspdebug.h>
+	#include <pspdisplay.h>
 	#define printf pspDebugScreenPrintf
 	#define LITTLE_E
 #endif

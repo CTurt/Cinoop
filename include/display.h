@@ -33,7 +33,7 @@
 #ifdef PSP
 	typedef u32 COLOUR;
 	
-	#define framebuffer (u32 *)0x44000000
+	#define framebuffer ((u32 *)0x44000000)
 #endif
 
 #ifndef DS
