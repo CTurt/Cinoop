@@ -46,6 +46,9 @@ void vblank(void) {
 	#endif
 	
 	#ifdef DS
+		// The Game Boy and DS use the same key layout, how convenient :)
+		keys.c = (unsigned char)REG_KEYINPUT;
+		
 		// Support scrolling
 		copyMap();
 	#endif
