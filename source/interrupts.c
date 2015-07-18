@@ -3,6 +3,7 @@
 #include "memory.h"
 #include "registers.h"
 #include "display.h"
+#include "keys.h"
 
 #include "interrupts.h"
 
@@ -64,6 +65,21 @@ void vblank(void) {
 	#endif
 	
 	#ifdef PSP
+		SceCtrlData pad;
+		sceCtrlReadBufferPositive(&pad, 1);
+		
+		keys.keys1 = 0x0f;
+		keys.keys2 = 0x0f;
+		
+		if(pad.Buttons & PSP_CTRL_SQUARE) keys.b = 0;
+		if(pad.Buttons & PSP_CTRL_CROSS) keys.a = 0;
+		if(pad.Buttons & PSP_CTRL_START) keys.start = 0;
+		if(pad.Buttons & PSP_CTRL_SELECT) keys.select = 0;
+		if(pad.Buttons & PSP_CTRL_UP) keys.up = 0;
+		if(pad.Buttons & PSP_CTRL_DOWN) keys.down = 0;
+		if(pad.Buttons & PSP_CTRL_LEFT) keys.left = 0;
+		if(pad.Buttons & PSP_CTRL_RIGHT) keys.right = 0;
+		
 		sceDisplayWaitVblankStart();
 	#endif
 	
