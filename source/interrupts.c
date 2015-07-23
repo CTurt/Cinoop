@@ -4,6 +4,7 @@
 #include "registers.h"
 #include "display.h"
 #include "keys.h"
+#include "main.h"
 
 #include "interrupts.h"
 
@@ -58,8 +59,6 @@ void vblank(void) {
 	#endif
 	
 	#ifdef DS3
-		aptMainLoop();
-		
 		hidScanInput();
 		u32 kHeld = hidKeysHeld();
 		
@@ -69,7 +68,7 @@ void vblank(void) {
 		gspWaitForVBlank();
 		gfxSwapBuffers();
 		
-		if((kHeld & KEY_START) && (kHeld & KEY_SELECT) && (kHeld & KEY_L) && (kHeld & KEY_R)) quit();
+		if(!aptMainLoop() || ((kHeld & KEY_START) && (kHeld & KEY_SELECT) && (kHeld & KEY_L) && (kHeld & KEY_R))) quit();
 	#endif
 	
 	#ifdef LIN
