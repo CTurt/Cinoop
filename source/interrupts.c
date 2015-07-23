@@ -62,7 +62,17 @@ void vblank(void) {
 		hidScanInput();
 		u32 kHeld = hidKeysHeld();
 		
-		keys.c = (unsigned char)~kHeld;
+		keys.keys1 = 0x0f;
+		keys.keys2 = 0x0f;
+		
+		if(kHeld & KEY_B) keys.b = 0;
+		if(kHeld & KEY_A) keys.a = 0;
+		if(kHeld & KEY_START) keys.start = 0;
+		if(kHeld & KEY_SELECT) keys.select = 0;
+		if(kHeld & KEY_UP) keys.up = 0;
+		if(kHeld & KEY_DOWN) keys.down = 0;
+		if(kHeld & KEY_LEFT) keys.left = 0;
+		if(kHeld & KEY_RIGHT) keys.right = 0;
 		
 		//gfxFlushBuffers();
 		gspWaitForVBlank();

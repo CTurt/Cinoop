@@ -85,7 +85,7 @@ For other versions, the ROM name is hard coded as `tetris.gb`.
 - A: A
 - Start: Start
 - Select: Select
-- DPad: DPad
+- DPad: DPad or Circle Pad
 
 ### Linux Controls
 (not supported)
