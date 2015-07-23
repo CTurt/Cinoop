@@ -65,7 +65,7 @@ void vblank(void) {
 		
 		keys.c = (unsigned char)~kHeld;
 		
-		gfxFlushBuffers();
+		//gfxFlushBuffers();
 		gspWaitForVBlank();
 		gfxSwapBuffers();
 		
