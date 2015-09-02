@@ -32,7 +32,7 @@ Read my article about writing Cinoop [here](http://cturt.github.io/cinoop.html).
 The DS version does not run full speed, and the Linux port does not yet support input.
 
 ## Building
-Just run `make` on the directory to build all binaries. You can also run `make windows` for just Windows, `make ds` for just DS, `make gamecube` for just GameCube, `make 3ds` for just 3DS, `make linux` for just Linux, or `make psp` for just PSP.
+Just run `make` on the directory to build all binaries. You can also run `make windows` for just Windows, `make ds` for just DS, `make gamecube` for just GameCube, `make 3ds` for just 3DS, `make linux` for just Linux, `make psp` for just PSP, or `make ps4` for just PS4.
 
 Building the Windows version requires [LDFS](https://github.com/CTurt/LDFS), and has been tested with [MinGW](http://www.mingw.org/), using another compiler may require some tweaking.
 
