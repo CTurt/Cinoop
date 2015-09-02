@@ -1,6 +1,6 @@
 Cinoop
 ======
-A Game Boy emulator for Windows, DS, GameCube, 3DS, Linux based OSes, and PSP, written in C.
+A Game Boy emulator for Windows, DS, GameCube, 3DS, Linux based OSes, PSP, and PS4, written in C.
 
 Read my article about writing Cinoop [here](http://cturt.github.io/cinoop.html).
 
@@ -27,6 +27,8 @@ Read my article about writing Cinoop [here](http://cturt.github.io/cinoop.html).
 
 ![PSP emulator running Cinoop](psp.png)
 
+[Video of PS4 verstion running Tetris](https://www.youtube.com/watch?v=94Q91xDJatE)
+
 The DS version does not run full speed, and the Linux port does not yet support input.
 
 ## Building
@@ -44,6 +46,8 @@ Building the Linux version requires [X11](http://en.wikipedia.org/wiki/X_Window_
 
 Building the PSP version requires the [Minimalist PSP SDK](http://sourceforge.net/projects/minpspw/).
 
+Building the PS4 version requires [PS4-SDK](https://github.com/CTurt/PS4-SDK).
+
 ## Usage
 For Windows and Linux, pass the ROM you would like to run as the first argument. You can do this by either dragging the ROM onto Cinoop, or starting it from the command line:
 
@@ -52,6 +56,8 @@ For Windows and Linux, pass the ROM you would like to run as the first argument.
 To view the full debug log, you will need to redirect `stdout` to a file, like so:
 
     cinoop tetris.gb 1>debug.txt
+
+For PS4, the ROM is read from a USB flash drive as a raw image. Use [Win32 Disk Imager](http://sourceforge.net/projects/win32diskimager/) or `dd` to write it for example.
 
 For other versions, the ROM name is hard coded as `tetris.gb`.
 
@@ -96,3 +102,6 @@ For other versions, the ROM name is hard coded as `tetris.gb`.
 - Start: Start
 - Select: Select
 - DPad: DPad
+
+### PS4 Controls
+Use a DS as a wireless controller

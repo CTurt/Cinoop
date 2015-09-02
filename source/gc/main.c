@@ -39,7 +39,7 @@ vu16 keyup;
 PADStatus pad[4];
 
 void quit(void) {
-	while(1) VIDEO_WaitVSync();;
+	while(1) VIDEO_WaitVSync();
 }
 
 int main(void) {

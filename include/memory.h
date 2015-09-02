@@ -1,6 +1,8 @@
 #pragma once
 
-#include <stdlib.h>
+#ifndef PS4
+	#include <stdlib.h>
+#endif
 
 extern const unsigned char ioReset[0x100];
 

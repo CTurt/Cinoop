@@ -46,6 +46,16 @@ void vblank(void) {
 		drawFramebuffer();
 	#endif
 	
+	#ifdef PS4
+		void readController(void);
+		readController();
+		
+		extern unsigned int buttons;
+		keys.c = (unsigned char)buttons;
+		
+		sceKernelUsleep(1000000 / 60);
+	#endif
+	
 	#ifdef DS
 		// The Game Boy and DS use the same key layout, how convenient :)
 		keys.c = (unsigned char)REG_KEYINPUT;

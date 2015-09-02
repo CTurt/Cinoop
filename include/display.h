@@ -8,6 +8,18 @@
 	typedef struct rgb COLOUR;
 #endif
 
+#if defined PS4
+	struct rgba {
+		unsigned char r, g, b, a;
+	};
+	
+	typedef struct rgba COLOUR;
+#endif
+
+#ifdef PS4
+	extern unsigned int *framebuffer;
+#endif
+
 #if defined WIN || defined LIN
 	extern COLOUR framebuffer[160 * 144];
 	

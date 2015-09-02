@@ -11,6 +11,10 @@
 
 #include "display.h"
 
+#ifdef PS4
+	unsigned int *framebuffer = NULL;
+#endif
+
 #if defined WIN || defined LIN
 	COLOUR framebuffer[160 * 144];
 #endif
@@ -21,6 +25,15 @@
 		{ 192, 192, 192 },
 		{ 96, 96, 96 },
 		{ 0, 0, 0 },
+	};
+#endif
+
+#if defined PS4
+	const COLOUR palette[4] = {
+		{ 255, 255, 255, 255 },
+		{ 192, 192, 192, 255 },
+		{ 96, 96, 96, 255 },
+		{ 0, 0, 0, 255 },
 	};
 #endif
 
@@ -70,7 +83,7 @@ void renderScanline(void) {
 	int y = (gpu.scanline + gpu.scrollY) & 7;
 	
 	int pixelOffset;
-	#if defined WIN || defined LIN
+	#if defined WIN || defined LIN || defined PS4
 		pixelOffset = gpu.scanline * 160;
 	#endif
 	
@@ -102,6 +115,10 @@ void renderScanline(void) {
 			framebuffer[pixelOffset].r = backgroundPalette[colour].r;
 			framebuffer[pixelOffset].g = backgroundPalette[colour].g;
 			framebuffer[pixelOffset].b = backgroundPalette[colour].b;
+		#endif
+		
+		#ifdef PS4
+			framebuffer[pixelOffset] = backgroundPalette[colour].r | (backgroundPalette[colour].g << 8) | (backgroundPalette[colour].b << 16) | (0xff << 24);
 		#endif
 		
 		#ifdef DS3
@@ -145,7 +162,7 @@ void renderScanline(void) {
 			COLOUR *pal = spritePalette[sprite.palette];
 			
 			int pixelOffset;
-			#if defined WIN || defined LIN
+			#if defined WIN || defined LIN || defined PS4
 				pixelOffset = gpu.scanline * 160 + sx;
 			#endif
 			
@@ -178,6 +195,10 @@ void renderScanline(void) {
 							framebuffer[pixelOffset].r = pal[colour].r;
 							framebuffer[pixelOffset].g = pal[colour].g;
 							framebuffer[pixelOffset].b = pal[colour].b;
+						#endif
+						
+						#ifdef PS4
+							framebuffer[pixelOffset] = pal[colour].r | (pal[colour].g << 8) | (pal[colour].b << 16) | (0xff << 24);
 						#endif
 						
 						#ifdef DS3

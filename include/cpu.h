@@ -257,7 +257,7 @@ void rst_28(void);
 void ld_ff_ap_n(unsigned char operand);
 void pop_af(void);
 void ld_a_ff_c(void);
-void di(void);
+void di_inst(void);
 void push_af(void);
 void or_n(unsigned char operand);
 void rst_30(void);

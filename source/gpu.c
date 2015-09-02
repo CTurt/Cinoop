@@ -1,4 +1,6 @@
-#include <stddef.h>
+#ifndef PS4
+	#include <stddef.h>
+#endif
 
 #include "platform.h"
 #include "display.h"

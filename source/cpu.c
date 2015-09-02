@@ -1,6 +1,18 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+#ifndef PS4
+	#include <stdio.h>
+	#include <stdlib.h>
+	#include <string.h>
+#endif
+
+#ifdef PS4
+	#define printf(...) \
+	do { \
+		char _debug_buffer[512]; \
+		int _dbg_size = sprintf(_debug_buffer, ##__VA_ARGS__); \
+		extern int sock; \
+		sceNetSend(sock, _debug_buffer, _dbg_size, 0); \
+	} while(0)
+#endif
 
 #include "platform.h"
 
@@ -278,7 +290,7 @@ const struct instruction instructions[256] = {
 	{ "LD A, (0xFF00 + 0x%02X)", 1, ld_ff_ap_n },// 0xf0
 	{ "POP AF", 0, pop_af },                     // 0xf1
 	{ "LD A, (0xFF00 + C)", 0, ld_a_ff_c },      // 0xf2
-	{ "DI", 0, di },                             // 0xf3
+	{ "DI", 0, di_inst },                        // 0xf3
 	{ "UNKNOWN", 0, undefined },                 // 0xf4
 	{ "PUSH AF", 0, push_af },                   // 0xf5
 	{ "OR 0x%02X", 1, or_n },                    // 0xf6
@@ -468,7 +480,9 @@ void undefined(void) {
 		sprintf(d, "Undefined instruction 0x%02x!\n\nCheck stdout for more details.", instruction);
 		MessageBox(NULL, d, "Cinoop", MB_OK);
 	#else
+	#ifndef PS4
 		printf("Undefined instruction 0x%02x!\n", instruction);
+	#endif
 	#endif
 	
 	printRegisters();
@@ -796,25 +810,103 @@ void ld_h_n(unsigned char operand) { registers.h = operand; }
 
 // 0x27
 void daa(void) {
-	int value = registers.a;
+	/*unsigned int reg_one = registers.a;
 	
-	if(FLAGS_ISNEGATIVE) {
-		if(FLAGS_ISHALFCARRY) value = (value - 0x06) & 0xff;
-		if(FLAGS_ISCARRY) value -= 0x60;
+	//Add or subtract correction values based on Subtract Flag
+	if(!FLAGS_ISNEGATIVE) {
+		if(FLAGS_ISHALFCARRY || ((reg_one & 0xF) > 0x09)) reg_one += 0x06;
+		if(FLAGS_ISCARRY || (reg_one > 0x9F)) reg_one += 0x60;
 	}
-	else {
-		if(FLAGS_ISHALFCARRY || (value & 0xf) > 0x09) value += 0x06;
-		if(FLAGS_ISCARRY || value > 0x9f) value += 0x60;
+	else  {
+		if(FLAGS_ISHALFCARRY) reg_one = (reg_one - 0x06) & 0xFF;
+		if(FLAGS_ISCARRY) reg_one -= 0x60;
 	}
 	
-	if((value & 0x100) == 0x100) FLAGS_SET(FLAGS_CARRY);
+	//Carry
+	if(reg_one & 0x100) FLAGS_SET(FLAGS_CARRY);
+	reg_one &= 0xFF;
 	
+	//Half-Carry
 	FLAGS_CLEAR(FLAGS_HALFCARRY);
 	
-	if(value) FLAGS_CLEAR(FLAGS_ZERO);
-	else FLAGS_SET(FLAGS_ZERO);
+	//Zero
+	if(reg_one == 0) FLAGS_SET(FLAGS_ZERO);
+	else FLAGS_CLEAR(FLAGS_ZERO);
 	
-	registers.a = (unsigned char)value;
+	registers.a = (unsigned char)reg_one;*/
+	
+	
+	
+	/*
+	{
+		unsigned int a = registers.a;
+		
+		if(FLAGS_ISHALFCARRY || ((registers.a & 15) > 9)) registers.a += 6;
+		FLAGS_CLEAR(FLAGS_CARRY);
+		
+		if(FLAGS_ISHALFCARRY || a > 0x99) {
+			registers.a += 0x60;
+			FLAGS_SET(FLAGS_CARRY);
+		}
+		
+		if(registers.a) FLAGS_CLEAR(FLAGS_ZERO);
+		else FLAGS_SET(FLAGS_ZERO);
+	}*/
+	
+	
+	{
+		unsigned short s = registers.a;
+		
+		if(FLAGS_ISNEGATIVE) {
+			if(FLAGS_ISHALFCARRY) s = (s - 0x06)&0xFF;
+			if(FLAGS_ISCARRY) s -= 0x60;
+		}
+		else {
+			if(FLAGS_ISHALFCARRY || (s & 0xF) > 9) s += 0x06;
+			if(FLAGS_ISCARRY || s > 0x9F) s += 0x60;
+		}
+		
+		registers.a = s;
+		FLAGS_CLEAR(FLAGS_HALFCARRY);
+		
+		if(registers.a) FLAGS_CLEAR(FLAGS_ZERO);
+		else FLAGS_SET(FLAGS_ZERO);
+		
+		if(s >= 0x100) FLAGS_SET(FLAGS_CARRY);
+	}
+	
+	/*
+	
+	
+	{
+		unsigned int a = registers.a;
+		
+		unsigned int correction = FLAGS_ISCARRY ? 0x60 : 0x00;
+		
+		if(FLAGS_ISHALFCARRY) correction |= 0x06;
+		
+		if(!FLAGS_ISNEGATIVE) {
+			if ((a & 0x0F) > 0x09)
+				correction |= 0x06;
+			if (a > 0x99)
+				correction |= 0x60;
+			
+			a += correction;
+		}
+		else a -= correction;
+
+		if(correction << 2 & 0x100) FLAGS_SET(FLAGS_CARRY);
+		else FLAGS_CLEAR(FLAGS_CARRY);
+		
+		if(a == 0) FLAGS_SET(FLAGS_ZERO);
+		else FLAGS_CLEAR(FLAGS_ZERO);
+		
+		a &= 0xFF;
+		
+		registers.a = a;
+	}
+	
+	*/
 }
 
 // 0x28
@@ -1519,7 +1611,7 @@ void pop_af(void) { registers.af = readShortFromStack(); }
 void ld_a_ff_c(void) { registers.a = readByte(0xff00 + registers.c); }
 
 // 0xf3
-void di(void) { interrupt.master = 0; }
+void di_inst(void) { interrupt.master = 0; }
 
 // 0xf5
 void push_af(void) { writeShortToStack(registers.af); }

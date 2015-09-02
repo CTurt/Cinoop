@@ -1,6 +1,8 @@
-#include <stdio.h>
-#include <string.h>
-#include <math.h>
+#ifndef PS4
+	#include <stdio.h>
+	#include <string.h>
+	#include <math.h>
+#endif
 
 #include "platform.h"
 
@@ -117,6 +119,11 @@ unsigned char loadROM(char *filename) {
 	
 	return 1;
 #else
+#ifdef PS4
+	void ps4loadROM(void);
+	ps4loadROM();
+	return 1;
+#else
 	FILE *f;
 	size_t length;
 	
@@ -211,6 +218,7 @@ unsigned char loadROM(char *filename) {
 	
 	return 1;
 	#endif
+#endif
 }
 
 void unloadROM(void) {

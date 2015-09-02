@@ -1,5 +1,7 @@
-#include <stdio.h>
-#include <stdlib.h>
+#ifndef PS4
+	#include <stdio.h>
+	#include <stdlib.h>
+#endif
 
 #include "platform.h"
 

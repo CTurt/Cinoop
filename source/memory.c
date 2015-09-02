@@ -1,4 +1,6 @@
-#include <stdio.h>
+#ifndef PS4
+	#include <stdio.h>
+#endif
 
 #include "registers.h"
 #include "cpu.h"

@@ -21,4 +21,3 @@ void quit(void);
 	extern XWindowAttributes gwa;
 	extern XEvent xev;
 #endif
-

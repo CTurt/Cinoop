@@ -2,6 +2,7 @@ dbuild/
 gbuild/
 wbuild/
 3build/
+ps4build/
 source/*.o
 source/psp/*.o
 cinoop.elf

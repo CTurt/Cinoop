@@ -1,5 +1,10 @@
 #pragma once
 
+#ifdef PS4
+	#include "ps4.h"
+	#define LITTLE_E
+#endif
+
 #ifdef WIN
 	#include <windows.h>
 	#include <gl/gl.h>
