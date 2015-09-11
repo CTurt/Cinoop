@@ -104,12 +104,10 @@ int main(int argc, char **argv) {
 			XNextEvent(dpy, &xev);
 			
 			if(xev.type == KeyPress || xev.type == KeyRelease) {
-				//printf("%d (%d, %d) \n", xev.xkey.keycode, KeyPress == xev.type ? 1 : 0, KeyRelease == xev.type ? 1 : 0);
 				switch(xev.xkey.keycode) {
 					//case XK_BackSpace:
 					case 59:
 						keys.select = (xev.type == KeyPress ? 1 : 0);
-                        printf("%d\n", keys.select);
 						break;
 					
 					//case XK_Return:
@@ -120,7 +118,6 @@ int main(int argc, char **argv) {
 					//case XK_z:
 					case 14:
 						keys.b = (xev.type == KeyPress);
-                        printf("%d\n", keys.b);
 						break;
 					
 					//case XK_x:
