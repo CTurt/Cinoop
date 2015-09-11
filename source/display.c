@@ -1,4 +1,4 @@
-#ifdef LIN
+#if defined LIN || defined __APPLE__
 	#include <time.h>
 	#include <unistd.h>
 #endif
@@ -15,11 +15,11 @@
 	unsigned int *framebuffer = NULL;
 #endif
 
-#if defined WIN || defined LIN
+#if defined WIN || defined LIN || defined __APPLE__
 	COLOUR framebuffer[160 * 144];
 #endif
 
-#if defined WIN || defined LIN || defined DS3
+#if defined WIN || defined LIN || defined DS3 || defined __APPLE__
 	const COLOUR palette[4] = {
 		{ 255, 255, 255 },
 		{ 192, 192, 192 },
@@ -83,7 +83,7 @@ void renderScanline(void) {
 	int y = (gpu.scanline + gpu.scrollY) & 7;
 	
 	int pixelOffset;
-	#if defined WIN || defined LIN || defined PS4
+	#if defined WIN || defined LIN || defined PS4 || defined __APPLE__
 		pixelOffset = gpu.scanline * 160;
 	#endif
 	
@@ -111,7 +111,7 @@ void renderScanline(void) {
 		
 		scanlineRow[i] = colour;
 		
-		#if defined WIN || defined LIN
+		#if defined WIN || defined LIN || defined __APPLE__
 			framebuffer[pixelOffset].r = backgroundPalette[colour].r;
 			framebuffer[pixelOffset].g = backgroundPalette[colour].g;
 			framebuffer[pixelOffset].b = backgroundPalette[colour].b;
@@ -162,7 +162,7 @@ void renderScanline(void) {
 			COLOUR *pal = spritePalette[sprite.palette];
 			
 			int pixelOffset;
-			#if defined WIN || defined LIN || defined PS4
+			#if defined WIN || defined LIN || defined PS4 || defined __APPLE__
 				pixelOffset = gpu.scanline * 160 + sx;
 			#endif
 			
@@ -191,7 +191,7 @@ void renderScanline(void) {
 					else colour = tiles[sprite.tile][tileRow][x];
 					
 					if(colour) {
-						#if defined WIN || defined LIN
+						#if defined WIN || defined LIN || defined __APPLE__
 							framebuffer[pixelOffset].r = pal[colour].r;
 							framebuffer[pixelOffset].g = pal[colour].g;
 							framebuffer[pixelOffset].b = pal[colour].b;
@@ -243,7 +243,7 @@ void copyMap(void) {
 }
 #endif
 
-#if defined WIN || defined LIN
+#if defined WIN || defined LIN || defined __APPLE__
 void drawFramebuffer(void) {
 	// Should render to a texture instead of obsolete glDrawPixels
 	
@@ -264,10 +264,10 @@ void drawFramebuffer(void) {
 		#endif
 	#endif
 	
-	#ifdef LIN
+	#if defined LIN || defined __APPLE__
 		glXSwapBuffers(dpy, win);
 		
-		#ifndef DEBUG_SPEED
+		#if !defined DEBUG_SPEED && !defined __APPLE__
 			static struct timespec frameStart;
 			struct timespec frameEnd;
 			

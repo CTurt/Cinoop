@@ -31,7 +31,7 @@
 	#define LITTLE_E
 #endif
 
-#ifdef LIN
+#if defined LIN || defined __APPLE__
 	#include <GL/gl.h>
 	#include <GL/glx.h>
 	#include <GL/glu.h>
