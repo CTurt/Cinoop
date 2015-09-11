@@ -9,7 +9,7 @@ void quit(void);
 	LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 #endif
 
-#ifdef LIN
+#if defined LIN || defined __APPLE__
 	extern Display *dpy;
 	extern Window root;
 	extern GLint att[];

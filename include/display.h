@@ -1,6 +1,6 @@
 #pragma once
 
-#if defined WIN || defined LIN || defined DS3
+#if defined WIN || defined LIN || defined DS3 || defined __APPLE__
 	struct rgb {
 		unsigned char r, g, b;
 	};
@@ -20,7 +20,7 @@
 	extern unsigned int *framebuffer;
 #endif
 
-#if defined WIN || defined LIN
+#if defined WIN || defined LIN || defined __APPLE__
 	extern COLOUR framebuffer[160 * 144];
 	
 	void drawFramebuffer(void);

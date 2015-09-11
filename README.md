@@ -96,6 +96,9 @@ For other versions, the ROM name is hard coded as `tetris.gb`.
 ### Linux Controls
 (not supported)
 
+### Mac OSX Controls
+(not supported)
+
 ### PSP Controls
 - B: Square
 - A: Cross

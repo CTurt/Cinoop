@@ -23,6 +23,10 @@ gamecube:
 linux:
 	make -f Makefile.lin
 
+.PHONY: osx
+osx:
+	make -f Makefile.osx
+
 .PHONY: psp
 psp:
 	make -f Makefile.psp
@@ -36,6 +40,7 @@ clean:
 	rm -f gbuild/*
 	rm -f 3build/*
 	rm -f lbuild/*
+	rm -f xbuild/*
 	rm -f cinoop.elf
 	rm -f cinoopstripped.elf
 	rm -f cinoop.nds
@@ -54,3 +59,4 @@ clean:
 	rmdir gbuild
 	rmdir 3build
 	rmdir lbuild
+	rmdir xbuild

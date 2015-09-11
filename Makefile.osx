@@ -1,0 +1,22 @@
+CC		:=	clang
+SDIR	:=	source
+IDIR	:=	-Iinclude -I/usr/X11/include
+CFLAGS	:=	$(IDIR) -Wall -fms-extensions -Ofast -Wno-microsoft
+LFLAGS	:=	-L/usr/X11/lib -lX11 -lGL
+ODIR	:=	xbuild
+CFILES	:=	$(wildcard $(SDIR)/*.c)
+CFILES	:=	$(CFILES) $(wildcard $(SDIR)/osx/*.c)
+OBJS	:=	$(patsubst $(SDIR)/osx/%.c, $(ODIR)/%.o, $(CFILES))
+OBJS	:=	$(patsubst $(SDIR)/%.c, $(ODIR)/%.o, $(OBJS))
+
+cinoop: $(ODIR) $(OBJS)
+	$(CC) $(ODIR)/*.o -o $@ $(LFLAGS)
+
+$(ODIR)/%.o: $(SDIR)/%.c
+	$(CC) -c -o $@ $< $(CFLAGS)
+
+$(ODIR)/%.o: $(SDIR)/osx/%.c
+	$(CC) -c -o $@ $< $(CFLAGS)
+
+$(ODIR):
+	@mkdir $@
