@@ -1,6 +1,6 @@
 Cinoop
 ======
-A Game Boy emulator for Windows, DS, GameCube, 3DS, Linux based OSes, PSP, and PS4, written in C.
+A multiplatform Game Boy emulator written in C; currently available for: Windows, OS X, Linux based OSes, Nintendo DS, Nintendo 3DS, Nintendo GameCube, Sony PSP, and Sony PS4.
 
 Read my article about writing Cinoop [here](http://cturt.github.io/cinoop.html).
 
@@ -48,8 +48,10 @@ Building the PSP version requires the [Minimalist PSP SDK](http://sourceforge.ne
 
 Building the PS4 version requires [PS4-SDK](https://github.com/CTurt/PS4-SDK).
 
+Building and running the OS X version requires [XQuartz](https://xquartz.macosforge.org).
+
 ## Usage
-For Windows and Linux, pass the ROM you would like to run as the first argument. You can do this by either dragging the ROM onto Cinoop, or starting it from the command line:
+For Windows, OS X, and Linux, pass the ROM you would like to run as the first argument. You can do this by either dragging the ROM onto Cinoop, or starting it from the command line:
 
     cinoop tetris.gb
 
@@ -96,7 +98,7 @@ For other versions, the ROM name is hard coded as `tetris.gb`.
 ### Linux Controls
 (not supported)
 
-### Mac OSX Controls
+### OS X Controls
 (not supported)
 
 ### PSP Controls
