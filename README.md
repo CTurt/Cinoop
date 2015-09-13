@@ -17,15 +17,15 @@ Read my article about writing Cinoop [here](http://cturt.github.io/cinoop.html).
 
 **Games:** Tetris is most likely the only playable game,
 
-![Windows version running Tetris](tetris.png)
+![Windows version running Tetris](screenshots/tetris.png)
 
-![DS emulator running Cinoop](ds.png)
+![DS emulator running Cinoop](screenshots/ds.png)
 
-![GameCube emulator running Cinoop](gamecube.png)
+![GameCube emulator running Cinoop](screenshots/gamecube.png)
 
-![Ubuntu version running Tetris](ubuntu.png)
+![Ubuntu version running Tetris](screenshots/ubuntu.png)
 
-![PSP emulator running Cinoop](psp.png)
+![PSP emulator running Cinoop](screenshots/psp.png)
 
 [Video of PS4 verstion running Tetris](https://www.youtube.com/watch?v=94Q91xDJatE)
 
