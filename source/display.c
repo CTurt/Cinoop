@@ -279,7 +279,7 @@ void drawFramebuffer(void) {
 			
 			mtime = (seconds * 1000 + useconds / (1000.0 * 1000.0));
 			
-			if(mtime < 1.0 / 60.0) Sleep(1 / 60.0 - mtime);
+			if(mtime < 1.0 / 60.0) sleep(1 / 60.0 - mtime);
 			
 			clock_gettime(CLOCK_MONOTONIC, &frameStart);
 		#endif
